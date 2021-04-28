@@ -10,7 +10,7 @@ export const StyledHeader = styled.div`
   display: grid;
   font-size: 14px;
   height: 64px;
-  padding: 0 24px;
+  padding: 0 40px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -18,12 +18,57 @@ export const StyledHeader = styled.div`
   grid-template-columns: 100px auto 100px;
 `
 
-export const StyledHeaderLogo = styled.div``
+export const StyledHeaderLogo = styled.div`
+  width: 100%;
+  position: relative;
+`
+
+export const StyledHeaderLogoImg = styled.img`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 8rem;
+`
+
 export const StyledHeaderMenu = styled.ul`
   display: grid;
   align-content: space-around;
   grid-template-columns: inherit;
   list-style: none;
 `
-export const StyledHeaderMenuItem = styled.li``
+export const StyledHeaderMenuItem = styled.li`
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  padding-left: 2.5rem;
+`
+
 export const StyledHeaderButton = styled(Button)``
+
+export const StyledHeaderCart = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+export const StyledCartNumber = styled.div`
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  margin-top: -35px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.75rem;
+  background: #000;
+`

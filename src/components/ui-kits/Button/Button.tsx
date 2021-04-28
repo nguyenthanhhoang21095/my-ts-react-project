@@ -2,12 +2,16 @@ import React from 'react'
 import { StyledButton } from './Button.styled'
 
 interface ButtonProps {
-  children: React.ReactChild
-  onClick?(e: React.MouseEvent<HTMLElement>): void
+  children: React.ReactChild,
+  handleClick?: (e?: React.MouseEvent<HTMLElement>) => void,
 }
 
-const Button: React.FC = (props: ButtonProps) => {
-  return <StyledButton>{props.children}</StyledButton>
+const Button: React.FC<ButtonProps> = ({children , handleClick}: ButtonProps):JSX.Element => {
+  return (
+    <StyledButton onClick={handleClick}>
+      {children}
+    </StyledButton>
+  )
 }
 
 export default Button

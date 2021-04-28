@@ -1,19 +1,20 @@
 import React from 'react'
-import { StyledCard, StyledCardImage, StyledCardBody, StyledCardButtonGroup } from './Card.styled'
+import { StyledCard, StyledCardMedia, StyledCardImage, StyledCardBody, StyledCardButtonGroup } from './Card.styled'
 
 interface CardProps {
-  children: React.ReactNode
   onClick?(e: any): void
   buttonGroups?: React.ReactNode
   imageURL: string
 }
 
-const Card: React.FC<CardProps> = (props) => {
+const Card: React.FC<CardProps> = ({imageURL, buttonGroups, children}) => {
   return (
     <StyledCard>
-      <StyledCardImage src={props.imageURL} />
-      <StyledCardBody>{props.children}</StyledCardBody>
-      {props.buttonGroups && <StyledCardButtonGroup>{props.buttonGroups}</StyledCardButtonGroup>}
+      <StyledCardMedia>
+        <StyledCardImage src={imageURL} />
+        {buttonGroups && <StyledCardButtonGroup>{buttonGroups}</StyledCardButtonGroup>}
+      </StyledCardMedia>
+      <StyledCardBody>{children}</StyledCardBody>
     </StyledCard>
   )
 }
