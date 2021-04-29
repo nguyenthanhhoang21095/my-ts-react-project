@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyledCardContent, StyledCardName, StyledCardPrice, StyledCardFinalPrice, StyledCardOriginPrice, StyleCardRating } from './CardContent.styled'
+import { StyledCardContent, StyledCardName, StyledCardPrice, StyledCardFinalPrice, StyledCardOriginPrice, StyleCardRating, StyleCardDivider } from './CardContent.styled'
 import { formatCurrency } from "../../../utils/common";
 import IconButton from "../Icon/IconButton";
 
@@ -22,6 +22,7 @@ interface CardContentProps {
     
     return (
         <StyledCardContent>
+            <StyleCardDivider />
             <StyledCardName>{name}</StyledCardName>
             <StyledCardPrice>
                 { price !== final_price &&

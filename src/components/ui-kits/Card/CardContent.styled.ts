@@ -5,7 +5,15 @@ export const StyledCardContent = styled.div`
   flex-direction: column;
   align-items: start;
 `
-
+export const StyleCardDivider = styled.hr`
+  height: 2px;
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 2px;
+  border: none;
+  outline: none;
+  background: #e3e3e3;
+`
 export const StyledCardName = styled.div`
     text-align: left;
     text-transform: capitalize;
@@ -13,6 +21,7 @@ export const StyledCardName = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-size: 1em;
     text-overflow: ellipsis;
 `
 
@@ -23,7 +32,7 @@ export const StyledCardPrice = styled.div`
   white-space: nowrap;
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.25em;
   color: #6D214F;
 `
 

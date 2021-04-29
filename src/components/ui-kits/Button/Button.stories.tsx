@@ -10,11 +10,11 @@ export default {
 }
 
 export const withText: React.FC = () => (
-  <Button onClick={action('Hello Button')}>Hello Button</Button>
+  <Button >Hello Button</Button>
 )
 
 export const withEmoji: React.FC = () => (
-  <Button onClick={action('Hello emoji')}>
+  <Button >
     <span role="img" aria-label="so cool">
       😀 😎 👍 💯
     </span>

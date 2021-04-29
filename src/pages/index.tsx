@@ -10,8 +10,9 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import Card  from '../components/ui-kits/Card/Card'
 import CardContent from '../components/ui-kits/Card/CardContent'
-import api from "../controllers/baseApi";
+import api from "../../controllers/baseApi";
 import { CCart } from "../interfaces/cart";
+import Router from "next/router";
 
 export const HomeContainer = styled.div``
 
@@ -92,6 +93,9 @@ function Home() {
               buttonGroups={
                 <>
                   <Button handleClick={() => handleAddToCart(data)}>Add to Cart</Button>
+                  <button onClick={() => {
+                    Router.push('/detail/123');
+                  }}>view</button>
                 </>
               }
             >
