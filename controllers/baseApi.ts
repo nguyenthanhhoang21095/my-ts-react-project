@@ -6,7 +6,7 @@ interface IBaseAPI {
     post: (url: string, body: Record<string, any>) => Promise<Record<string, any>>;
     put: (url: string, body: Record<string, any>) => Promise<Record<string, any>>;
     delete: (url: string, body: Record<string, any>) => Promise<Record<string, any>>;
-    postTxs: (url :string) => any;
+    postTxs: (url :string, method: string) => any;
 }
 
 class BaseApi implements IBaseAPI {
@@ -72,8 +72,8 @@ class BaseApi implements IBaseAPI {
     }
   }
 
-  postTxs(url: string): any {
-    return axios.get(url)
+  postTxs(url: string, method: string): any {
+    return axios[method](url)
   }
 }
 

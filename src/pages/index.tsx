@@ -13,7 +13,6 @@ import CardContent from '../components/ui-kits/Card/CardContent'
 import api from "../../controllers/baseApi";
 import { CCart } from "../interfaces/cart";
 import Router from "next/router";
-
 export const HomeContainer = styled.div``
 
 export const StyledHomeBody = styled.div`
