@@ -76,6 +76,11 @@ function Home() {
     setCartValue(cartVal + cartValue);
   }
 
+  const handleViewProduct = (product_data) => {
+    Router.push(`/detail/${product_data.id}`);
+    localStorage.setItem("product_data", JSON.stringify(product_data));
+  }
+
   return (
     <>
       <Head>
@@ -91,10 +96,10 @@ function Home() {
               imageURL={data.img}
               buttonGroups={
                 <>
-                  <Button handleClick={() => handleAddToCart(data)}>Add to Cart</Button>
-                  <button onClick={() => {
-                    Router.push('/detail/123');
-                  }}>view</button>
+                  <Button width="fit-content" handleClick={() => handleAddToCart(data)}>Add to Cart</Button>
+                  <Button width="fit-content" handleClick={() => {
+                    handleViewProduct(data)
+                  }}>View</Button>
                 </>
               }
             >

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '../ui-kits/Text'
+import { Link } from '../ui-kits/Link'
 import {
   StyledHeader,
   StyledHeaderMenu,
@@ -9,9 +9,11 @@ import {
   StyledHeaderMenuItem,
   StyledCartNumber,
   StyledHeaderCart,
-} from './Header.styled'
+} from './Header.styled';
+import Router from "next/router";
 
-import IconButton from "../ui-kits/Icon/IconButton";
+
+import IconButton from "../ui-kits/CustomIcon/IconButton";
 
 interface HeaderProps {
   cartNum?: number
@@ -26,10 +28,10 @@ const Header: React.FC<HeaderProps> = ({ cartNum = 0 }):JSX.Element => {
       </StyledHeaderLogo>
       <StyledHeaderMenu>
         <StyledHeaderMenuItem>
-          <Text>Home</Text>
+          <Link url="/" text="Home" />
         </StyledHeaderMenuItem>
         <StyledHeaderMenuItem>
-          <Text>Products</Text>
+          <Link url="/" text="Products" />
         </StyledHeaderMenuItem>
         <StyledHeaderMenuItem>
           <StyledHeaderCart>

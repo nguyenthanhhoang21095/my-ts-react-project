@@ -8,6 +8,7 @@ export const StyledCard = styled.div`
   background-clip: border-box;
   border-radius: 0.5rem;
   display: flex;
+  flex-shrink: 1;
   align-items: center;
   flex-direction: column;
   background:#fff;
@@ -20,7 +21,6 @@ export const StyledCardMedia = styled.div`
   min-height: 200px;
   position: relative;
 `
-
 
 export const StyledCardImage = styled.img`
   position: absolute;
@@ -38,13 +38,16 @@ export const StyledCardImage = styled.img`
     top: -40px;
   }
 `
+
 export const StyledCardButtonGroup = styled.div`
   display: flex;
+  padding: 0 2.5rem;
+  justify-content: space-evenly;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
-  width: fit-content;
+  width: 100%;
   height: fit-content;
   margin: auto;
   bottom: -100%;

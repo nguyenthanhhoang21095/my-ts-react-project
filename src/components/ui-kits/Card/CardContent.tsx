@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyledCardContent, StyledCardName, StyledCardPrice, StyledCardFinalPrice, StyledCardOriginPrice, StyleCardRating, StyleCardDivider } from './CardContent.styled'
 import { formatCurrency } from "../../../utils/common";
-import IconButton from "../Icon/IconButton";
+import CustomRating from '../Rating/Rating';
 
 interface CardContentProps {
     final_price: number,
@@ -11,15 +11,6 @@ interface CardContentProps {
 }
   
   const CardContent: React.FC<CardContentProps> = ({ final_price, price, name, rating }):JSX.Element => {
-    const [ratingArr, setRatingArr] = useState(() => {
-        const mathRoundRating:number = Math.ceil(rating);
-        return typeof rating === "number" && rating > 0 ? [...Array(mathRoundRating)] : []
-    });
-
-    const changeRating = (idx:number):void => {
-        setRatingArr([...Array(idx + 1)]);
-    }
-    
     return (
         <StyledCardContent>
             <StyleCardDivider />
@@ -31,12 +22,7 @@ interface CardContentProps {
                 <StyledCardFinalPrice>{formatCurrency(final_price)} VND</StyledCardFinalPrice>
             </StyledCardPrice>
             <StyleCardRating>
-                {[...Array(ratingArr.length)].map((e, i) => (
-                    <IconButton handleClick={() => changeRating(i)} key={i} img="/images/icons/star.png" width="15px" height="15px" />
-                ))}
-                {[...Array(5 - ratingArr.length)].map((e, i) => (
-                    <IconButton handleClick={() => changeRating(ratingArr.length + i)} key={ratingArr.length + i} img="/images/icons/non-star.png" width="15px" height="15px" />
-                ))}
+                <CustomRating ratingVal={rating} />
             </StyleCardRating>    
         </StyledCardContent>
     )

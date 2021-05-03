@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledCard, StyledCardMedia, StyledCardImage, StyledCardBody, StyledCardButtonGroup } from './Card.styled'
+import { StyledCard, StyledCardMedia, StyledCardBody, StyledCardButtonGroup, StyledCardImage } from './Card.styled'
 
 interface CardProps {
   onClick?(e: any): void
@@ -7,7 +7,7 @@ interface CardProps {
   imageURL: string
 }
 
-const Card: React.FC<CardProps> = ({imageURL, buttonGroups, children}) => {
+const Card: React.FC<CardProps> = ({imageURL, buttonGroups, children}):JSX.Element => {
   return (
     <StyledCard>
       <StyledCardMedia>

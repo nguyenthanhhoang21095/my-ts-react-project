@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StyledButton = styled.button`
   display: inline-block;
-  width: 100%;
+  width: ${props => props.width};
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
