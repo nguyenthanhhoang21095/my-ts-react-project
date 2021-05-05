@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Header } from '../../components/Header'
 import { Footer } from '../../components/Footer'
 import Layout from '../../components/Layout/Layout'
@@ -7,10 +8,11 @@ import { StyledCard } from '../../components/ui-kits/Card/Card.styled'
 import styled from 'styled-components'
 import { formatCurrency } from "../../utils/common";
 import Rating from '../../components/ui-kits/Rating/Rating'
+import api from "../../../controllers/baseApi";
+import { useRouter } from 'next/router'
+import endpoint from "../../utils/endpoints";
 
-const DetailPage = () => {
-  const [prodData, setProdData] = useState(null)
-
+const DetailPage = ({prodData }: InferGetServerSidePropsType<typeof getServerSideProps>):JSX.Element => {
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;
@@ -22,11 +24,6 @@ const DetailPage = () => {
     font-size: 2rem;
   `
 
-  useEffect(() => {
-    const parseData = JSON.parse(localStorage.getItem('product_data'))
-    setProdData(parseData)
-  }, [])
-
   return (
     <>
       <Header />
@@ -34,12 +31,12 @@ const DetailPage = () => {
         <StyledCard style={{ flexDirection: 'row !important' }}>
           {prodData ? (
             <>
-              <CustomImage width="300px" height="300px" src={prodData.img} />
+              <CustomImage width="300px" height="300px" src={prodData.image} />
               <StyledDetailContent>
                 <div>{prodData.name}</div>
-                <div>{formatCurrency(prodData.final_price)} VND</div>
+                <div>{formatCurrency(prodData.finalPrice)} VND</div>
                 <div>
-                    <Rating ratingVal={prodData.rating} />
+                    <Rating ratingVal={prodData.percentStar } />
                 </div>
               </StyledDetailContent>
             </>
@@ -54,3 +51,12 @@ const DetailPage = () => {
 }
 
 export default DetailPage
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context.query.id;
+  const prodData = await api.get(endpoint["product"] + '/' + id);
+  console.log('dataa', prodData);
+  return {
+    props: { prodData: prodData }
+  }
+}

@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import baseUrl from "./baseUrl"
 
 interface IBaseAPI {
     handleResponse: (res:any) => any;
@@ -10,16 +11,17 @@ interface IBaseAPI {
 }
 
 class BaseApi implements IBaseAPI {
+
   handleResponse = (res: any): any => {
     if (res && res.status === 200) {
-      return res
+      return res.data.data
     }
   };
 
   // Method GET
   async get(url: string): Promise<Record<string, any>> {
     try {
-      const res = await axios.get(url)
+      const res = await axios.get(baseUrl + url)
       return this.handleResponse(res);
     } catch (err) {
       console.error('Request Fail: ', err)
@@ -32,7 +34,7 @@ class BaseApi implements IBaseAPI {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: JSON.stringify(body),
-      url,
+      url: baseUrl + url,
     }
     try {
       const res = await axios(options)
@@ -47,7 +49,7 @@ class BaseApi implements IBaseAPI {
       method: 'PUT',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: JSON.stringify(body),
-      url,
+      url: baseUrl + url,
     }
     try {
       const res = await axios(options)
@@ -62,7 +64,7 @@ class BaseApi implements IBaseAPI {
       method: 'DELETE',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: JSON.stringify(body),
-      url,
+      url: baseUrl + url,
     }
     try {
       const res = await axios(options)

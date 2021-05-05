@@ -13,6 +13,8 @@ import CardContent from '../components/ui-kits/Card/CardContent'
 import api from "../../controllers/baseApi";
 import { CCart } from "../interfaces/cart";
 import Router from "next/router";
+import endpoint from "../utils/endpoints";
+
 export const HomeContainer = styled.div``
 
 export const StyledHomeBody = styled.div`
@@ -43,14 +45,14 @@ function Home() {
   // }
 
   useEffect(() => {
-    api.get('https://min-shop.herokuapp.com/rest/product')
+    api.get(endpoint["product"])
     .then((res) => {
-      const resData:any = res.data.data;
+      const resData:any = res;
       const mapData:any = resData.map((item) => {
         return {
           name: item.name,
-          img: item.imgUrl,
-          id: item.productId,
+          img: item.image,
+          id: item.id,
           final_price: item.finalPrice,
           price: item.price,
           rating: item.percentStar,
@@ -78,7 +80,6 @@ function Home() {
 
   const handleViewProduct = (product_data) => {
     Router.push(`/detail/${product_data.id}`);
-    localStorage.setItem("product_data", JSON.stringify(product_data));
   }
 
   return (
