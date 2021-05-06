@@ -29,7 +29,7 @@ const DetailPage = ({ prodData }): JSX.Element => {
       <Header />
       <Layout>
         <StyledCard style={{ flexDirection: 'row !important' }}>
-          {/* {prodData ? (
+          {prodData ? (
             <>
               <CustomImage width="300px" height="300px" src={prodData.image} />
               <StyledDetailContent>
@@ -42,9 +42,7 @@ const DetailPage = ({ prodData }): JSX.Element => {
             </>
           ) : (
             <div>Không tìm thấy thông tin sản phẩm</div>
-          )} */}
-            <div>Không tìm thấy thông tin sản phẩm</div>
-
+          )}
         </StyledCard>
       </Layout>
       <Footer />
@@ -54,23 +52,22 @@ const DetailPage = ({ prodData }): JSX.Element => {
 
 
 export async function getStaticPaths() {
-//   let mapId: any = []
-//   const res = await api.get(endpoint['product'])
-//   mapId = res.length && res.map((item) => ({
-//     params: { id: `${item.id}` },
-//   }))
+  let mapId: any = []
+  const res = await api.get(endpoint['product'])
+  mapId = res.length && res.map((item) => ({
+    params: { id: `${item.id}` },
+  }))
   return {
-    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    paths: mapId,
     fallback: true,
   }
 }
 
 export async function getStaticProps({ params }) {
-  console.log('params', params)
-//   const id = params.id
-//   const prodData = await api.get(endpoint['product'] + '/' + id)
+  const id = params.id
+  const prodData = await api.get(endpoint['product'] + '/' + id)
   return {
-    props: { prodData: null },
+    props: { prodData: prodData ? prodData : null },
   }
 }
 // export const getServerSideProps: GetServerSideProps = async (context) => {

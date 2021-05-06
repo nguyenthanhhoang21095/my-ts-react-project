@@ -1,14 +1,14 @@
 const next = require('next')
 const cacheableResponse = require('cacheable-response')
 const express = require('express')
-const routes = require('../common/routes')
+// const routes = require('../common/routes')
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 const port = 3000
 const dev = process.env.DEV_ENV === 'true'
 const app = next({ dev })
-const handler = routes.getRequestHandler(app)
+const handler = app.getRequestHandler()
 const path = require('path')
 
 const ssrCache = cacheableResponse({
