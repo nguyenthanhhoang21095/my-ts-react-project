@@ -1,19 +1,44 @@
-import React from 'react'
-import { StyledCard, StyledCardMedia, StyledCardBody, StyledCardButtonGroup, StyledCardImage } from './Card.styled'
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic'
+import IconButton from '../CustomIcon/IconButton';
+import { StyledCard, 
+  StyledCardMedia, 
+  StyledCardBody, 
+  StyledCardImage, 
+  StyleCardName, 
+  StyledCardFav,
+  StyleCardDivider } from './Card.styled'
+import CustomImage from '../CustomImage/CustomImage';
 
 interface CardProps {
   onClick?(e: any): void
   buttonGroups?: React.ReactNode
   imageURL: string
+  productName?: string
 }
 
-const Card: React.FC<CardProps> = ({imageURL, buttonGroups, children}):JSX.Element => {
+const DynamicImageComp = dynamic(() => import('../CustomImage/CustomImage'));
+
+const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Element => {
+  const [isHoverFavIcon, setIsHoverFavIcon] = useState(false);
   return (
     <StyledCard>
       <StyledCardMedia>
-        <StyledCardImage src={imageURL} />
-        {buttonGroups && <StyledCardButtonGroup>{buttonGroups}</StyledCardButtonGroup>}
+        <StyledCardImage>
+          <DynamicImageComp src={imageURL} isHasOverlay={true} />
+        </StyledCardImage>
+        <StyleCardName>{productName}</StyleCardName>
+        <StyledCardFav>
+          <IconButton 
+            img={`/images/icons/${isHoverFavIcon ? 'love-full' : 'love'}.svg`}
+            hoverIcon={isHoverFavIcon}
+            setHoverIcon={setIsHoverFavIcon}
+            width="20px" height="20px"
+            imageStyle={`filter: invert(82%) sepia(35%) saturate(1384%) hue-rotate(326deg) brightness(101%) contrast(101%)`} 
+          />
+        </StyledCardFav>
       </StyledCardMedia>
+      {/* <StyleCardDivider /> */}
       <StyledCardBody>{children}</StyledCardBody>
     </StyledCard>
   )

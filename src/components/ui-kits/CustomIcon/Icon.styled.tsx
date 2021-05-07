@@ -7,4 +7,5 @@ export const StyledIconButton = styled.button`
 `
 
 export const StyledIcon = styled.img`
+    ${props => props.customStyle}
 `

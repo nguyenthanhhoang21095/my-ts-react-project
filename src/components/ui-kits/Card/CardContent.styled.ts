@@ -5,15 +5,14 @@ export const StyledCardContent = styled.div`
   flex-direction: column;
   align-items: start;
 `
-export const StyleCardDivider = styled.hr`
-  height: 2px;
+export const StyledCardItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
   width: 100%;
-  margin-bottom: 15px;
-  border-radius: 2px;
-  border: none;
-  outline: none;
-  background: #e3e3e3;
+  ${props => props.customStyle};
 `
+
 export const StyledCardName = styled.div`
     text-align: left;
     text-transform: capitalize;
@@ -25,25 +24,33 @@ export const StyledCardName = styled.div`
     text-overflow: ellipsis;
 `
 
+export const StyledCardButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  margin: auto;
+`
+
 export const StyledCardPrice = styled.div`
   display: flex;
-  margin-top: 0.8rem;
+  justify-content: center;
   align-items: space-between;
   white-space: nowrap;
   text-transform: uppercase;
-  font-weight: 700;
   font-size: 1.25em;
-  color: #6D214F;
 `
 
 export const StyledCardOriginPrice = styled.div`
   text-decoration: line-through;
-  margin-right: 10px;
-
+  margin-right: 15px;
+  color: #000;
+  font-weight: 500;
 `
 export const StyledCardFinalPrice = styled.div`
+  font-weight: 700;
+  color: #ffaf40;
 `
 export const StyleCardRating = styled.div`
-  margin-top: 0.8rem;
   cursor: pointer;
 `

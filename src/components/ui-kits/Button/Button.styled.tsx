@@ -14,7 +14,7 @@ export const StyledButton = styled.button`
   font-size: 1rem;
   line-height: 1.5;
   z-index: 1;
-  color: #fff;
+  color: #000;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
   letter-spacing: normal;
@@ -23,9 +23,12 @@ export const StyledButton = styled.button`
   text-indent: 0px;
   text-shadow: none;
   outline: none;
-  background: linear-gradient(45deg, #6D214F 0%, #B33771 100%);
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  background: #ffaf40;
+  font-weight: bold;
+  border-radius: 30px !important;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 9px 12px rgba(255, 175, 64, 0.6);
   position: relative;
+  ${props => props.customStyle};
   &:not(:disabled):not(.disabled) {
     cursor: pointer;
   }
@@ -39,15 +42,15 @@ export const StyledButton = styled.button`
     left: 0;
     z-index: -1;
     background-color: rgba(255,255,255, 0.4);
+    border-radius: 30px;
     transition: all 0.3s ease;
   }
   
   &:hover {
-    border-radius: 0.25rem;
+    border-radius: 30px;
   }
 
   &:hover:after {
-    top: 0;
     height: 100%;
-    border-radius: 0.25rem;
+    border-radius: 30px;
 `

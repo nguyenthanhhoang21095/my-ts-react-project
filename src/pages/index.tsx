@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 import styled from 'styled-components'
 import Button from '../components/ui-kits/Button/Button'
+import IconButton from '../components/ui-kits/CustomIcon/IconButton'
 import withApollo from '../utils/withApollo'
 import { useQuery } from '@apollo/react-hooks'
 import { GET_PRODUCTS } from '../graphql/product/product.query'
@@ -21,8 +22,8 @@ export const StyledHomeBody = styled.div`
   display: grid;
   justify-content: center;
   position: relative;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 50px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 80px;
 `
 
 function Home() {
@@ -95,16 +96,21 @@ function Home() {
             <Card
               key={data.id}
               imageURL={data.img}
-              buttonGroups={
-                <>
-                  <Button width="fit-content" handleClick={() => handleAddToCart(data)}>Add to Cart</Button>
-                  <Button width="fit-content" handleClick={() => {
-                    handleViewProduct(data)
-                  }}>View</Button>
-                </>
-              }
+              productName={data.name}
             >
-              <CardContent {...data}/>
+              <CardContent 
+                {...data} 
+                buttonGroups={
+                  <>
+                    <Button width="fit-content" handleClick={() => handleAddToCart(data)}>Add to cart</Button>
+                    <IconButton 
+                      img="/images/icons/view.png"
+                      width="25px" height="25px"
+                      handleClick={() => handleViewProduct(data)}
+                    />
+                  </>
+                }
+              />
             </Card>
           ))}
         </StyledHomeBody>

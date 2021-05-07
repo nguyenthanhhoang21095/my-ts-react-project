@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { GetServerSideProps, InferGetServerSidePropsType, GetStaticProps } from 'next'
+import {  InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next'
 import { Header } from '../../components/Header'
 import { Footer } from '../../components/Footer'
 import Layout from '../../components/Layout/Layout'
@@ -11,17 +11,24 @@ import Rating from '../../components/ui-kits/Rating/Rating'
 import api from '../../../controllers/baseApi'
 import { useRouter } from 'next/router'
 import endpoint from '../../utils/endpoints'
+import Button from "../../components/ui-kits/Button/Button"
 
-const DetailPage = ({ prodData }): JSX.Element => {
+const DetailPage = ({ prodData }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;
-    padding: 0 2.5rem;
+    padding: 1.5rem;
     height: 100%;
     display: flex;
     flex-direction: column;
     jusify-content: flex-start;
-    font-size: 2rem;
+    font-size: 1.5rem;
+  `
+  const StyledDetailItem = styled.div`
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    ${props => props.customStyle};
   `
 
   return (
@@ -31,13 +38,23 @@ const DetailPage = ({ prodData }): JSX.Element => {
         <StyledCard style={{ flexDirection: 'row !important' }}>
           {prodData ? (
             <>
-              <CustomImage width="300px" height="300px" src={prodData.image} />
+              <CustomImage width="400px" height="300px" src={prodData.image} isHasOverlay={true}  />
               <StyledDetailContent>
-                <div>{prodData.name}</div>
-                <div>{formatCurrency(prodData.finalPrice)} VND</div>
-                <div>
+                <StyledDetailItem customStyle="padding-top: 0">
+                  {prodData.name}
+                </StyledDetailItem>
+                <StyledDetailItem customStyle="font-weight: bold; color: #ffaf40; font-size: 2rem">
+                  {formatCurrency(prodData.finalPrice)} VND
+                </StyledDetailItem>
+                <StyledDetailItem>
+                    Status: {prodData.inStock ? "still in stock" : "out of stock"}
+                </StyledDetailItem>
+                <StyledDetailItem>
                   <Rating ratingVal={prodData.percentStar} />
-                </div>
+                </StyledDetailItem>
+                <StyledDetailItem customStyle="padding-bottom: 0">
+                  <Button width="200px" height="50px" fontSize="1.5rem" handleClick={() => console.log('add cart')}>Add to Cart</Button>
+                </StyledDetailItem>
               </StyledDetailContent>
             </>
           ) : (
@@ -51,7 +68,7 @@ const DetailPage = ({ prodData }): JSX.Element => {
 }
 
 
-export async function getStaticPaths() {
+export const getStaticPaths:GetStaticPaths = async () => {
   let mapId: any = []
   const res = await api.get(endpoint['product'])
   mapId = res.length && res.map((item) => ({
@@ -63,19 +80,12 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }) {
+export  const getStaticProps:GetStaticProps = async ({ params }) => {
   const id = params.id
   const prodData = await api.get(endpoint['product'] + '/' + id)
   return {
     props: { prodData: prodData ? prodData : null },
   }
 }
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const id = context.query.id;
-//   const prodData = await api.get(endpoint["product"] + '/' + id);
-//   return {
-//     props: { prodData: prodData }
-//   }
-// }
 
 export default DetailPage
