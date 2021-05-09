@@ -2,19 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout/Layout'
 import styled from 'styled-components'
-import Button from '../components/ui-kits/Button/Button'
-import IconButton from '../components/ui-kits/CustomIcon/IconButton'
 import withApollo from '../utils/withApollo'
 import { useQuery } from '@apollo/react-hooks'
 import { GET_PRODUCTS } from '../graphql/product/product.query'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
-import Card  from '../components/ui-kits/Card/Card'
-import CardContent from '../components/ui-kits/Card/CardContent'
 import api from "../../controllers/baseApi";
-import { CCart } from "../interfaces/cart";
-import Router from "next/router";
 import endpoint from "../utils/endpoints";
+import ProductList from "../components/Product/ProductList";
 
 export const HomeContainer = styled.div``
 
@@ -27,7 +22,6 @@ export const StyledHomeBody = styled.div`
 `
 
 function Home() {
-  const [cartValue, setCartValue] = useState(0);
   const [products, setProducts] = useState([])
   const { loading, error, data } = useQuery(GET_PRODUCTS, {
     variables: {
@@ -39,11 +33,6 @@ function Home() {
   })
   if (error) return <h1>Error</h1>
   if (loading) return <h1>Loading...</h1>
-
-  // const products = data?.getAllProduct?.data
-  // if (!products || !products.length) {
-  //   return <p>Not found</p>
-  // }
 
   useEffect(() => {
     api.get(endpoint["product"])
@@ -67,52 +56,16 @@ function Home() {
     })
   }, [])
 
-  const handleAddToCart = (data:Record<string, any>):void => {
-    const { name , id,  final_price, inStock } = data;
-    const cartProd = new CCart();
-    const cartVal = cartProd.addToCart({
-      id, 
-      final_price, 
-      name,
-      inStock,
-    })
-    setCartValue(cartVal + cartValue);
-  }
-
-  const handleViewProduct = (product_data) => {
-    Router.push(`/detail/${product_data.id}`);
-  }
-
   return (
     <>
       <Head>
         <title>STRANGS Template</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header cartNum={cartValue} />
+      <Header />
       <Layout>
         <StyledHomeBody>
-          {products.map((data) => (
-            <Card
-              key={data.id}
-              imageURL={data.img}
-              productName={data.name}
-            >
-              <CardContent 
-                {...data} 
-                buttonGroups={
-                  <>
-                    <Button width="fit-content" handleClick={() => handleAddToCart(data)}>Add to cart</Button>
-                    <IconButton 
-                      img="/images/icons/view.png"
-                      width="25px" height="25px"
-                      handleClick={() => handleViewProduct(data)}
-                    />
-                  </>
-                }
-              />
-            </Card>
-          ))}
+          <ProductList products={products}/>
         </StyledHomeBody>
       </Layout>
       <Footer />

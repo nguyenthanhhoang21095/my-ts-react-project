@@ -12,8 +12,10 @@ import api from '../../../controllers/baseApi'
 import { useRouter } from 'next/router'
 import endpoint from '../../utils/endpoints'
 import Button from "../../components/ui-kits/Button/Button"
+import { connect } from "react-redux";
+import storageActions from "../../../controllers/redux/actions/storageActions";
 
-const DetailPage = ({ prodData }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+const DetailPage = ({ prodData = null, addToCart }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;
@@ -30,6 +32,10 @@ const DetailPage = ({ prodData }: InferGetStaticPropsType<typeof getStaticProps>
     align-items: center;
     ${props => props.customStyle};
   `
+
+  const handleAddToCart = (data: Record<string, any>): void => {
+    addToCart(data);
+  }
 
   return (
     <>
@@ -53,7 +59,7 @@ const DetailPage = ({ prodData }: InferGetStaticPropsType<typeof getStaticProps>
                   <Rating ratingVal={prodData.percentStar} />
                 </StyledDetailItem>
                 <StyledDetailItem customStyle="padding-bottom: 0">
-                  <Button width="200px" height="50px" fontSize="1.5rem" handleClick={() => console.log('add cart')}>Add to Cart</Button>
+                  <Button width="200px" height="50px" fontSize="1.5rem" handleClick={() => handleAddToCart(prodData)}>Add to Cart</Button>
                 </StyledDetailItem>
               </StyledDetailContent>
             </>
@@ -88,4 +94,14 @@ export  const getStaticProps:GetStaticProps = async ({ params }) => {
   }
 }
 
-export default DetailPage
+const mapStateToProps = (state) => {
+  return {
+    cart: state.storage.cart
+  }
+}
+
+const mapDispatchToProps = {
+  addToCart: storageActions.addToCart,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)
