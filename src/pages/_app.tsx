@@ -3,9 +3,11 @@ import store from '../../controllers/redux/store/configureStore'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
+    <>
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+    </>
   )
 }
 

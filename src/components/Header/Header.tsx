@@ -17,10 +17,11 @@ import { Button } from '../ui-kits/Button';
 
 interface HeaderProps {
   cart?: any,
+  userInfo?: any,
 }
 
-const Header: React.FC<HeaderProps> = ({ cart = [] }):JSX.Element => {
-  console.log('cart', cart);
+const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }):JSX.Element => {
+  console.log(userInfo);
   return (
     <StyledHeader>
       <StyledHeaderLogo>
@@ -45,7 +46,11 @@ const Header: React.FC<HeaderProps> = ({ cart = [] }):JSX.Element => {
             </StyledHeaderCart>
           </StyledHeaderMenuItem>
           <StyledHeaderMenuItem>
-            <Button width="5rem" customStyle="background: #fff; color: #000">Login</Button>
+            {!userInfo ?
+              <Button handleClick={() => Router.push("/auth/login")} width="5rem" customStyle="background: #fff; color: #000">Login</Button>
+              :
+              <div>Hello, {userInfo.fullName}</div>
+            }
           </StyledHeaderMenuItem>
         </StyleHeaderSection>
         
@@ -54,11 +59,10 @@ const Header: React.FC<HeaderProps> = ({ cart = [] }):JSX.Element => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.storage.cart
-  }
-}
+const mapStateToProps = (state) => ({
+  cart: state.storage.cart,
+  userInfo: state.storage.userInfo,
+})
 
 export default connect(mapStateToProps)(Header)
 

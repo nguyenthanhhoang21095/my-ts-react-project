@@ -37,7 +37,6 @@ export class CCart implements ICart {
 
   addToCart = (prodInfo:Partial<IProduct>): number => {
     const { final_price = 0, id = 0, name = '' } = prodInfo
-    console.log('prodInfo', prodInfo);
     const handleProduct = new CProduct(id, name, final_price);
     
     if (!handleProduct.checkInStock(id, name)) {
@@ -49,7 +48,6 @@ export class CCart implements ICart {
       this.id = id
       this.name = name
       this.final_price = this.quantity * final_price
-      console.log('quantityYYYYYYYYYYYYY', this.quantity);
       return this.quantity;
     }
   }

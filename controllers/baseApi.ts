@@ -32,7 +32,7 @@ class BaseApi implements IBaseAPI {
   async post(url: string, body: Record<string, any>): Promise<Record<string, any>> {
     const options: Record<string, any> = {
       method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/json' },
       data: JSON.stringify(body),
       url: baseUrl + url,
     }
@@ -47,7 +47,7 @@ class BaseApi implements IBaseAPI {
   async put(url: string, body: Record<string, any>): Promise<Record<string, any>> {
     const options: Record<string, any> = {
       method: 'PUT',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/json' },
       data: JSON.stringify(body),
       url: baseUrl + url,
     }
@@ -62,7 +62,7 @@ class BaseApi implements IBaseAPI {
   async delete(url: string, body: Record<string, any>): Promise<Record<string, any>> {
     const options: Record<string, any> = {
       method: 'DELETE',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      headers: { 'content-type': 'application/json' },
       data: JSON.stringify(body),
       url: baseUrl + url,
     }

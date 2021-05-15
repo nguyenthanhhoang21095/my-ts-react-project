@@ -8,8 +8,9 @@ import Router from 'next/router';
 import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
 
-const ProductList = ({products=[], addToCart}):JSX.Element => {
+const ProductList = ({products=[], addToCart, showToast}):JSX.Element => {
   const handleAddToCart = (data: Record<string, any>): void => {
+    showToast("Đã thêm vào giỏ hàng");
     addToCart(data);
   }
 
@@ -52,6 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   addToCart: storageActions.addToCart,
+  showToast: storageActions.showToast,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList)

@@ -1,6 +1,7 @@
 const endpoints = {
     product: 'product',
-    user: 'user'
+    user: 'user',
+    cart: 'cart',
 }
 
 export default endpoints;

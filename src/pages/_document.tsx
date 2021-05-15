@@ -4,6 +4,7 @@ import { ServerStyleSheet } from 'styled-components'
 
 const globalStyles = `
 * {
+  position: relative;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

@@ -15,7 +15,7 @@ import Button from "../../components/ui-kits/Button/Button"
 import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
 
-const DetailPage = ({ prodData = null, addToCart }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+const DetailPage = ({ prodData, addToCart }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;
@@ -82,13 +82,13 @@ export const getStaticPaths:GetStaticPaths = async () => {
   }))
   return {
     paths: mapId,
-    fallback: true,
+    fallback: false,
   }
 }
 
 export  const getStaticProps:GetStaticProps = async ({ params }) => {
   const id = params.id
-  const prodData = await api.get(endpoint['product'] + '/' + id)
+  const prodData:any = await api.get(endpoint['product'] + '/' + id)
   return {
     props: { prodData: prodData ? prodData : null },
   }
