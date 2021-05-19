@@ -5,7 +5,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
-const port = 6060
+const port = process.env.PORT || 6060
 const dev = process.env.DEV_ENV === 'true'
 const app = next({ dev })
 const handler = app.getRequestHandler()
