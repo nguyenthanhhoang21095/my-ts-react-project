@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import IconButton from "../CustomIcon/IconButton";
+import IconButton from "../IconButton/IconButton";
 
 interface RatingProps {
     ratingVal: number,

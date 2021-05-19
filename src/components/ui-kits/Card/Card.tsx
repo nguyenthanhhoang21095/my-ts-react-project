@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic'
-import IconButton from '../CustomIcon/IconButton';
+import IconButton from '../IconButton/IconButton';
 import { StyledCard, 
   StyledCardMedia, 
   StyledCardBody, 
@@ -31,8 +31,6 @@ const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Ele
         <StyledCardFav>
           <IconButton 
             img={`/images/icons/${isHoverFavIcon ? 'love-full' : 'love'}.svg`}
-            hoverIcon={isHoverFavIcon}
-            setHoverIcon={setIsHoverFavIcon}
             width="20px" height="20px"
             imageStyle={`filter: invert(82%) sepia(35%) saturate(1384%) hue-rotate(326deg) brightness(101%) contrast(101%)`} 
           />

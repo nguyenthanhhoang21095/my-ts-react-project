@@ -35,7 +35,7 @@ const SignUp = ({
 
     if (idxUser == -1) {
       api
-        .post(`${endpoint['user']}/create`, {
+        .post(`${endpoint['user']}`, {
           account,
           password: pass,
           fullName,

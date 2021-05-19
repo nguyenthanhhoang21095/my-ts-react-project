@@ -13,11 +13,12 @@ const Login = ({
   showToast,
   getUserInfo,
   getCart,
+  cart = [],
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
   const [account, setAccount] = useState('')
   const [pass, setPass] = useState('')
 
-  const handleAction = () => {
+  const validateLogin = ():void => {
     if (!account.length || !pass.length) {
       showToast('Bạn chưa điền đủ thông tin')
       return;
@@ -30,7 +31,19 @@ const Login = ({
         return;
       }
     })
+  }
 
+  const getCartFromDB = (id:number) => {
+    api.get(`${endpoint['cart']}/${id}`)
+    .then((res:any) => {
+      if (res) {
+        getCart(res.cart);
+      }
+    })
+  }
+
+  const handleLogin = () => {
+    validateLogin();
     api
       .post(`${endpoint['user']}/auth`, {
         account,
@@ -38,15 +51,12 @@ const Login = ({
       })
       .then((res) => {
         if (res) {
-          Router.back()
-          getUserInfo(res)
+          Router.back();
+          getUserInfo(res);
+          sessionStorage.setItem("user", JSON.stringify({ userId: res.id, userName: res.account }))
+          getCartFromDB(res.id)
           setTimeout(() => { 
             showToast('Đăng nhập thành công')
-            const userId = res.id
-            // api.get(`${endpoint['cart']}/${userId}`)
-            // .then(otherRes => {
-            //   getCart(otherRes)
-            // })
           }, 500)
         } else {
           showToast('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin')
@@ -59,7 +69,9 @@ const Login = ({
       <div className={styles.signUp}>
         <h1 className={styles.signUpTitle}>Login Form</h1>
         <input
-          onChange={(event) => setAccount(event.target.value)}
+          onChange={(event) => {
+            setAccount(event.target.value)
+          }}
           type="text"
           className={styles.signUpInput}
           value={account}
@@ -72,14 +84,15 @@ const Login = ({
           value={pass}
           placeholder="Type your password"
         />
-        <button onClick={handleAction} value="Sign me up!" className={styles.signUpSubmit}>
+        <button onClick={handleLogin} value="Sign me up!" className={styles.signUpSubmit}>
           Sign me up!
         </button>
 
-        <div className={styles.link}></div>
-        <Link href="/auth/signup">
-          <a>I don't have an account</a>
-        </Link>
+        <div className={styles.link}>
+          <Link href="/auth/signup">
+            <a>I don't have an account</a>
+          </Link>
+        </div>
       </div>
 
       <Toast />
@@ -100,7 +113,9 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  cart: state.storage.cart,
+})
 
 const mapDispatchToProps = {
   showToast: storageActions.showToast,

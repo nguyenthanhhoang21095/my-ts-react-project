@@ -10,7 +10,7 @@ interface ButtonProps {
   handleClick?: (e?: React.MouseEvent<HTMLElement>) => void,
 }
 
-const Button: React.FC<ButtonProps> = ({children , handleClick, width="100%", height="", fontSize="", customStyle=""}: ButtonProps):JSX.Element => {
+const Button: React.FC<ButtonProps> = ({children , handleClick = () => {}, width="100%", height="", fontSize="", customStyle=""}: ButtonProps):JSX.Element => {
   return (
     <StyledButton width={width} height={height} onClick={handleClick} customStyle={`font-size: ${fontSize}; ${customStyle}`}>
       {children}

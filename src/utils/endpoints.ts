@@ -1,7 +1,5 @@
-const endpoints = {
+export default {
     product: 'product',
     user: 'user',
     cart: 'cart',
-}
-
-export default endpoints;
+};

@@ -9,13 +9,15 @@ import styled from 'styled-components'
 import { formatCurrency } from '../../utils/common'
 import Rating from '../../components/ui-kits/Rating/Rating'
 import api from '../../../controllers/baseApi'
-import { useRouter } from 'next/router'
+import Router from 'next/router';
 import endpoint from '../../utils/endpoints'
 import Button from "../../components/ui-kits/Button/Button"
+import QuantityButton from "../../components/ui-kits/Button/QuantityButton"
 import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
 
-const DetailPage = ({ prodData, addToCart }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+const DetailPage = ({ prodData, addToCart, userInfo = null, cart = [] }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
+  
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;
@@ -34,9 +36,15 @@ const DetailPage = ({ prodData, addToCart }: InferGetStaticPropsType<typeof getS
   `
 
   const handleAddToCart = (data: Record<string, any>): void => {
+    if (!userInfo) { 
+      Router.push("/auth/login");
+      return;
+    }
     addToCart(data);
   }
 
+  const detailData = cart.find(item => item.id === prodData.id);
+  
   return (
     <>
       <Header />
@@ -57,6 +65,9 @@ const DetailPage = ({ prodData, addToCart }: InferGetStaticPropsType<typeof getS
                 </StyledDetailItem>
                 <StyledDetailItem>
                   <Rating ratingVal={prodData.percentStar} />
+                </StyledDetailItem>
+                <StyledDetailItem customStyle="padding-bottom: 0">
+                  <QuantityButton product={detailData ?? prodData} quantity={detailData?.quantity ?? 0} />
                 </StyledDetailItem>
                 <StyledDetailItem customStyle="padding-bottom: 0">
                   <Button width="200px" height="50px" fontSize="1.5rem" handleClick={() => handleAddToCart(prodData)}>Add to Cart</Button>
@@ -90,13 +101,16 @@ export  const getStaticProps:GetStaticProps = async ({ params }) => {
   const id = params.id
   const prodData:any = await api.get(endpoint['product'] + '/' + id)
   return {
-    props: { prodData: prodData ? prodData : null },
+    props: { 
+      prodData: prodData ? prodData : null,
+    },
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.storage.cart
+    cart: state.storage.cart,
+    userInfo: state.storage.userInfo,
   }
 }
 

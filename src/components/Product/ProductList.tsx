@@ -2,15 +2,27 @@ import React from 'react'
 import Card from '../ui-kits/Card/Card'
 import CardContent from '../ui-kits/Card/CardContent'
 import Button from '../ui-kits/Button/Button'
-import IconButton from '../ui-kits/CustomIcon/IconButton'
-import { CCart } from "../../interfaces/cart";
+import IconButton from '../ui-kits/IconButton/IconButton'
 import Router from 'next/router';
 import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
+import api from "../../../controllers/baseApi"
+import endpoint from '../../utils/endpoints'
 
-const ProductList = ({products=[], addToCart, showToast}):JSX.Element => {
+const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.Element => {
   const handleAddToCart = (data: Record<string, any>): void => {
+    if (!userInfo) { 
+      Router.push("/auth/login");
+      return;
+    }
+
     showToast("Đã thêm vào giỏ hàng");
+    if (userInfo && data) {
+      api.put(`${endpoint['cart']}`, {
+        id: userInfo.id,
+        product: data,
+      }).then(res => console.log(res))
+    }
     addToCart(data);
   }
 
@@ -47,7 +59,8 @@ const ProductList = ({products=[], addToCart, showToast}):JSX.Element => {
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.storage.cart
+    cart: state.storage.cart,
+    userInfo: state.storage.userInfo,
   }
 }
 

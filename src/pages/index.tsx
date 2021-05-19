@@ -43,9 +43,9 @@ function Home() {
       const mapData:any = resData.map((item) => {
         return {
           name: item.name,
-          img: item.image,
+          image: item.image,
           id: item.id,
-          final_price: item.finalPrice,
+          finalPrice: item.finalPrice,
           price: item.price,
           rating: item.percentStar,
           inStock: true,

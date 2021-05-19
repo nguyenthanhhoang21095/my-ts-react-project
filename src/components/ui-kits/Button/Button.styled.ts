@@ -54,3 +54,15 @@ export const StyledButton = styled.button`
     height: 100%;
     border-radius: 30px;
 `
+
+export const StyledQuantityButtonGroup = styled.div`
+    display: flex;
+    jusify-content: space-around;
+    align-items: center;
+`
+
+export const StyledQuantityButtonValue = styled.span`
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+`

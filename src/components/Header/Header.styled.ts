@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const StyledHeader = styled.div`
   align-items: center;
-  background: linear-gradient(180deg,rgba(255, 175, 64, 1), rgba(255, 211, 42, 1));
+  background: linear-gradient(180deg, rgba(255, 175, 64, 1), rgba(255, 211, 42, 1));
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
   color: #202124;
   contain: layout;
@@ -43,7 +43,7 @@ export const StyledHeaderMenu = styled.ul`
 export const StyleHeaderSection = styled.div`
   display: flex;
   align-items: center;
-  width: fit-content
+  width: fit-content;
 `
 
 export const StyledHeaderMenuItem = styled.li`
@@ -78,3 +78,4 @@ export const StyledCartNumber = styled.div`
   font-size: 0.75rem;
   background: #000;
 `
+
