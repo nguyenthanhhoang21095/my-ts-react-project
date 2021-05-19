@@ -100,16 +100,9 @@ const Login = ({
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: false,
-  }
-}
-
 export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: { status: false },
+    props: { },
   }
 }
 
