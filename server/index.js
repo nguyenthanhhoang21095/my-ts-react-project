@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 const port = process.env.PORT || 6060
-const dev = process.env.DEV_ENV === 'true'
+const dev = process.env.DEV_ENV === 'false'
 const app = next({ dev })
 const handler = app.getRequestHandler()
 const path = require('path')

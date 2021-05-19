@@ -60,7 +60,7 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start": "next start",
+    "start": "node server/index.js",
     "build": "next build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
