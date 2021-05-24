@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -16,10 +16,11 @@ module.exports = {
   ],
   rules: {
     // Include .prettierrc.js rules
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'prettier/prettier': ['off'],
     'react/prop-types': 'off',
     'jsx-a11y/accessible-emoji': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    "@typescript-eslint/no-empty-function": "off",
   },
 }
