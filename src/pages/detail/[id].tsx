@@ -15,9 +15,17 @@ import Button from "../../components/ui-kits/Button/Button"
 import QuantityButton from "../../components/ui-kits/Button/QuantityButton"
 import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
+import IProduct from '../../interfaces/product'
+import IUser from '../../interfaces/user'
 
-const DetailPage = ({ prodData, addToCart, userInfo = null, cart = [] }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  
+interface DetailPageProps{
+  cart: IProduct[];
+  userInfo: IUser;
+  addToCart: (IProduct) => void;
+  prodData: IProduct;
+}
+
+const DetailPage: React.FC<DetailPageProps> = ({ prodData, addToCart, userInfo = null, cart = [] }): JSX.Element => {
   // styles page
   const StyledDetailContent = styled.div`
     width: 100%;

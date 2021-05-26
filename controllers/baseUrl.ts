@@ -1,1 +1,1 @@
-export default 'http://45.77.252.184:2021/api/'
+export default 'https://server.hoang-shop-web.xyz/api/'

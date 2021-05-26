@@ -9,14 +9,13 @@ import styles from '../styles/cart.module.css'
 import { formatCurrency } from "../utils/common";
 import QuantityButton from "../components/ui-kits/Button/QuantityButton";
 import { Button } from "../components/ui-kits/Button"
-import Router from "next/router";
 
 interface CartProps {
   cart: IProduct[];
   userInfo: IUser;
 }
 
-const Cart: React.FC<CartProps> = ({ cart = [], userInfo }): JSX.Element => {
+const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element => {
   
   return (
     <>
@@ -60,9 +59,7 @@ const Cart: React.FC<CartProps> = ({ cart = [], userInfo }): JSX.Element => {
 
 export const getServerSideProps = () => {
   return {
-    props: {
-      
-    }
+    props: {}
   }
 }
 

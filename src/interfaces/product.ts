@@ -4,6 +4,7 @@ export default interface IProduct {
   finalPrice: number
   display_name?: string
   quantity?: number
+  percentStar?: number;
   image?: string
   inStock?: boolean
 }
