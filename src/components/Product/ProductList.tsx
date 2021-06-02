@@ -26,15 +26,11 @@ const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.E
     addToCart(data);
   }
 
-  const handleViewProduct = (product_data) => {
-    Router.push(`/detail/${product_data.id}`)
-  }
-
   return (
     <>
       {products.length &&
         products.map((data) => (
-          <Card key={data.id} imageURL={data.img} productName={data.name}>
+          <Card key={data.id} imageURL={data.image} productName={data.name}>
             <CardContent
               {...data}
               buttonGroups={
@@ -46,7 +42,7 @@ const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.E
                     img="/images/icons/view.png"
                     width="25px"
                     height="25px"
-                    handleClick={() => handleViewProduct(data)}
+                    handleClick={() => Router.push(`/detail/${data.id}`)}
                   />
                 </>
               }

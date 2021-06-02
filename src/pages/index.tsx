@@ -5,8 +5,6 @@ import styled from 'styled-components'
 import withApollo from '../utils/withApollo'
 import { useQuery } from '@apollo/react-hooks'
 import { GET_PRODUCTS } from '../graphql/product/product.query'
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
 import api from "../../controllers/baseApi";
 import endpoint from "../utils/endpoints";
 import ProductList from "../components/Product/ProductList";
@@ -23,19 +21,10 @@ export const StyledHomeBody = styled.div`
 `
 
 function Home() {
+  const [products, setProducts] = useState([]);
+ 
   
-  const [products, setProducts] = useState([])
-  // const { loading, error, data } = useQuery(GET_PRODUCTS, {
-  //   variables: {
-  //     input: {
-  //       page: 1,
-  //       keyword: 'Samsung',
-  //     },
-  //   },
-  // })
   // if (error) return <h1>Error</h1>
-  // if (loading) return <h1>Loading...</h1>
-
   useEffect(() => {
     api.get(endpoint["product"])
     .then((res) => {
@@ -64,13 +53,11 @@ function Home() {
         <title>Demo Shop365</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <Layout>
         <StyledHomeBody>
           <ProductList products={products}/>
         </StyledHomeBody>
       </Layout>
-      <Footer />
       {/* Toast */}
       <Toast />
     </>

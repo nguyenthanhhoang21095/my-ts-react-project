@@ -4,7 +4,6 @@ export const StyledCard = styled.div`
   position: relative;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
   background-clip: border-box;
   border-radius: 0.5rem;
   display: flex;

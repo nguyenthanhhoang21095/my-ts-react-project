@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import {  InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next'
-import { Header } from '../../components/Header'
-import { Footer } from '../../components/Footer'
 import Layout from '../../components/Layout/Layout'
 import CustomImage from '../../components/ui-kits/CustomImage/CustomImage'
 import { StyledCard } from '../../components/ui-kits/Card/Card.styled'
-import styled from 'styled-components'
 import { formatCurrency } from '../../utils/common'
 import Rating from '../../components/ui-kits/Rating/Rating'
 import api from '../../../controllers/baseApi'
@@ -17,6 +14,8 @@ import { connect } from "react-redux";
 import storageActions from "../../../controllers/redux/actions/storageActions";
 import IProduct from '../../interfaces/product'
 import IUser from '../../interfaces/user'
+import styles from '../../styles/detail.module.css'
+import classNames from 'classnames'
 
 interface DetailPageProps{
   cart: IProduct[];
@@ -26,23 +25,6 @@ interface DetailPageProps{
 }
 
 const DetailPage: React.FC<DetailPageProps> = ({ prodData, addToCart, userInfo = null, cart = [] }): JSX.Element => {
-  // styles page
-  const StyledDetailContent = styled.div`
-    width: 100%;
-    padding: 1.5rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    jusify-content: flex-start;
-    font-size: 1.5rem;
-  `
-  const StyledDetailItem = styled.div`
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    ${props => props.customStyle};
-  `
-
   const handleAddToCart = (data: Record<string, any>): void => {
     if (!userInfo) { 
       Router.push("/auth/login");
@@ -55,39 +37,37 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, addToCart, userInfo =
   
   return (
     <>
-      <Header />
       <Layout>
-        <StyledCard style={{ flexDirection: 'row !important' }}>
+        <div className={styles.detailMain}>
           {prodData ? (
             <>
               <CustomImage width="400px" height="300px" src={prodData.image} isHasOverlay={true}  />
-              <StyledDetailContent>
-                <StyledDetailItem customStyle="padding-top: 0">
+              <div className={styles.detailContent}>
+                <div className={classNames(styles.detailItem,styles.paddingTop0)}>
                   {prodData.name}
-                </StyledDetailItem>
-                <StyledDetailItem customStyle="font-weight: bold; color: #ffaf40; font-size: 2rem">
+                </div>
+                <div className={classNames(styles.detailItem, styles.priceFont)}>
                   {formatCurrency(prodData.finalPrice)} VND
-                </StyledDetailItem>
-                <StyledDetailItem>
+                </div>
+                <div className={styles.detailItem}>
                     Status: {prodData.inStock ? "still in stock" : "out of stock"}
-                </StyledDetailItem>
-                <StyledDetailItem>
+                </div>
+                <div className={styles.detailItem}>
                   <Rating ratingVal={prodData.percentStar} />
-                </StyledDetailItem>
-                <StyledDetailItem customStyle="padding-bottom: 0">
+                </div>
+                <div className={classNames(styles.detailItem, styles.paddingBottom0)}>
                   <QuantityButton product={detailData ?? prodData} quantity={detailData?.quantity ?? 0} />
-                </StyledDetailItem>
-                <StyledDetailItem customStyle="padding-bottom: 0">
+                </div>
+                <div className={classNames(styles.detailItem, styles.paddingBottom0)}>
                   <Button width="200px" height="50px" fontSize="1.5rem" handleClick={() => handleAddToCart(prodData)}>Add to Cart</Button>
-                </StyledDetailItem>
-              </StyledDetailContent>
+                </div>
+              </div>
             </>
           ) : (
             <div>Không tìm thấy thông tin sản phẩm</div>
           )}
-        </StyledCard>
+        </div>
       </Layout>
-      <Footer />
     </>
   )
 }
@@ -115,7 +95,7 @@ export  const getStaticProps:GetStaticProps = async ({ params }) => {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {  
   return {
     cart: state.storage.cart,
     userInfo: state.storage.userInfo,

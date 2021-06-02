@@ -3,10 +3,11 @@ const cacheableResponse = require('cacheable-response')
 const express = require('express')
 // const routes = require('../common/routes')
 const cookieParser = require('cookie-parser')
-require('dotenv').config()
-
-const port = process.env.PORT || 6060
-const dev = process.env.DEV_ENV === 'false'
+require('dotenv').config();
+const config = require('../next.config');
+const configEnv = config.env;
+const port = configEnv.port || 6060
+const dev = configEnv.env_name === 'dev' ? 'true' : 'false'
 const app = next({ dev })
 const handler = app.getRequestHandler()
 const path = require('path')

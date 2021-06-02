@@ -2,8 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import IProduct from '../interfaces/product'
 import IUser from '../interfaces/user'
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
 import Layout from '../components/Layout/Layout'
 import styles from '../styles/cart.module.css'
 import { formatCurrency } from "../utils/common";
@@ -19,7 +17,6 @@ const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element 
   
   return (
     <>
-      <Header />
       <Layout>
         <div className={styles.container}>
           {cart.length ? (
@@ -52,12 +49,11 @@ const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element 
           )}
         </div>
       </Layout>
-      <Footer />
     </>
   )
 }
 
-export const getServerSideProps = () => {
+export const getStaticProps = () => {
   return {
     props: {}
   }

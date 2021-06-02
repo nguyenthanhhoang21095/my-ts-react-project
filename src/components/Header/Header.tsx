@@ -15,6 +15,8 @@ import { connect } from 'react-redux'
 import IconButton from '../ui-kits/IconButton/IconButton'
 import { Button } from '../ui-kits/Button'
 import Dialog from '../Dialog/Dialog'
+import { useSelector } from 'react-redux'
+
 interface HeaderProps {
   cart?: any
   userInfo?: any
@@ -25,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
   let timeout = null;
   
   const showDialog = (e): void => {
-    const { target } = e
+    const { target } = e;
     if (target) {
       setIsShowDialog(true);
       clearTimeout(timeout);
@@ -36,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
     timeout = setTimeout(() => {
       setIsShowDialog(false);
       clearTimeout(timeout);
-    }, 500) 
+    }, 500)
   }
 
   return (
@@ -49,9 +51,9 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
           <StyledHeaderMenuItem>
             <Link url="/" text="Home" />
           </StyledHeaderMenuItem>
-          <StyledHeaderMenuItem>
+          {/* <StyledHeaderMenuItem>
             <Link url="/" text="Products" />
-          </StyledHeaderMenuItem>
+          </StyledHeaderMenuItem> */}
         </StyleHeaderSection>
 
         <StyleHeaderSection>
@@ -95,9 +97,11 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
   )
 }
 
-const mapStateToProps = (state) => ({
-  cart: state.storage.cart,
-  userInfo: state.storage.userInfo,
-})
+const mapStateToProps = (state) => {
+  return {
+    cart: state.storage.cart,
+    userInfo: state.storage.userInfo,
+  }
+}
 
 export default connect(mapStateToProps)(Header)

@@ -1,16 +1,18 @@
 import React from 'react';
 import { StyledLink } from "./Link.styled"
-
+import Link from 'next/link'
 interface LinkProps {
     url?: string,
     text: string,
     // onClick?: (e?: React.MouseEvent<HTMLElement>) => void,
 }
 
-const Link:React.FC<LinkProps> = ({url = "", text=""}) => {
+const CustomLink:React.FC<LinkProps> = ({url = "", text=""}) => {
     return (
-        <StyledLink href={url}>{text}</StyledLink>
+        <Link href={url}>
+            <StyledLink>{text}</StyledLink>
+        </Link>
     )
 }
 
-export default Link;
+export default CustomLink;

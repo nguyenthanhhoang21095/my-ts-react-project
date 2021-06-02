@@ -3,4 +3,5 @@ import styled from 'styled-components'
 export const StyledLink = styled.a`
     text-decoration: none;
     color: #000;
+    cursor: pointer;
 `

@@ -60,11 +60,11 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start": "node server/index.js",
+    "start": "cross-env NODE_ENV=production node server/index.js",
     "build": "next build",
+    "dev": "cross-env NODE_ENV=development node server/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "next dev",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -82,5 +82,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

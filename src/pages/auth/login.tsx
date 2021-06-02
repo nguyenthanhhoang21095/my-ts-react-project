@@ -45,7 +45,7 @@ const Login = ({
   const handleLogin = () => {
     validateLogin();
     api
-      .post(`${endpoint['user']}/auth`, {
+      .post(`${endpoint['user']}/auth/login`, {
         account,
         password: pass,
       })
