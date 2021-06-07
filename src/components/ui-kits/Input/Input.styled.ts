@@ -1,20 +1,22 @@
 import styled from 'styled-components'
 
 export const StyledInputContainer = styled.div`
-  margin: 5% 10%;
+  padding: 2rem;
   position: relative;
   width: fit-content;
+  display: block;
+  font-size: 1.2rem;
+
+  ${props => props.customStyle}
 `
 
 export const StyledInput = styled.input`
   padding: 10px 10px 10px 5px;
-  font-size: 18px;
   width: 280px;
   border: 1px solid;
   border-color: transparent transparent gray;
   background-color: transparent;
   &:focus {
-    font-size: 12px;
     color: rgb(148, 98, 255);
     top: -1%;
     transition: all 0.3s;
@@ -26,12 +28,10 @@ export const StyledInput = styled.input`
   }
 `
 
-export const StyledLabel = styled.label`
-  position: absolute;
-  top: 30%;
-  font-size: 18px;
+export const StyledLabel = styled.span`
+  position: relative;
+  margin-right: 1rem; 
   color: rgb(165, 165, 165);
-  left: 3%;
   z-index: -1;
   pointer-events: none;
   transition: all 0.3s;

@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 2rem;
+  width: 50%;
+  margin: 0 auto;
+  height: fit-content;
+}
+
+.updatePassword {
+  border: 1px solid #ffaf40;
+  padding: 1rem;
+}
+
+.updatePasswordBtns {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.changePass {
+  display: flex;
+  justify-content: center;
+}

@@ -30,5 +30,5 @@ export const StyledImageOverlay = styled.div`
     width: 100%;
     height: 100%;
     z-index: 2;
-    background: linear-gradient(180deg, rgba(255,255,255, 0.5), rgba(0,0,0, 0.9));
+    background: linear-gradient(180deg, rgba(255,255,255, 0.1), rgba(0,0,0, 0.9));
 `

@@ -5,7 +5,7 @@ import Router from 'next/router';
 import { PersistGate } from 'redux-persist/integration/react'
 import storageActions from "../../controllers/redux/actions/storageActions";
 import { checkLocalStoreToRedux } from '../../controllers/redux/lib/reducerConfig';
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 
 const Loading = () => (<div>Loading...</div>)
 function MyApp({ Component, pageProps }):JSX.Element {

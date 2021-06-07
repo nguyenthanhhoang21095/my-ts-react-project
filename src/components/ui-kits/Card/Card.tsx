@@ -9,7 +9,6 @@ import { StyledCard,
   StyledCardFav,
   StyleCardDivider } from './Card.styled'
 import CustomImage from '../CustomImage/CustomImage';
-
 interface CardProps {
   onClick?(e: any): void
   buttonGroups?: React.ReactNode
@@ -20,7 +19,7 @@ interface CardProps {
 const DynamicImageComp = dynamic(() => import('../CustomImage/CustomImage'));
 
 const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Element => {
-  const [isHoverFavIcon, setIsHoverFavIcon] = useState(false);
+  // const [isHoverFavIcon, setIsHoverFavIcon] = useState(false);
   return (
     <StyledCard>
       <StyledCardMedia>
@@ -28,13 +27,13 @@ const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Ele
           <DynamicImageComp src={imageURL} isHasOverlay={true} />
         </StyledCardImage>
         <StyleCardName>{productName}</StyleCardName>
-        <StyledCardFav>
+        {/* <StyledCardFav>
           <IconButton 
             img={`/images/icons/${isHoverFavIcon ? 'love-full' : 'love'}.svg`}
             width="20px" height="20px"
             imageStyle={`filter: invert(82%) sepia(35%) saturate(1384%) hue-rotate(326deg) brightness(101%) contrast(101%)`} 
           />
-        </StyledCardFav>
+        </StyledCardFav> */}
       </StyledCardMedia>
       {/* <StyleCardDivider /> */}
       <StyledCardBody>{children}</StyledCardBody>

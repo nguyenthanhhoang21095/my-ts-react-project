@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next'
+import { InferGetStaticPropsType, GetStaticProps } from 'next'
 import api from '../../../controllers/baseApi'
 import endpoint from '../../utils/endpoints'
 import styles from '../../styles/auth.module.css'
@@ -8,6 +8,7 @@ import Toast from '../../components/ui-kits/Toast/Toast'
 import storageActions from '../../../controllers/redux/actions/storageActions'
 import { connect } from 'react-redux'
 import Link from 'next/link'
+import { saveDataLocal } from '../../../controllers/redux/lib/reducerConfig';
 
 const Login = ({
   showToast,
@@ -24,13 +25,13 @@ const Login = ({
       return;
     }
 
-    api.get(`${endpoint['user']}`).then((res) => {
-      const idxUser = res.findIndex((item) => item.account === account)
-      if (idxUser == -1) {
-        showToast('Người dùng không tồn tại')
-        return;
-      }
-    })
+    // api.get(`${endpoint['user']}`).then((res) => {
+    //   const idxUser = res.findIndex((item) => item.account === account)
+    //   if (idxUser == -1) {
+    //     showToast('Người dùng không tồn tại')
+    //     return;
+    //   }
+    // })
   }
 
   const getCartFromDB = (id:number) => {
@@ -45,16 +46,18 @@ const Login = ({
   const handleLogin = () => {
     validateLogin();
     api
-      .post(`${endpoint['user']}/auth/login`, {
+      .post(`${endpoint['login']}`, {
         account,
         password: pass,
       })
       .then((res) => {
         if (res) {
-          Router.back();
           getUserInfo(res);
-          sessionStorage.setItem("user", JSON.stringify({ userId: res.id, userName: res.account }))
-          getCartFromDB(res.id)
+          res.accessToken && saveDataLocal("access_token", res.accessToken);
+          res.refreshToken && saveDataLocal("refresh_token", res.refreshToken);
+          sessionStorage.setItem("user", JSON.stringify({ userId: res.id, userName: res.account }));
+          getCartFromDB(res.id);
+          Router.back();
           setTimeout(() => { 
             showToast('Đăng nhập thành công')
           }, 500)

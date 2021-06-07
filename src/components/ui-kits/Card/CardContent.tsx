@@ -7,7 +7,7 @@ import { StyledCardContent,
     StyleCardRating, 
     StyledCardItem,
 } from './CardContent.styled'
-import { formatCurrency } from "../../../utils/common";
+import { formatCurrency } from "src/utils/common";
 import CustomRating from '../Rating/Rating';
 
 interface CardContentProps {
@@ -24,9 +24,9 @@ interface CardContentProps {
             <StyledCardItem customStyle="padding-top: 0">
                 <StyledCardPrice>
                     { price !== finalPrice &&
-                        <StyledCardOriginPrice>{formatCurrency(price)} VND</StyledCardOriginPrice>
+                        <StyledCardOriginPrice>{formatCurrency(price)}</StyledCardOriginPrice>
                     }
-                    <StyledCardFinalPrice>{formatCurrency(finalPrice)} VND</StyledCardFinalPrice>
+                    <StyledCardFinalPrice>{formatCurrency(finalPrice)}</StyledCardFinalPrice>
                 </StyledCardPrice>
             </StyledCardItem>
             <StyledCardItem customStyle="color: #d3d3d3; font-weight: normal">

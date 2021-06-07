@@ -38,7 +38,7 @@ export const StyledCardPrice = styled.div`
   align-items: space-between;
   white-space: nowrap;
   text-transform: uppercase;
-  font-size: 1.25em;
+  font-size: 1rem;
 `
 
 export const StyledCardOriginPrice = styled.div`
@@ -46,10 +46,12 @@ export const StyledCardOriginPrice = styled.div`
   margin-right: 15px;
   color: #000;
   font-weight: 500;
+  font-size: .9rem;
+
 `
 export const StyledCardFinalPrice = styled.div`
   font-weight: 700;
-  color: #ffaf40;
+  color: #f9ca24;
 `
 export const StyleCardRating = styled.div`
   cursor: pointer;

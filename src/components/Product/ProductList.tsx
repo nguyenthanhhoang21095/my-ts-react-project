@@ -4,10 +4,10 @@ import CardContent from '../ui-kits/Card/CardContent'
 import Button from '../ui-kits/Button/Button'
 import IconButton from '../ui-kits/IconButton/IconButton'
 import Router from 'next/router';
-import { connect } from "react-redux";
-import storageActions from "../../../controllers/redux/actions/storageActions";
-import api from "../../../controllers/baseApi"
-import endpoint from '../../utils/endpoints'
+import { connect } from 'react-redux';
+import storageActions from 'controllers/redux/actions/storageActions';
+import api from 'controllers/baseApi'
+import endpoint from 'src/utils/endpoints'
 
 const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.Element => {
   const handleAddToCart = (data: Record<string, any>): void => {
@@ -15,15 +15,16 @@ const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.E
       Router.push("/auth/login");
       return;
     }
-
-    showToast("Đã thêm vào giỏ hàng");
+    
     if (userInfo && data) {
       api.put(`${endpoint['cart']}`, {
         id: userInfo.id,
         product: data,
-      }).then(res => console.log(res))
+      }, true).then(res => {
+        showToast("Đã thêm vào giỏ hàng");
+        addToCart(data);
+      })
     }
-    addToCart(data);
   }
 
   return (

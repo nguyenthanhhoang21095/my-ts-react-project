@@ -10,13 +10,16 @@ import {
 interface InputProps {
     type: string;
     labelName: string;
+    value: string;
+    handleChange: (e?: any) => void,
+    customStyle?: string;
 }
 
-const Input: React.FC<InputProps> = ({ type = "text", labelName = ""}):JSX.Element => {
+const Input: React.FC<InputProps> = ({ type = "text", labelName = "", value = "", handleChange = () => {}, customStyle=""}):JSX.Element => {
     return (
-        <StyledInputContainer>
-            <StyledInput type={type} />
+        <StyledInputContainer customStyle={customStyle}>
             <StyledLabel>{labelName}</StyledLabel>
+            <StyledInput type={type} value={value} onChange={handleChange}/>
             <StyledBar className="bar"></StyledBar>
             <StyledHighLight className="highlight"></StyledHighLight>
         </StyledInputContainer>

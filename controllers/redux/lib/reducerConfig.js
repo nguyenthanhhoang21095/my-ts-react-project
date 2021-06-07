@@ -25,9 +25,9 @@ export const checkLocalStoreToRedux = (storeRedux, keyStoreNew, action, initData
 }
 
 export const saveDataLocal = (key, data) => {
-  localStorage.setItem(key, JSON.stringify(data))
+  localStorage && localStorage.setItem(key, JSON.stringify(data))
 }
 
 export const getDataLocal = key => {
-  return JSON.parse(localStorage.getItem(key))
+  return localStorage ? JSON.parse(localStorage.getItem(key)) : null
 }

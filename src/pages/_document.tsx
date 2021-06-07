@@ -8,7 +8,13 @@ const globalStyles = `
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background: #f1f2f6;
+  font-family: Lobster, cursive;
 }
 
 *:focus {

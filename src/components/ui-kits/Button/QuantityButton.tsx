@@ -28,16 +28,15 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({
   cart = [],
 }): JSX.Element => {
   
-  const changeQuantity = (actionType = ''): void => {
+  const changeQuantity = (actionType = 'increase'): void => {
     if (userInfo) {
         const prodData = !product.hasOwnProperty("quantity") ? {...product, quantity: 0} : {...product}
-        console.log(actionType, product);
       api
         .put(`${endpoint['cart']}`, {
           id: userInfo.id,
           product: prodData,
           action: actionType,
-        })
+        }, true)
         .then((res) => {
           updateCartFromDB(userInfo.id)
         })
@@ -47,7 +46,7 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({
   }
 
   const updateCartFromDB = (id: number) => {
-    api.get(`${endpoint['cart']}/${id}`).then((res: any) => {
+    api.get(`${endpoint['cart']}/${id}`, true).then((res: any) => {
       if (res) {
         getCart(res.cart)
       }
