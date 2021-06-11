@@ -4,7 +4,7 @@ import { Footer } from 'src/components/Footer'
 import { Banner } from 'src/components/Banner'
 import styles from './Layout.module.scss'
 import { useDispatch } from 'react-redux';
-import jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import api from 'controllers/baseApi';
 import endpoint from 'src/utils/endpoints';
 import storageActions from "controllers/redux/actions/storageActions";
@@ -27,8 +27,9 @@ const OptimizeHeader = React.memo((props) => (
 const Layout: React.FC<LayoutProps> = ({children, customStyle = "", isHomeRoute = false, cart = [], userInfo = null}):JSX.Element => {
   const dispatch = useDispatch()  
    useEffect(() =>  {
+     try {
       const access_token: string = JSON.parse(localStorage.getItem("access_token"));
-      const decoded:any = jwt_decode(access_token);
+      const decoded:any = jwtDecode(access_token);
       
       if (decoded && decoded.data && Object.keys(decoded).length && !userInfo && !cart.length) {
         const promise1:any = api.get(`${endpoint['user']}/${decoded.data.id}`, access_token)
@@ -41,6 +42,9 @@ const Layout: React.FC<LayoutProps> = ({children, customStyle = "", isHomeRoute 
           }
         }).catch((err) => console.error(err))
       }
+    } catch (err) {
+      console.error(err)
+    }
   },[])
 
   return (
@@ -54,7 +58,6 @@ const Layout: React.FC<LayoutProps> = ({children, customStyle = "", isHomeRoute 
         <div className={styles['layout']}>
           {children}
         </div>  
-      {/* <StyledLayout customStyle={customStyle}></StyledLayout> */}
       <Footer />
     </>
   )
