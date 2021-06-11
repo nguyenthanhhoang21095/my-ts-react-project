@@ -15,7 +15,6 @@
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-
     &:hover {
         box-shadow: 0 0 0 4px #f9ca24, 0px 10px 50px rgb(255 175 64 / 60%) !important;
     }
@@ -29,7 +28,7 @@
     width: 100%;
     min-height: 200px;
     position: relative;
-    
+
     &__image {
         @include layout.absolute-middle;
         transition: all 0.4s ease-in-out;
@@ -39,8 +38,7 @@
             transform: scale(1.05);
         }
     }
-    
-    
+
     &__name {
         display: inline-block;
         width: calc(100% - 5rem);
@@ -59,7 +57,6 @@
         font-weight: bold;
     }
 }
-
 
 .card-body {
     position: relative;

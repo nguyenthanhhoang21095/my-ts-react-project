@@ -1,4 +1,4 @@
-const configParams = require(`./config/${process.env.NODE_ENV}.json`);
+const configParams = require(`./config/production.json`);
 const path = require('path');
 
 module.exports = {
@@ -7,5 +7,8 @@ module.exports = {
   },
   webpack(config, options) {
     return config
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src/styles')],
   },
 }

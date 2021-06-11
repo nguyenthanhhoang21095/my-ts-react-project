@@ -1,16 +1,16 @@
 import '../styles/global.scss';
 import '../styles/layout.scss';
 import '../styles/font.scss';
-import { Provider, useDispatch } from 'react-redux';
-import React, { useEffect, useState } from 'react'
+import { Provider } from 'react-redux';
+import React from 'react'
 import { store, persistor } from 'controllers/redux/store/configureStore'
 import { PersistGate } from 'redux-persist/integration/react'
-import storageActions from "controllers/redux/actions/storageActions";
-import { checkLocalStoreToRedux } from 'controllers/redux/lib/reducerConfig';
+// import storageActions from "controllers/redux/actions/storageActions";
+// import { checkLocalStoreToRedux } from 'controllers/redux/lib/reducerConfig';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-import jwt_decode from "jwt-decode";
-import api from 'controllers/baseApi';
-import endpoint from 'src/utils/endpoints';
+// import jwt_decode from "jwt-decode";
+// import api from 'controllers/baseApi';
+// import endpoint from 'src/utils/endpoints';
 
 const Loading = () => (<div>Loading...</div>)
 
