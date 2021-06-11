@@ -1,12 +1,11 @@
-
 import styled from "styled-components";
 
 export const StyledUserDialogContainer = styled.div`
     position: absolute;
-    top: 22px;
+    top: 25px;
     bottom: 0;
     right: 0;
-    left: -49px;
+    left: -46px;
     width: fit-content;
     margin: 0 auto;
     padding-top: 12px;
@@ -53,7 +52,7 @@ export const StyledDialogRow = styled.div`
 export const StyledDivider = styled.hr`
   margin-left: 10%;
   margin-right: 10%;
-  height: 2px;
+  height: 1px;
   background: #f5f6fa;
   border: none;
 `

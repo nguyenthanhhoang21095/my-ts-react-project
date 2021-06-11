@@ -7,7 +7,7 @@ import { Button } from '../Button'
 import storageActions from '../../../../controllers/redux/actions/storageActions'
 import IUser from '../../../interfaces/user'
 import { StyledQuantityButtonGroup, StyledQuantityButtonValue } from './Button.styled'
-import IconButton from '../IconButton/IconButton'
+import { IconButton } from '../IconButton'
 import Router from "next/router"
 
 interface QuantityButtonProps {
@@ -15,7 +15,6 @@ interface QuantityButtonProps {
   product: IProduct;
   getCart: (res: any) => void;
   quantity: number;
-  addToCart: any;
   cart: IProduct[];
 }
 
@@ -24,33 +23,28 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({
   product,
   getCart,
   quantity = 0,
-  addToCart = () => {},
   cart = [],
 }): JSX.Element => {
   
   const changeQuantity = (actionType = 'increase'): void => {
-    if (userInfo) {
-        const prodData = !product.hasOwnProperty("quantity") ? {...product, quantity: 0} : {...product}
+    const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
+    if (userInfo && token) {
+      const prodData = !product.hasOwnProperty("quantity") ? {...product, quantity: 0} : {...product}
+      
       api
         .put(`${endpoint['cart']}`, {
           id: userInfo.id,
           product: prodData,
           action: actionType,
-        }, true)
+        }, token)
         .then((res) => {
-          updateCartFromDB(userInfo.id)
+          if (res) {
+            getCart(res.cart)
+          }
         })
     } else {
       Router.push("/auth/login")
     }
-  }
-
-  const updateCartFromDB = (id: number) => {
-    api.get(`${endpoint['cart']}/${id}`, true).then((res: any) => {
-      if (res) {
-        getCart(res.cart)
-      }
-    })
   }
 
   return (
@@ -84,6 +78,5 @@ const mapDispatchToProps = {
   showToast: storageActions.showToast,
   getUserInfo: storageActions.getUserInfo,
   getCart: storageActions.getCart,
-  addToCart: storageActions.addToCart,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(QuantityButton)

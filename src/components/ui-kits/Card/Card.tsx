@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic'
-import IconButton from '../IconButton/IconButton';
-import { StyledCard, 
-  StyledCardMedia, 
-  StyledCardBody, 
-  StyledCardImage, 
-  StyleCardName, 
-  StyledCardFav,
-  StyleCardDivider } from './Card.styled'
-import CustomImage from '../CustomImage/CustomImage';
+import styles from './Card.module.scss'
+
 interface CardProps {
   onClick?(e: any): void
   buttonGroups?: React.ReactNode
@@ -21,12 +14,12 @@ const DynamicImageComp = dynamic(() => import('../CustomImage/CustomImage'));
 const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Element => {
   // const [isHoverFavIcon, setIsHoverFavIcon] = useState(false);
   return (
-    <StyledCard>
-      <StyledCardMedia>
-        <StyledCardImage>
+    <div className={styles['card-container']}>
+      <div className={styles['card-media']}>
+        <div className={styles['card-media__image']}>
           <DynamicImageComp src={imageURL} isHasOverlay={true} />
-        </StyledCardImage>
-        <StyleCardName>{productName}</StyleCardName>
+        </div>
+        <p className={styles['card-media__name']}>{productName}</p>
         {/* <StyledCardFav>
           <IconButton 
             img={`/images/icons/${isHoverFavIcon ? 'love-full' : 'love'}.svg`}
@@ -34,10 +27,9 @@ const Card: React.FC<CardProps> = ({imageURL, children, productName=""}):JSX.Ele
             imageStyle={`filter: invert(82%) sepia(35%) saturate(1384%) hue-rotate(326deg) brightness(101%) contrast(101%)`} 
           />
         </StyledCardFav> */}
-      </StyledCardMedia>
-      {/* <StyleCardDivider /> */}
-      <StyledCardBody>{children}</StyledCardBody>
-    </StyledCard>
+      </div>
+      <div className={styles['card-body']}>{children}</div>
+    </div>
   )
 }
 

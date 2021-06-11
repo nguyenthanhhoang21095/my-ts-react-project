@@ -1,12 +1,12 @@
 import { ADD_TO_CART, SHOW_TOAST, GET_USER_INFO, GET_CART } from "../contanst/index.ts"
 import { saveDataLocal } from '../lib/reducerConfig'
 export default class StorageReduxAction {
-  static addToCart(payload) {
-    return {
-      type: ADD_TO_CART,
-      payload,
-    }
-  }
+  // static addToCart(payload) {
+  //   return {
+  //     type: ADD_TO_CART,
+  //     payload,
+  //   }
+  // }
 
   static showToast(mess) {
     return {
@@ -16,7 +16,6 @@ export default class StorageReduxAction {
   }
 
   static getUserInfo(info) {
-    saveDataLocal(GET_USER_INFO, info)
     return {
       type: GET_USER_INFO,
       payload: info

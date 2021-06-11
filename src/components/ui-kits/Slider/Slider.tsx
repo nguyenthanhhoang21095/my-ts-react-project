@@ -11,18 +11,18 @@ import {
   StyledQuoteBlockQuote,
   StyledQuoteDivider,
 } from './Slider.styled'
+import styles from './Slider.module.scss'
 
 interface CarouselProps {
     imagesArr: string[];
-    sliderWidth: string;
-    sliderHeight: string;
 }
 
-const Slider:React.FC<CarouselProps> = ({imagesArr, sliderWidth="", sliderHeight=""}):JSX.Element => {
+const Slider:React.FC<CarouselProps> = ({imagesArr}):JSX.Element => {
     return (
-        <StyledSliderContainer sliderWidth={sliderWidth} sliderHeight={sliderHeight}>
+        <div className={styles['slider-container']}>
+            <div className={styles['slider-container__overlay']}></div>
             <StyledImageOverlay />
-            <StyledQuoteContainer>
+            {/* <StyledQuoteContainer>
               <StyledQuoteContent>
               <StyledQuoteSymbol> ❛❛ </StyledQuoteSymbol> 
               <StyledQuoteDivider dividerStyle="top: 50px; width: 80%; left: 75px;" />
@@ -30,13 +30,13 @@ const Slider:React.FC<CarouselProps> = ({imagesArr, sliderWidth="", sliderHeight
               <StyledQuoteBlockQuote>The way I drive, the way I handle a car, is an expression of my inner feelings.</StyledQuoteBlockQuote>
               <StyledQuoteDivider dividerStyle="top: 150px; width: 90%; left: 20px;" />
               </StyledQuoteContent>
-            </StyledQuoteContainer>
-            <Carousel>
+            </StyledQuoteContainer> */}
+            <Carousel className={styles['slider-container__carousel']}>
                 {imagesArr.length && imagesArr.map((img, idx) => (
-                  <StyledSliderImage key={idx} src={img} alt=""  width="100%" height={sliderHeight} />
+                  <img className={styles['slider-container__image']} key={idx} src={img} alt=""  width="100%" height="100%" />
                 ))}
             </Carousel>
-        </StyledSliderContainer>
+        </div>
     )
 }
 

@@ -2,17 +2,16 @@ import React, { useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import IUser from 'src/interfaces/user'
 import Layout from 'src/components/Layout/Layout'
-import styles from '../../styles/account.module.css'
+import styles from 'src/styles/pages/account.module.scss'
 import { connect } from 'react-redux'
-import Input from 'src/components/ui-kits/Input/Input'
+import { Input } from 'src/components/ui-kits/Input'
 import { Button } from 'src/components/ui-kits/Button'
 import Router from 'next/router';
 import api from 'controllers/baseApi'
 import endpoint from 'src/utils/endpoints'
 import storageActions from 'controllers/redux/actions/storageActions'
-import IconButton from 'src/components/ui-kits/IconButton/IconButton'
-import { Icon } from 'src/components/ui-kits/Icon'
-
+import { IconButton } from 'src/components/ui-kits/IconButton'
+import { Icon } from 'src/components/ui-kits/Icon';
 interface AccountProps {
   userInfo: IUser;
   getUserInfo: (info: IUser) => void;
@@ -31,6 +30,8 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
   const [newPassword, setNewPassword] = useState("")
   
   const handleUpdateInfo = () => {
+    const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
+
     const updatedInfo = {
       id: userInfo.id,
       account,
@@ -41,11 +42,13 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
       isActive: userInfo.isActive
     }
 
-    api.put(endpoint['user'], {
+
+    token && api.put(endpoint['user'], {
       ...updatedInfo
-    }, true)
-    getUserInfo(updatedInfo);
-    Router.back();
+    }).then((res: any) => {
+      getUserInfo(updatedInfo);
+      Router.back();
+    }).catch((err) => console.error(err))
   }
 
   const handleCancelUpdate = () => {
@@ -66,7 +69,7 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
         phone,
         address,
         isActive: userInfo.isActive
-      }, true).then((res) => {
+      }).then((res) => {
         setShowExpandal(false);
         showToast("Update password success");
         setNewPassword("")
@@ -81,65 +84,64 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
   return (
     <>
       <Layout>
-        <div className={styles.container}>
-          <p className={styles.title}>User Info</p>
-          <Input type="text" labelName="Account" value={account} handleChange={(e) => setAccount(e.target.value)} />
-          <div className={styles.changePass}>
-            <Input type="password" labelName="Password" value={password} handleChange={(e) => setPassword(e.target.value)} />
-            <IconButton 
-              img={`/images/icons/caret-arrow-${showExpandal ? 'up' : 'down'}.png`} 
-              height="15px"
-              width="15px" 
-              handleClick={() => openExpandal(showExpandal)} />
+        <div className={styles['account-paper']}>
+          <div className={styles['account-container']}>
+            <p className={styles['account-container__title']}>User Info</p>
+            <Input type="text" labelName="Account" value={account} handleChange={(e) => setAccount(e.target.value)} />
+            <div className={styles['account-container__pass']}>
+              <Input type="password" labelName="Password" value={password} handleChange={(e) => setPassword(e.target.value)} />
+              <IconButton 
+                img={`/images/icons/caret-arrow-${showExpandal ? 'up' : 'down'}.png`} 
+                height="15px"
+                width="15px" 
+                handleClick={() => openExpandal(showExpandal)} />
+            </div>
+
+            { showExpandal && 
+              <div className={styles['account-container__updatePass']}>
+                <Input 
+                  type="password" 
+                  labelName="Old Password" 
+                  value={oldPassword} 
+                  handleChange={(e) => setOldPassword(e.target.value)} 
+                />
+                <Input 
+                  type="password" 
+                  labelName="Confirm Password" 
+                  value={confirmPassword} 
+                  handleChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                {/* <Icon img="/images/icons/checked.png" width="10px" height="10px" /> */}
+                <Input 
+                  type="password" 
+                  labelName="New Password" 
+                  value={newPassword} 
+                  handleChange={(e) => setNewPassword(e.target.value)}
+                />
+                <div className={styles['account-container__updatePass--btn']}>
+                  <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => confirmNewPassword()}>
+                      Confirm
+                  </Button>
+                  <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => cancelNewPassword()}>
+                      Cancel
+                  </Button>
+                </div>
+              </div>
+            }
+
+            <Input type="text" labelName="Full Name" value={fullName} handleChange={(e) => setFullName(e.target.value)} />
+            <Input type="text" labelName="Phone Number" value={phone} handleChange={(e) => setPhone(e.target.value)} />
+            <Input type="text" labelName="Address" value={address} handleChange={(e) => setAddress(e.target.value)} />
           </div>
 
-          { showExpandal && 
-            <div className={styles.updatePassword}>
-              {/* <Input 
-                type="password" 
-                labelName="Old Password" 
-                value={oldPassword} 
-                handleChange={(e) => setOldPassword(e.target.value)} 
-                customStyle="padding: 0.2rem; font-size: 0.8rem"
-              />
-              <Input 
-                type="password" 
-                labelName="Confirm Password" 
-                value={confirmPassword} 
-                handleChange={(e) => setConfirmPassword(e.target.value)}
-                customStyle="padding: 0.2rem; font-size: 0.8rem"
-              />
-              <Icon img="/images/icons/checked.png" width="10px" height="10px" /> */}
-              <Input 
-                type="password" 
-                labelName="New Password" 
-                value={newPassword} 
-                handleChange={(e) => setNewPassword(e.target.value)}
-                customStyle="padding: 0.2rem; font-size: 0.8rem"
-              />
-               <div className={styles.updatePasswordBtns}>
-                <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => confirmNewPassword()}>
-                    Confirm new password
-                </Button>
-                <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => cancelNewPassword()}>
-                    Cancel
-                </Button>
-               </div>
-            </div>
-          }
-
-          <Input type="text" labelName="Full Name" value={fullName} handleChange={(e) => setFullName(e.target.value)} />
-          <Input type="text" labelName="Phone Number" value={phone} handleChange={(e) => setPhone(e.target.value)} />
-          <Input type="text" labelName="Address" value={address} handleChange={(e) => setAddress(e.target.value)} />
-        </div>
-
-        <div className={styles.buttons}>
-          <Button height="4rem" width="8rem" handleClick={() => handleUpdateInfo()}>
-            Update
-          </Button>
-          <Button height="4rem" width="8rem" handleClick={() => handleCancelUpdate()}>
-            Cancel
-          </Button>
+          <div className={styles['account-container__btn']}>
+            <Button height="4rem" width="8rem" handleClick={() => handleUpdateInfo()}>
+              Update
+            </Button>
+            <Button height="4rem" width="8rem" handleClick={() => handleCancelUpdate()}>
+              Cancel
+            </Button>
+          </div>
         </div>
       </Layout>
     </>

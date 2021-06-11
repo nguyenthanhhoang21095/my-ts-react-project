@@ -1,11 +1,6 @@
 import React from 'react'
-import { 
-    StyledBanner,
-    SliderContain,
-    StyledVoucher,
-    StyledVoucherImg,
-} from './Banner.styled'
 import { Slider } from 'src/components/ui-kits/Slider'
+import styles from './Banner.module.scss'
 
 interface BannerProps {
 
@@ -17,14 +12,14 @@ const Banner: React.FC<BannerProps> = () => {
         "/images/banner/banner-2.jpg",
       ]
     return (
-        <StyledBanner>
-          <SliderContain>
-            <Slider imagesArr={bannerData} sliderWidth="100%" sliderHeight="500px" />
-          </SliderContain>
-          <StyledVoucher>
-            <StyledVoucherImg src="/images/banner/discount-voucher.jpg" width="100%" height="100%" />
-          </StyledVoucher>
-        </StyledBanner>
+        <div className={styles['banner']}>
+          <div className={styles['slider-container']}>
+            <Slider imagesArr={bannerData} />
+          </div>
+          <div className={styles['voucher-container']}>
+            <img className={styles['voucher-container__image']} src="/images/banner/discount-voucher.jpg" width="100%" height="100%" />
+          </div>
+        </div>
     )
 }
 

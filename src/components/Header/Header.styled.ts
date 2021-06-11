@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
 export const StyledHeader = styled.div`
-  background: #000;
+  background: rgba(0, 0, 0, 0.5);
   color: #fff;
   contain: layout;
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 60px;
   padding: 0 8rem 0 6.5rem;
   position: sticky;
@@ -39,9 +39,9 @@ export const StyleHeaderList = styled.div`
 `
 
 export const StyledHeaderMenu = styled.div`
+  list-style: none;
   display: flex;
   align-items: center;
-  list-style: none;
   justify-content: space-between;
 `
 
@@ -55,7 +55,6 @@ export const StyledHeaderMenuItem = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
-  font-size: 1.15rem;
   position: relative;
 
   ${props => props.styleItem}
@@ -70,10 +69,12 @@ export const StyledHeaderCart = styled.div`
 `
 
 export const StyledCartNumber = styled.div`
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: normal;
   position: absolute;
-  top: -10px;
+  top: -6px;
   right: -15px;
   box-sizing: border-box;
   padding: 0;
@@ -84,6 +85,5 @@ export const StyledCartNumber = styled.div`
   background: #3498db;
   border-radius: 50%;
   color: #fff;
-  font-size: .7rem;
 `
 

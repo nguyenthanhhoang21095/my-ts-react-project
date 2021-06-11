@@ -1,67 +1,88 @@
 import styled from 'styled-components'
 
-export const StyledInputContainer = styled.div`
-  padding: 2rem;
+export const StyledInputContainer = styled.span`
   position: relative;
-  width: fit-content;
-  display: block;
-  font-size: 1.2rem;
-
-  ${props => props.customStyle}
+  display: inline-block;
+  margin: 10px;
+  box-sizing: border-box;
 `
 
 export const StyledInput = styled.input`
-  padding: 10px 10px 10px 5px;
-  width: 280px;
-  border: 1px solid;
-  border-color: transparent transparent gray;
-  background-color: transparent;
-  &:focus {
-    color: rgb(148, 98, 255);
-    top: -1%;
-    transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    outline: none;
+  position: relative;
+  display: inline-block;
+  min-width: 250px;
+  padding: 10px 0 10px 15px;
+  font-family: "Open Sans", sans;
+  font-weight: 400;
+  color: #000;
+  background: #efefef;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  transition: all 0.3s ease-in-out;
+  ${props => props.textIndent}
+
+  &::-webkit-input-placeholder {
+      color: #efefef;
+      text-indent: 0;
+      font-weight: 300;
+  }
+
+  &:focus, &:active {
+    color: #ffaf40;
+    text-indent: 0;
+    background: #fff;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    &::-webkit-input-placeholder {
+        color: #aaa;
+    }
+    + label {
+      color: #fff;
+      text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);
+      transform: translateX(-100%);
+
+      &:after {
+          transform: translate(100%);
+      }
+    }
   }
 `
 
-export const StyledLabel = styled.span`
-  position: relative;
-  margin-right: 1rem; 
-  color: rgb(165, 165, 165);
-  z-index: -1;
-  pointer-events: none;
-  transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-`
-
-export const StyledBar = styled.div`
-  width: 100%;
-  height: 2px;
+export const StyledLabel = styled.label`
+  display: inline-block;
   position: absolute;
-  background-color: rgb(148, 98, 255);
-  top: calc(100% - 2px);
+  transform: translateX(0);
+  white-space: nowrap;
+  box-sizing: border-box;
+  top: 0;
   left: 0;
-  transform: scaleX(0);
-  -webkit-transform: scaleX(0);
-  -moz-transform: scaleX(0);
-  -ms-transform: scaleX(0);
-  -o-transform: scaleX(0);
-`
+  bottom: 0;
+  padding: 13px 15px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+  text-align: left;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease-in-out, color 0.3s ease-out;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  overflow: hidden;
 
-export const StyledHighLight = styled.div`
-  width: 100%;
-  height: 85%;
-  position: absolute;
-  background-color: rgba(148, 98, 255, 0.2);
-  top: 15%;
-  left: 0;
-  visibility: hidden;
-  z-index: -1;
+  &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 100%;
+      bottom: 0;
+      width: 100%;
+      background: rgba(255, 175, 64, 0.8);
+      z-index: -1;
+      transform: translate(0);
+      transition: all 0.3s ease-in-out;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+  }
 `

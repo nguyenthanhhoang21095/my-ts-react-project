@@ -12,7 +12,6 @@ export const StyledButton = styled.button`
   vertical-align: middle;
   user-select: none;
   border: none;
-  padding: 0.45rem 0.55rem;
   font-size: 1rem;
   line-height: 1.5;
   z-index: 1;
@@ -54,7 +53,6 @@ export const StyledButton = styled.button`
       transition: all 0.3s ease;
     }`
   }
-  
 
   &:hover:after {
     height: 100%;

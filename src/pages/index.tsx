@@ -10,25 +10,9 @@ import endpoint from "../utils/endpoints";
 import ProductList from "../components/Product/ProductList";
 import Toast from "../components/ui-kits/Toast/Toast"
 import { useRouter } from 'next/router'
+import styles from '../styles/pages/home.module.scss'
 
 export const HomeContainer = styled.div``
-
-export const StyledProductList = styled.div`
-  display: grid;
-  justify-content: center;
-  position: relative;
-  grid-template-columns: repeat(4, minmax(0, 4fr));
-  grid-gap: 50px;
-  width: 100%;
-`
-
-export const StyledHomeBody = styled.div`
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -64,11 +48,11 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout isHomeRoute={Router.pathname == "/" || Router.pathname == "/home" ? true : false}>
-        <StyledHomeBody>
-          <StyledProductList>
+        <div className={styles['home-body']}>
+          <div className={styles['products-container']}>
            <ProductList products={products}/>
-          </StyledProductList>
-        </StyledHomeBody>
+          </div>
+        </div>
       </Layout>
       {/* Toast */}
       <Toast />

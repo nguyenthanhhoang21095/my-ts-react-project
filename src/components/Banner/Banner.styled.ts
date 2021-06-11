@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const StyledBanner = styled.div`
-  display:flex; 
-  flexirection: column; 
+  display: flex; 
 `
 export const SliderContain = styled.div`
   display :flex; 

@@ -13,21 +13,31 @@ export default function createReducer(initialState, handlers) {
 export const checkLocalStoreToRedux = (storeRedux, keyStoreNew, action, initData) => {
   return new Promise((resolve, reject) => {
     try {
-      const data = getDataLocal(keyStoreNew)
+      console.log('run herreee');
+      let data = getDataLocal(keyStoreNew)
       if (data) {
         data !== initData && storeRedux.dispatch(action(data))
       }
-      resolve()
+      resolve(data)
     } catch (error) {
-      return resolve()
+      reject(error)
     }
   })
 }
 
 export const saveDataLocal = (key, data) => {
-  localStorage && localStorage.setItem(key, JSON.stringify(data))
+  localStorage && key &&  data && localStorage.setItem(key, JSON.stringify(data));
+  return;
 }
 
 export const getDataLocal = key => {
-  return localStorage ? JSON.parse(localStorage.getItem(key)) : null
+  if (localStorage && key) {
+    JSON.parse(localStorage.getItem(key))
+    return;
+  }
+}
+
+export const clearDataLocal = key => {
+  localStorage && key && localStorage.removeItem(key);
+  return ;
 }

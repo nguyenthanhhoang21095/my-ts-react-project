@@ -1,4 +1,5 @@
 const configParams = require(`./config/${process.env.NODE_ENV}.json`);
+const path = require('path');
 
 module.exports = {
   env: {
@@ -7,5 +8,4 @@ module.exports = {
   webpack(config, options) {
     return config
   },
-  distDir: 'build',
 }

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import IUser from '../interfaces/user'
-import Layout from '../components/Layout/Layout'
-import styles from '../styles/cart.module.css'
-import { formatCurrency } from "../utils/common";
-import QuantityButton from "../components/ui-kits/Button/QuantityButton";
-import { Button } from "../components/ui-kits/Button"
-import { GetStaticProps, GetStaticPaths } from 'next'
+import IUser from 'src/interfaces/user'
+import Layout from 'src/components/Layout/Layout'
+import styles from 'src/styles/pages/cart.module.scss'
+import { formatCurrency } from "src/utils/common";
+import QuantityButton from "src/components/ui-kits/Button/QuantityButton";
+// import { Button } from "src/components/ui-kits/Button"
+import { GetStaticProps } from 'next'
 import endpoint from 'src/utils/endpoints'
 import api from 'controllers/baseApi'
-import { getDataLocal } from 'controllers/redux/lib/reducerConfig'
-import Image from 'src/components/ui-kits/CustomImage/CustomImage'
+import { Image } from 'src/components/ui-kits/CustomImage'
 
 interface CartProps {
   userInfo: IUser;
@@ -18,25 +17,30 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element => {
-  const [cartData, setCartData] = useState([])
+  console.log('cart',cart);
+  
+  const [cartData, setCartData] = useState([]);
+  
   useEffect(() => {
-    api.get(`${endpoint['cart']}/${userInfo.id}`, true)
-    .then((res) => {
-      if (res?.cart) {
-        setCartData(res.cart)
-      }
-    })
-  }, [cart])
-  console.log(cartData);
+    // const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
+    // if (userInfo && token) {
+    //   api.get(`${endpoint['cart']}/${userInfo.id}`, token)
+    //   .then((res) => {
+    //     if (res?.cart) {
+    //       setCartData(res?.cart)
+    //     }
+    //   })
+    // }
+  }, [])
   
   return (
     <>
       <Layout>
         <p className={styles.title}>Giỏ hàng</p>
         <div className={styles.container}>
-          {cartData.length ? (
+          { cart.length ? (
             <div className={styles.cartContainer}>
-              {cartData.map((item, idx) => (
+              { cart.map((item, idx) => (
                 <div key={item.id + idx} className={styles.itemLabel}>
                   <div className={styles.itemContent}>
                     <Image src={item.image} width="80px" height="80px" />
@@ -66,13 +70,6 @@ const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element 
   )
 }
 
-export const getStaticPaths:GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
-}
-
 export const getStaticProps: GetStaticProps = async() => {
   return {
     props: {}
@@ -84,4 +81,4 @@ const mapStateToProps = (state) => ({
   userInfo: state.storage.userInfo,
 })
 
-export default connect(mapStateToProps)(Cart)
+export default connect(mapStateToProps, {})(Cart)

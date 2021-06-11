@@ -4,6 +4,7 @@ export const StyledLink = styled.a`
     text-decoration: none;
     color: #fff;
     cursor: pointer;
+
     ${props => props.customStyle};
 
     &:hover {

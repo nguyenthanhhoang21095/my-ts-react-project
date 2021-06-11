@@ -1,17 +1,19 @@
+@use '../layout.scss';
+
 .title {
-  padding-bottom: .5rem;
+  padding-bottom: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include layout.flex-center;
   width: 100%;
 }
 
-.table, .table-head, .table-data {
+.table,
+.table-head,
+.table-data {
   border: 1px solid black;
   padding: 1rem;
 }
@@ -20,12 +22,13 @@
   border-collapse: collapse;
 }
 
-.table-head, .table-data {
-    text-align: left;
+.table-head,
+.table-data {
+  text-align: left;
 }
 
 .table-head {
-    background-color: #ffaf40;
+  background-color: #ffaf40;
 }
 
 .cartContainer {
@@ -40,11 +43,8 @@
   padding: 1rem;
   background: #fff;
   margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include layout.flex-between;
   width: 100%;
-
 }
 
 .itemInfo {
@@ -56,7 +56,8 @@
   text-overflow: ellipsis;
 }
 
-.itemContent, .itemQuantity {
+.itemContent,
+.itemQuantity {
   display: flex;
   align-items: center;
   justify-content: start;

@@ -1,0 +1,72 @@
+@use '../../styles/layout.scss';
+@use '../../styles/responsive.scss';
+
+.banner {
+  @include layout.flex-row;
+  height: fit-content; 
+
+  // @include responsive.super-desktop {
+  //   height: 600px;
+  // }
+  // @include responsive.desktop {
+  //   height: 400px;
+  // }
+  @include responsive.mobile {
+    @include layout.flex-column;
+  }
+  @include responsive.small-tablet {
+    @include layout.flex-column;
+  }
+  @include responsive.medium-tablet {
+    height: 300px;
+  }
+}
+
+.slider-container {
+  @include layout.flex-column;
+  @include responsive.super-desktop {
+    width: 65%;
+    height: 600px;
+  }
+  @include responsive.desktop {
+    width: 55%;
+    height: 500px;
+  }
+  @include responsive.medium-tablet {
+    width: 50%;
+  }
+  @include responsive.mobile {
+    width: 100%;
+  }
+  @include responsive.small-tablet {
+    width: 100%;
+  }
+}
+
+.voucher-container {
+    flex-grow: 1;
+
+    @include responsive.super-desktop {
+      width: 35%;
+      height: 600px;
+    }
+    @include responsive.desktop {
+      width: 45%;
+      height: 500px;
+    }
+    @include responsive.medium-tablet {
+      width: 50%;
+      height: 300px;
+    }
+    @include responsive.mobile {
+      width: 100%;
+    }
+    @include responsive.small-tablet {
+      width: 100%;
+    }
+ 
+
+    &__image {
+
+    }
+}

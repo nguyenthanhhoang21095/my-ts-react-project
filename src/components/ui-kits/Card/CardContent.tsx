@@ -1,48 +1,41 @@
-import React, { useState } from 'react'
-import { StyledCardContent, 
-    StyledCardButtonGroup, 
-    StyledCardPrice, 
-    StyledCardFinalPrice, 
-    StyledCardOriginPrice, 
-    StyleCardRating, 
-    StyledCardItem,
-} from './CardContent.styled'
+import React from 'react'
 import { formatCurrency } from "src/utils/common";
 import CustomRating from '../Rating/Rating';
+import styles from './Card.module.scss'
 
 interface CardContentProps {
     finalPrice: number,
-    price: number,
-    rating: number,
-    buttonGroups: any,
-    inStock: boolean,
+    price?: number,
+    rating?: number,
+    buttonGroups?: any,
+    inStock?: boolean,
 }
   
-  const CardContent: React.FC<CardContentProps> = ({ finalPrice, price, rating, buttonGroups, inStock }):JSX.Element => {
+const CardContent: React.FC<CardContentProps> = ({ finalPrice, price, rating, buttonGroups, inStock }):JSX.Element => {
     return (
-        <StyledCardContent>
-            <StyledCardItem customStyle="padding-top: 0">
-                <StyledCardPrice>
+        <div className={styles['card-content']}>
+            <div className={styles['card-content__item']}>
+                <div className={styles['card-content__item--price']}>
                     { price !== finalPrice &&
-                        <StyledCardOriginPrice>{formatCurrency(price)}</StyledCardOriginPrice>
+                        <div className={styles['card-old-price']}>{formatCurrency(price)}</div>
                     }
-                    <StyledCardFinalPrice>{formatCurrency(finalPrice)}</StyledCardFinalPrice>
-                </StyledCardPrice>
-            </StyledCardItem>
-            <StyledCardItem customStyle="color: #d3d3d3; font-weight: normal">
+                    <div className={styles['card-new-price']}>{formatCurrency(finalPrice)}</div>
+                </div>
+            </div>
+            <div className={styles['card-content__item']}>
                 Status: {inStock ? "still in stock" : "out of stock"}
-            </StyledCardItem>
-            <StyledCardItem>
-                <StyleCardRating>
+            </div>
+            <div className={styles['card-content__item']}>
+                <div className={styles['card-content__item--rating']}>
                     <CustomRating ratingVal={rating} />
-                </StyleCardRating>
-            </StyledCardItem>
-            <StyledCardItem>
-                {buttonGroups && <StyledCardButtonGroup>{buttonGroups}</StyledCardButtonGroup>}
-            </StyledCardItem>
-        </StyledCardContent>
+                </div>
+            </div>
+            <div className={styles['card-content__item']}>
+                {buttonGroups && <div className={styles['card-content__item--btn']}>{buttonGroups}</div>}
+            </div>
+        </div>
     )
-  }
-  
-  export default CardContent;
+}
+
+export default CardContent;
   

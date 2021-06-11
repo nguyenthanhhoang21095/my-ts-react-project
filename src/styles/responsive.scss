@@ -1,0 +1,33 @@
+
+/* Mixin */
+/* Set các giá trị với màn hình tương ứng */
+$xs-width: 480px; 
+$sm-width: 768px; 
+$md-width: 991px; 
+$lg-width: 1024px;
+$xl-width: 1450px;
+
+@mixin mobile { @media (max-width: $xs-width) {     
+  @content;   
+ } 
+}  
+
+
+@mixin small-tablet { @media (min-width: $xs-width) and (max-width: $sm-width) {       
+   @content;   
+ } 
+}  
+
+@mixin medium-tablet { @media (min-width: $sm-width) and (max-width: $lg-width) {     
+  @content;  
+ } 
+}
+
+@mixin desktop { @media (min-width: $lg-width) {     
+  @content;  
+ } 
+}
+@mixin super-desktop { @media (min-width: $xl-width) {     
+  @content;  
+ } 
+}

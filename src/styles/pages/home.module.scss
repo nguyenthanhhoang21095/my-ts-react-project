@@ -1,0 +1,32 @@
+@use '../layout.scss';
+@use '../responsive.scss';
+
+.products-container {
+    display: grid;
+    justify-content: center;
+    position: relative;
+    grid-gap: 50px;
+    width: 100%;
+    
+    @include responsive.mobile {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @include responsive.small-tablet {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @include responsive.medium-tablet {
+        grid-template-columns: repeat(2, minmax(0, 2fr));
+    }
+    @include responsive.desktop {
+        grid-template-columns: repeat(3, minmax(0, 3fr));
+    }
+    @include responsive.super-desktop {
+        grid-template-columns: repeat(5, minmax(0, 5fr));
+    }
+}
+
+.home-body {
+    margin-top: 40px;
+    @include layout.flex-center;
+    @include layout.flex-column;
+}

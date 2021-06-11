@@ -9,6 +9,7 @@ import {
 import IUser from 'src/interfaces/user';
 import { Button } from 'src/components/ui-kits/Button'
 import Router from 'next/router';
+import { clearLocalStorage } from 'src/utils/common'
 
 interface UserModalProps {
   isHoverDialog?: boolean;
@@ -18,6 +19,12 @@ interface UserModalProps {
 }
 
 const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = () => {}, handleHoverOut = () => {} }):JSX.Element => {
+
+    const handleClearUser = () => {
+        clearLocalStorage()
+        Router.push('/auth/login');
+    }
+
     return (
       <StyledUserDialogContainer
         onMouseEnter={(e) => handleHoverIn(e)} 
@@ -32,7 +39,7 @@ const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = 
                             handleClick={() => Router.push(`/account/${userInfo.id}`)}
                             outLine="none"
                         >
-                            Info
+                            My Info
                         </Button>
                         <StyledDivider />
                         {/* <Button 
@@ -43,7 +50,7 @@ const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = 
                         </Button> */}
                         <StyledDivider />
                         <Button 
-                            handleClick={() => Router.push('/auth/login')}
+                            handleClick={() => handleClearUser()}
                             outLine="none"
                         >   
                             Sign out

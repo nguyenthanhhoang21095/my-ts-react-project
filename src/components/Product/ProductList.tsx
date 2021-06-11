@@ -2,27 +2,38 @@ import React from 'react'
 import Card from '../ui-kits/Card/Card'
 import CardContent from '../ui-kits/Card/CardContent'
 import Button from '../ui-kits/Button/Button'
-import IconButton from '../ui-kits/IconButton/IconButton'
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import storageActions from 'controllers/redux/actions/storageActions';
 import api from 'controllers/baseApi'
 import endpoint from 'src/utils/endpoints'
+import IProduct from 'src/interfaces/product';
+import IUser from 'src/interfaces/user';
 
-const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.Element => {
+interface ProductListProps {
+  products: IProduct[];
+  userInfo: IUser;
+  getCart: any;
+  showToast: any;
+}
+const ProductList:React.FC<ProductListProps> = ({products=[], getCart, showToast, userInfo = null}):JSX.Element => {
   const handleAddToCart = (data: Record<string, any>): void => {
+    const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
     if (!userInfo) { 
       Router.push("/auth/login");
       return;
     }
     
-    if (userInfo && data) {
+    if (userInfo && data && token) {
       api.put(`${endpoint['cart']}`, {
         id: userInfo.id,
         product: data,
-      }, true).then(res => {
-        showToast("Đã thêm vào giỏ hàng");
-        addToCart(data);
+        action: "increase"
+      }, token).then(res => {
+        if (res) {
+          getCart(res.cart);
+          showToast("Đã thêm vào giỏ hàng");
+        }
       })
     }
   }
@@ -30,8 +41,8 @@ const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.E
   return (
     <>
       {products.length &&
-        products.map((data) => (
-          <Card key={data.id} imageURL={data.image} productName={data.name}>
+        products.map((data, idx) => (
+          <Card key={idx} imageURL={data.image} productName={data.name}>
             <CardContent
               {...data}
               buttonGroups={
@@ -39,12 +50,13 @@ const ProductList = ({products=[], addToCart, showToast, userInfo = null}):JSX.E
                   <Button width="fit-content" handleClick={() => handleAddToCart(data)}>
                     Add to cart
                   </Button>
-                  <IconButton
-                    img="/images/icons/view.png"
-                    width="25px"
-                    height="25px"
+                  <Button
+                    width="fit-content"
+                    outLine="none"
                     handleClick={() => Router.push(`/detail/${data.id}`)}
-                  />
+                  >
+                    View
+                  </Button>
                 </>
               }
             />
@@ -62,7 +74,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  addToCart: storageActions.addToCart,
+  getCart: storageActions.getCart,
   showToast: storageActions.showToast,
 }
 

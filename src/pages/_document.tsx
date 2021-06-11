@@ -2,26 +2,6 @@ import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-const globalStyles = `
-* {
-  position: relative;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  height: 100%;
-  width: 100%;
-  background: #f1f2f6;
-  font-family: Lobster, cursive;
-}
-
-*:focus {
-  outline: 0 !important;
-}
-`
-
 class MyDocument extends Document {
   static async getInitialProps(ctx: any): Promise<any> {
     const sheet = new ServerStyleSheet()
@@ -59,7 +39,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
 
-          <style type="text/css">{globalStyles}</style>
+          {/* <style type="text/css">{globalStyles}</style> */}
         </Head>
         <body>
           <Main />

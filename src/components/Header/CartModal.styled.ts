@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 export const StyledDialogContainer = styled.div`
   position: absolute;
-  top: 22px;
+  top: 25px;
   bottom: 0;
   right: 0;
-  left: -114px;
+  left: -112px;
   margin: 0 auto;
   padding-top: 12px;
   box-sizing: border-box;
