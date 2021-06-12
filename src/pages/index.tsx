@@ -8,7 +8,7 @@ import { GET_PRODUCTS } from '../graphql/product/product.query'
 import api from "../../controllers/baseApi";
 import endpoint from "../utils/endpoints";
 import ProductList from "../components/Product/ProductList";
-import Toast from "../components/ui-kits/Toast/Toast"
+import { Toast } from "../components/ui-kits/Toast"
 import { useRouter } from 'next/router'
 import styles from '../styles/pages/home.module.scss'
 

@@ -6,7 +6,7 @@ import endpoint from 'src/utils/endpoints'
 import storageActions from 'controllers/redux/actions/storageActions'
 import { connect } from 'react-redux'
 import { saveDataLocal } from 'controllers/redux/lib/reducerConfig';
-import Toast from 'src/components/ui-kits/Toast/Toast'
+import { Toast } from 'src/components/ui-kits/Toast'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Button } from 'src/components/ui-kits/Button'

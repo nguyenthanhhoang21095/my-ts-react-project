@@ -11,7 +11,7 @@ import api from 'controllers/baseApi'
 import endpoint from 'src/utils/endpoints'
 import storageActions from 'controllers/redux/actions/storageActions'
 import { IconButton } from 'src/components/ui-kits/IconButton'
-import { Icon } from 'src/components/ui-kits/Icon';
+import { Toast  } from 'src/components/ui-kits/Toast'
 interface AccountProps {
   userInfo: IUser;
   getUserInfo: (info: IUser) => void;
@@ -42,7 +42,6 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
       isActive: userInfo.isActive
     }
 
-
     token && api.put(endpoint['user'], {
       ...updatedInfo
     }).then((res: any) => {
@@ -60,26 +59,46 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
   }
 
   const confirmNewPassword = () => {
+    console.log(oldPassword, confirmPassword, newPassword);
+    
+    if (oldPassword !== confirmPassword && (oldPassword === newPassword || confirmPassword === newPassword) 
+      || oldPassword !== password || !newPassword) {
+      showToast("Update password FAIL");
+      return;
+    }
+
     if (newPassword) {
-      api.put(`${endpoint['user']}`, {
-        id: userInfo.id,
-        account,
-        password: newPassword,
-        fullName,
-        phone,
-        address,
-        isActive: userInfo.isActive
-      }).then((res) => {
-        setShowExpandal(false);
-        showToast("Update password success");
-        setNewPassword("")
-      })
+      const token:string = JSON.parse(localStorage.getItem("access_token"));
+      if (token) {
+        const updatedPasswordInfo = {
+          id: userInfo.id,
+          account,
+          password: newPassword,
+          fullName,
+          phone,
+          address,
+          isActive: userInfo.isActive
+        }
+        api.put(`${endpoint['user']}`, {
+          updatedPasswordInfo
+        }, token).then((res) => {
+          getUserInfo(updatedPasswordInfo);
+          setShowExpandal(false);
+          setNewPassword("");
+          setConfirmPassword("");
+          setOldPassword("");
+          Router.back();
+          setTimeout(() => {
+            showToast("Update password SUCCESS");
+          }, 300)
+        }).catch((err) => console.error(err))
+      }
     }
   }
 
   const cancelNewPassword = () => {
     setShowExpandal(false);
-    setNewPassword("")
+    setNewPassword("");
   }
   return (
     <>
@@ -123,7 +142,7 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
                       Confirm
                   </Button>
                   <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => cancelNewPassword()}>
-                      Cancel
+                      Ignore
                   </Button>
                 </div>
               </div>
@@ -144,6 +163,8 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
           </div>
         </div>
       </Layout>
+
+      <Toast />
     </>
   )
 }
