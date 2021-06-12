@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import IUser from 'src/interfaces/user'
 import Layout from 'src/components/Layout/Layout'
@@ -18,7 +18,7 @@ interface AccountProps {
   showToast: (mess:string) => void;
 }
 
-const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showToast }): JSX.Element => {
+const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToast }): JSX.Element => {
   const [account, setAccount] = useState(userInfo?.account ?? "")
   const [password, setPassword] = useState(userInfo?.password ?? "")
   const [fullName, setFullName] = useState(userInfo?.fullName ?? "")
@@ -28,6 +28,20 @@ const Account: React.FC<AccountProps> = ({  userInfo = null, getUserInfo, showTo
   const [oldPassword, setOldPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
+
+  useEffect(() => {
+    try {
+      if (userInfo) {
+        setAccount(userInfo?.account);
+        setPassword(userInfo?.password);
+        setFullName(userInfo?.fullName);
+        setPhone(userInfo?.phone);
+        setAddress(userInfo?.address);
+      };
+    } catch (error) {
+      console.error(error)
+    }
+  }, [userInfo])
   
   const handleUpdateInfo = () => {
     const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
