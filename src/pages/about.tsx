@@ -6,6 +6,8 @@ import { GetStaticProps } from 'next'
 import { Image } from 'src/components/ui-kits/CustomImage'
 import styles from '../styles/pages/about.module.scss'
 import classNames from 'classnames'
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import endpoint from "../utils/endpoints";
 
 interface AboutProps {
   userInfo: IUser;
@@ -73,6 +75,22 @@ const About: React.FC<AboutProps> = ({ userInfo = null }): JSX.Element => {
 }
 
 export const getStaticProps: GetStaticProps = async() => {
+  const client = new ApolloClient({
+    uri: "http://localhost:2021/api/graphql",
+    cache: new InMemoryCache(),
+  });
+  const { data } = await client.query({
+    query: gql`
+    query Product {
+      products {
+        name
+        price
+      }
+    }
+    `,
+  })
+  console.log('data', data);
+  
   return {
     props: {}
   }

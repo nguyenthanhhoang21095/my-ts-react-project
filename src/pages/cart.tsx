@@ -17,8 +17,6 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element => {
-  console.log('cart',cart);
-  
   const [cartData, setCartData] = useState([]);
   
   useEffect(() => {
@@ -31,16 +29,19 @@ const Cart: React.FC<CartProps> = ({ cart = [], userInfo = null }): JSX.Element 
     //     }
     //   })
     // }
-  }, [])
+    if (cart) {
+      setCartData(cart)
+    }
+  }, [cart])
   
   return (
     <>
       <Layout>
         <p className={styles.title}>Giỏ hàng</p>
         <div className={styles.container}>
-          { cart.length ? (
+          { cartData.length  ? (
             <div className={styles.cartContainer}>
-              { cart.map((item, idx) => (
+              {cartData.length && cartData.map((item, idx) => (
                 <div key={item.id + idx} className={styles.itemLabel}>
                   <div className={styles.itemContent}>
                     <Image src={item.image} width="80px" height="80px" />

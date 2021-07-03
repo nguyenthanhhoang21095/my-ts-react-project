@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { GET_PRODUCTS } from '../graphql/product/product.query'
 import api from "../../controllers/baseApi";
 import endpoint from "../utils/endpoints";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import ProductList from "../components/Product/ProductList";
 import { Toast } from "../components/ui-kits/Toast"
 import { useRouter } from 'next/router'
@@ -14,11 +15,10 @@ import styles from '../styles/pages/home.module.scss'
 
 export const HomeContainer = styled.div``
 
-function Home() {
+const Home = () => {
   const [products, setProducts] = useState([]);
   const Router = useRouter();
   
-  // if (error) return <h1>Error</h1>
   useEffect(() => {
     api.get(endpoint["product"])
     .then((res) => {
