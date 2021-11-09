@@ -68,7 +68,7 @@
 }
 
 .card-content {
-    align-items: start;
+    align-items: flex-start;
     @include layout.flex-column;
 
     &__item {

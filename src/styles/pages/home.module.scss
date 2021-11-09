@@ -1,5 +1,5 @@
-@use '../layout.scss';
-@use '../responsive.scss';
+@use "../layout.scss";
+@use "../responsive.scss";
 
 .products-container {
     display: grid;
@@ -7,14 +7,14 @@
     position: relative;
     grid-gap: 50px;
     width: 100%;
-    
+
     @include responsive.mobile {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
-    @include responsive.small-tablet {
+    @include responsive.multipleMedia(false, mobile) {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
-    @include responsive.medium-tablet {
+    @include responsive.tablet {
         grid-template-columns: repeat(2, minmax(0, 2fr));
     }
     @include responsive.desktop {
@@ -26,7 +26,7 @@
 }
 
 .home-body {
-    margin-top: 40px;
-    @include layout.flex-center;
-    @include layout.flex-column;
+    &__product {
+        @include layout.layout-padding;
+    }
 }

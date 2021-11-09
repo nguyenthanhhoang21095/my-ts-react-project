@@ -1,0 +1,8 @@
+@use "../../../styles/color.scss" as color;
+
+.link-text {
+    color: color.$black-000;
+    &:hover  {
+        color: color.$primary-color;
+    }
+}

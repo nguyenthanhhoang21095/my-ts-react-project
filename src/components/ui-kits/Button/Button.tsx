@@ -1,27 +1,48 @@
-import React from 'react'
-import { StyledButton } from './Button.styled'
-
+import React, { useState } from 'react'
+import styles from './Button.module.scss'
+import classNames from 'classnames'
 interface ButtonProps {
-  width?: string,
-  height?: string,
   children: any,
-  fontSize?:string,
-  outLine?:string,
-  customStyle?:string,
+  style?: any,
   handleClick?: (e?: React.MouseEvent<HTMLElement>) => void,
+  transitionWidth?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({children , handleClick = () => {}, width="100%", height="", fontSize="", outLine="contain", customStyle=""}: ButtonProps):JSX.Element => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  handleClick = () => { },
+  style = {},
+  transitionWidth = false
+}: ButtonProps): JSX.Element => {
+  const [isHoverBtn, setIsHoverBtn] = useState(false);
+  const isTransition = isHoverBtn && transitionWidth;
+
   return (
-    <StyledButton 
-      width={width} 
-      height={height} 
-      onClick={handleClick} 
-      customStyle={`font-size: ${fontSize}; ${customStyle}`}
-      outLine={outLine}
+    <button
+      onClick={handleClick}
+      onMouseEnter={() => {
+        if (transitionWidth) setIsHoverBtn(true)
+      }}
+      onMouseLeave={() => {
+        if (transitionWidth) setIsHoverBtn(false)
+      }}
+      style={{
+        ...style,
+        backgroundColor: transitionWidth ? "transparent" : "",
+        color: transitionWidth ? (isTransition ? "#fff" : "#000") : ""
+      }}
+      className={classNames(styles["button"])}
     >
-      {children}
-    </StyledButton>
+      {transitionWidth && <div
+        style={{
+          width: isHoverBtn ? "100%" : ""
+        }}
+        className={styles["overlay-button"]}></div>
+      }
+      <div className={styles["button__text"]}>
+        {children}
+      </div>
+    </button>
   )
 }
 

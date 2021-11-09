@@ -27,7 +27,7 @@
         @include responsive.desktop {
             height: 500px;
         }
-        @include responsive.medium-tablet {
+        @include responsive.tablet {
             height: 300px;
         }
     }

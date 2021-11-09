@@ -30,17 +30,8 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta charSet="utf-8" />
-
-          <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-            rel="stylesheet"
-          />
-
-          {/* <style type="text/css">{globalStyles}</style> */}
-        </Head>
+        <Head />
+        <script src="https://kit.fontawesome.com/f1c4cd5286.js" crossOrigin="anonymous"></script>
         <body>
           <Main />
           <NextScript />

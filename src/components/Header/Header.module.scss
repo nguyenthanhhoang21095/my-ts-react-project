@@ -1,248 +1,75 @@
-@use '../../styles/layout.scss';
-@use '../../styles/color.scss';
-@use '../../styles/responsive.scss';
+@use "../../styles/layout.scss";
+@use "../../styles/color.scss";
+@use "../../styles/responsive.scss";
 
-.header-container {
-    color: #fff;
-    contain: layout;
-    height: 60px;
-    @include layout.flex-align-center;
-    @include responsive.desktop {
-        padding: 0 8rem 0 6.5rem;
-        font-size: 18px;
+.header {
+    @include responsive.multipleMedia(false, mobile) {
+        display: none;
     }
-    @include responsive.medium-tablet {
-        padding: 0 4rem 0 2.5rem;
-        font-size: 16px;
-    }
-    @include responsive.small-tablet {
-        padding: 0 4rem 0 2.5rem;
-        font-size: 16px;
-    }
-    @include responsive.mobile {
-        padding: 0 2rem 0 0.5rem;
-        font-size: 14px;
-    }
-    position: -webkit-sticky;
-    position: sticky;
+    position: absolute;
     top: 0;
-    background: rgba($color: #000000, $alpha: 0.85);
+    right: 0;
+    left: 0;
     width: 100%;
-    z-index: 250;
-    -ms-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -webkit-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+    z-index: 99;
+    height: 60px;
+    background-color: color.$white-fff;
 
-    &__logo {
-        width: fit-content;
-        display: inline-block;
+    .header-container {
+        padding: 0 15px;
         height: 100%;
+        z-index: 2;
 
-        &--image {
-            z-index: 99;
-            @include responsive.desktop {
-                width: 150px;
+        &__item {
+            display: flex;
+            align-items: center;
+
+            &:nth-child(2) {
+                justify-content: end;
             }
-            @include responsive.mobile {
-                width: 60px;
+
+            &:last-child {
+                justify-content: flex-end;
             }
-            @include responsive.small-tablet {
-                width: 120px;
+
+            &:first-child {
+                justify-self: flex-start;
             }
-        }
-    }
 
-    &__menu {
-        height: 100%;
-        width: 100%;
+            .header-category {
+                width: 100%;
+                text-align: center;
 
-        @include layout.flex-align-center;
-        @include layout.flex-between;
-        
-        @include responsive.desktop {
-            margin-left: 80px;
-        }
-        @include responsive.medium-tablet {
-            margin-left: 40px;
-        }
-        @include responsive.small-tablet {
-            margin-left: 0px;
-        }
-        @include responsive.mobile {
-            margin-left: 0px;
-        }
-
-        .header-nav {
-            width: 100%;
-            height: 100%;
-            @include layout.flex-align-center;
-            @include layout.flex-between;
-
-            &__section {
-                @include layout.flex-align-center;
-
-                &--item {
-                    @include layout.flex-align-center;
-                    @include layout.flex-center;
-                }
-
-                &--item-cart {
-                    padding-left: 40px;
-                }
-
-                &--nav-btn {
+                &__item {
+                    font-size: 13px;
+                    padding: 0;
                     @include responsive.desktop {
-                        display: none;
+                        font-size: 14px;
                     }
-                    
-                    @include responsive.medium-tablet {
-                        display: none;
+                    @include responsive.super-desktop {
+                        font-size: 16px;
                     }
+                    color: #000;
+                    font-weight: 600;
+                    white-space: nowrap;
                 }
-            }
-
-            &__grid {
-                @include responsive.desktop {
-                    @include layout.flex-align-center;
-                    @include layout.flex-between;
-                    width: 20%;
-                }
-                
-                @include responsive.medium-tablet {
-                    @include layout.flex-align-center;
-                    @include layout.flex-between;
-                    width: 50%;
-                }
-                @include responsive.small-tablet {
-                    display: grid;
-                    grid-template-columns: repeat(4, auto);
-                    width: 100%;
-                }
-
-                @include responsive.mobile {
-                    display: grid;
-                    grid-template-columns: repeat(4, auto);
-                    width: 100%;
-                }
-            }
-
-            &__hide {
-                @include responsive.desktop {
-                    @include layout.flex-align-center;
-                    justify-content: flex-end;
-                }
-                
-                @include responsive.medium-tablet {
-                    @include layout.flex-align-center;
-                    justify-content: flex-end;
-                }
-
-                @include responsive.small-tablet {
-                    display: none;
-                }
-
-                @include responsive.mobile {
-                    display: none;
-                }
-            }
-
-            &__feature {
-                flex-grow: 1;
             }
         }
     }
-}
 
-.header-sub-nav {
-    @include responsive.desktop {
-        display: none;
-    }
-    
-    @include responsive.medium-tablet {
-        display: none;
-    }
-    position: fixed;
-    @include layout.flex-column;
-    top: 60px;
-    background-color: #fff;
-    width: 100%;
-    z-index: 200;
-    @include layout.flex-align-center;
-    padding: 1rem 2.5rem;
-}
-
-.header-padding-item {
-    @include responsive.desktop {
-        padding: 0 40px;
-    }
-    
-    @include responsive.medium-tablet {
-        padding: 0 40px;
+    &__tape {
+        background-color: color.$primary-color;
+        height: 60rem;
+        @include responsive.multipleMedia(false, extra-large) {
+            height: 45rem;
+        }
+        @include responsive.multipleMedia(false, desktop) {
+            height: 40rem;
+        }
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 22vw;
+        z-index: 1;
     }
 }
-
-.paddingTopBot10 {
-    padding: 10px 0px;
-}
-// .anim-slide-in {
-//     -webkit-animation: slide-in-top 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-//     animation: slide-in-top 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-// }
-
-// .anim-slide-out {
-//     -webkit-animation: slide-out-top 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-//     animation: slide-out-top 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
-// }
-
-// @-webkit-keyframes slide-in-top {
-//     0% {
-//         -webkit-transform: translateY(-1000px);
-//         transform: translateY(-1000px);
-//         opacity: 0;
-//     }
-//     100% {
-//         -webkit-transform: translateY(0);
-//         transform: translateY(0);
-//         opacity: 1;
-//     }
-// }
-// @keyframes slide-in-top {
-//     0% {
-//         -webkit-transform: translateY(-1000px);
-//         transform: translateY(-1000px);
-//         opacity: 0;
-//     }
-//     100% {
-//         -webkit-transform: translateY(0);
-//         transform: translateY(0);
-//         opacity: 1;
-//     }
-// }
-
-// @-webkit-keyframes slide-out-top {
-//     0% {
-//         -webkit-transform: translateY(0);
-//         transform: translateY(0);
-//         opacity: 1;
-//     }
-//     100% {
-//         -webkit-transform: translateY(-1000px);
-//         transform: translateY(-1000px);
-//         opacity: 0;
-//     }
-// }
-// @keyframes slide-out-top {
-//     0% {
-//         -webkit-transform: translateY(0);
-//         transform: translateY(0);
-//         opacity: 1;
-//     }
-//     100% {
-//         -webkit-transform: translateY(-1000px);
-//         transform: translateY(-1000px);
-//         opacity: 0;
-//     }
-// }
-

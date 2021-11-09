@@ -6,10 +6,10 @@
   @include responsive.desktop {
     display: none;
   }
-  @include responsive.medium-tablet {
+  @include responsive.tablet {
     display: none;
   }
-  @include responsive.small-tablet {
+  @include responsive.multipleMedia(true, mobile) {
     display: block;
   }
   @include responsive.mobile {

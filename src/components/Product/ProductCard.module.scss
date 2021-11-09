@@ -1,0 +1,46 @@
+@use "../../styles/color.scss";
+@use "../../styles/layout.scss";
+
+.card-container {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    @include layout.flex-align-center;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+
+    .card-media {
+        margin-top: 30px;
+    }
+
+    .card-layout {
+        @include layout.flex-column;
+        width: 100%;
+        padding: 6px 25px 15px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        
+        .card-content {
+            padding-bottom: 15px;
+            
+            &__rate {
+                margin-bottom: 5px;
+            }
+            
+            &__name {
+                margin-bottom: 11px;
+            }
+
+            &__price {
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+        }
+
+        .card-action {
+           
+        }
+    }
+}

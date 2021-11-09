@@ -33,7 +33,7 @@
         width: 200px;
     }
 
-    @include responsive.small-tablet {
+    @include responsive.multipleMedia(true, mobile) {
         width: 300px;
     }
 

@@ -1,18 +1,18 @@
 import '../styles/global.scss';
 import '../styles/layout.scss';
 import '../styles/font.scss';
+import '../styles/animation.scss';
+import 'antd/dist/antd.css';
 import { Provider } from 'react-redux';
 import React from 'react'
-import { store, persistor } from 'controllers/redux/store/configureStore'
-import { PersistGate } from 'redux-persist/integration/react'
+import { store } from 'controllers/redux/store/configureStore'
+// import { PersistGate } from 'redux-persist/integration/react'
 // import storageActions from "controllers/redux/actions/storageActions";
 // import { checkLocalStoreToRedux } from 'controllers/redux/lib/reducerConfig';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 // import jwt_decode from "jwt-decode";
 // import api from 'controllers/baseApi';
 // import endpoint from 'src/utils/endpoints';
-
-const Loading = () => (<div>Loading...</div>)
 
 function MyApp({ Component, pageProps}):JSX.Element {
   // const [isLoading, setIsLoading] = useState(true)
@@ -52,9 +52,7 @@ function MyApp({ Component, pageProps}):JSX.Element {
   return (
     // isLoading  ? <Loading /> :
       <Provider store={store}>
-        <PersistGate loading={Loading} persistor={persistor}>
-            <Component {...pageProps} />
-        </PersistGate>
+        <Component {...pageProps} />
       </Provider>
   )
 }

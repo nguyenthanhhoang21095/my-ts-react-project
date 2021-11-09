@@ -63,10 +63,10 @@
         @include responsive.mobile {
             grid-template-columns: repeat(1, auto);
         }
-        @include responsive.small-tablet {
+        @include responsive.multipleMedia(true, mobile) {
             grid-template-columns: repeat(1, auto);
         }
-        @include responsive.medium-tablet {
+        @include responsive.tablet {
             grid-template-columns: repeat(2, auto);
         }
         @include responsive.desktop {

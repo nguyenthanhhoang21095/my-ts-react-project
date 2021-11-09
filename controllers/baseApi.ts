@@ -8,8 +8,7 @@ interface IBaseAPI {
     delete: (url: string, body: Record<string, any>, token?:string) => Promise<Record<string, any>>;
 }
 
-
-const handleCallApiWithOptions = (method = "GET", url = "",  token: string, body = {},):any => {
+const handleCallApiWithOptions = (method = "GET", url = "",  token = "", body = {},):any => {
   
   let options: any = {
     method,

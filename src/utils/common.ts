@@ -11,14 +11,37 @@ const sumPrice = (arr):number => {
     }, 0)
 }
 
-const clearLocalStorage = () => {
+const clearLocalStorage = ():void => {
     clearDataLocal("access_token");
     clearDataLocal("refresh_token");
     clearDataLocal("persist:root");
+}
+
+interface ImageDimension {
+    width: string;
+    height: string;
+}
+const getDimensionImageFromUrl = (url: string):ImageDimension => {
+    if (!url) {
+        return {
+            width: "0",
+            height: "0"
+        }
+    }
+
+    const regexDimension = /([0-9]+)(?:x)([0-9]+)/;
+    const arr = url.match(regexDimension)[0].split("x");
+    if (arr.length == 2) {
+        return {
+            width: arr[0],
+            height: arr[1]
+        }
+    }
 }
 
 export {
     formatCurrency,
     sumPrice,
     clearLocalStorage,
+    getDimensionImageFromUrl,
 }

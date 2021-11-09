@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
     StyledDialogContainer,
     StyledDialog,
@@ -62,7 +62,6 @@ const CartModal:React.FC<CartModalProps> = ({ cart = [], handleHoverIn = () => {
             </StyledDialogContent>
             <Button 
               handleClick={() => Router.push(`/cart`)}
-              customStyle="margin-top: 15px"
             >
               View Cart
             </Button>
