@@ -39,9 +39,23 @@ const getDimensionImageFromUrl = (url: string):ImageDimension => {
     }
 }
 
+const replaceDimensionImageFromUrl = (url: string, width: number, height: number):string  => {
+    if (!url) {
+        return "";
+    }
+
+    const regexDimension = /([0-9]+)(?:x)([0-9]+)/;
+    if (width == 0 ||  height == 0) {
+        return "";
+    }
+    const res:string = url.replace(regexDimension, `${width}x${height}`);
+    return res
+}
+
 export {
     formatCurrency,
     sumPrice,
     clearLocalStorage,
     getDimensionImageFromUrl,
+    replaceDimensionImageFromUrl
 }

@@ -33,7 +33,15 @@
             }
 
             &:first-child {
-                justify-self: flex-start;
+                justify-content: center;
+                height: 100%;
+            }
+
+            &--logo {
+                margin-top: 20px;
+                cursor: pointer;
+                // height: 100%;
+                // width: 40px;
             }
 
             .header-category {

@@ -4,6 +4,7 @@
 
 .layout-container {
     padding-top: 90px;
+    min-height: 100vh;
     height: 100%;
     @include responsive.multipleMedia(false, tablet) {
         z-index: 1;

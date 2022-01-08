@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'antd'
 import styles from './FeaturedProduct.module.scss';
 import { ProductCard } from '../Product'
@@ -55,6 +55,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                             className={styles["feature-product-container__item"]}
                         >
                             <ProductCard
+                                id={item.id}
                                 imageCover={item.image_cover}
                                 rate={item.rateStar}
                                 productName={item.name}
@@ -69,6 +70,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                 {thumbProducts.length && thumbProducts.map((item, idx) => (
                                     <ProductCard
                                         key={item.id}
+                                        id={item.id}
                                         imageCover={item.image_cover}
                                         rate={item.rateStar}
                                         productName={item.name}
@@ -92,6 +94,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                         xs={24}
                                     >
                                         <ProductCard
+                                            id={item.id}
                                             imageCover={item.image_cover}
                                             rate={item.rateStar}
                                             productName={item.name}

@@ -3,7 +3,7 @@ import { Col, Row, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import styles from './ClothingMenu.module.scss'
 import classNames from 'classnames'
-import { Link } from '../../ui-kits/Link'
+import { CustomLink } from '../../ui-kits/Link'
 import { womenShop, menShop, accessories } from './CategoryItems'
 
 interface MenuProps {
@@ -16,7 +16,7 @@ const menu = (
         <div
           className={classNames("text-margin-0", styles["menu-col__title"])}
         >
-          <Link 
+          <CustomLink 
             href="https://www.google.com/" 
             text="Shop Women's" 
           />
@@ -25,7 +25,7 @@ const menu = (
           { womenShop.map((item, idx) => {
             return (
               <div className={styles["menu-col__list--link"]} key={idx}>
-                <Link 
+                <CustomLink 
                   href={item.link}
                   text={item.name} 
                 />
@@ -38,7 +38,7 @@ const menu = (
         <div
           className={classNames("text-margin-0", styles["menu-col__title"])}
         >
-          <Link 
+          <CustomLink 
             href="https://www.google.com/" 
             text="Shop Men's" 
           />
@@ -47,7 +47,7 @@ const menu = (
           { menShop.map((item, idx) => {
             return (
               <div className={styles["menu-col__list--link"]} key={idx}>
-                <Link 
+                <CustomLink 
                   href={item.link}
                   text={item.name} 
                 />
@@ -60,7 +60,7 @@ const menu = (
         <div
           className={classNames("text-margin-0", styles["menu-col__title"])}
         >
-          <Link 
+          <CustomLink 
             href="https://www.google.com/" 
             text="Accessories" 
           />
@@ -69,7 +69,7 @@ const menu = (
           {accessories.map((item, idx) => {
             return (
               <div className={styles["menu-col__list--link"]} key={idx}>
-                <Link 
+                <CustomLink 
                   href={item.link}
                   text={item.name} 
                 />
@@ -89,7 +89,7 @@ const HeaderMenu: React.FC<MenuProps> = (): JSX.Element => {
         className={styles["menu-dropdown"]}
       >
         <div className={classNames("ant-dropdown-link", styles["menu-dropdown__title"])}>
-          <Link 
+          <CustomLink 
             href="https://www.google.com/" 
             text="Clothing"
           />

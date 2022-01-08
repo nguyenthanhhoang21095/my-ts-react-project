@@ -9,7 +9,6 @@ import { store } from 'controllers/redux/store/configureStore'
 // import { PersistGate } from 'redux-persist/integration/react'
 // import storageActions from "controllers/redux/actions/storageActions";
 // import { checkLocalStoreToRedux } from 'controllers/redux/lib/reducerConfig';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 // import jwt_decode from "jwt-decode";
 // import api from 'controllers/baseApi';
 // import endpoint from 'src/utils/endpoints';

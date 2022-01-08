@@ -73,8 +73,6 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
   }
 
   const confirmNewPassword = () => {
-    console.log(oldPassword, confirmPassword, newPassword);
-    
     if (oldPassword !== confirmPassword && (oldPassword === newPassword || confirmPassword === newPassword) 
       || oldPassword !== password || !newPassword) {
       showToast("Update password FAIL");

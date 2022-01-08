@@ -21,7 +21,7 @@ $breakpoints: (
       @content;
     }
   }
-  @if else $minBreakpoint == 0 {
+  @if else $maxBreakpoint == 0 {
     @media only screen and (min-width: $minBreakpoint) {
       @content;
     }

@@ -9,46 +9,58 @@ import classNames from 'classnames'
 import { getDimensionImageFromUrl } from '../../utils/common'
 import api from 'controllers/baseApi'
 import endpoint from 'src/utils/endpoints'
+import Router from 'next/router';
 
 interface ProductListProps {
+  id: number;
   productName: string;
   price: number;
   imageCover: string;
   rate: number;
   style?: any;
   isThumb?: boolean;
+  centerMode?: boolean;
 }
 const ProductList: React.FC<ProductListProps> = ({
+  id,
   style = {},
   isThumb = false,
   imageCover = "",
   rate = 0,
   productName = "",
-  price
+  price,
+  centerMode = false
 }): JSX.Element => {
 
   const [isHover, setIsHover] = useState(false);
   const { width, height } = getDimensionImageFromUrl(imageCover);
-  
+
+  const handleChangeLink = ():void => {
+    Router.push(`/product-detail/${id}`);
+  }
+
   return (
     <div
-      className={styles["card-container"]}
+      className={classNames(styles["card-container"])}
       style={{ flexDirection: !isThumb ? "column" : "row-reverse", ...style }}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div className={classNames(
-        { "scale-in-center": !isHover && !isThumb },
-        { "scale-out-center": isHover && !isThumb },
-        styles["card-media"])}
+          { "scale-in-center": !isHover && !isThumb },
+          { "scale-out-center": isHover && !isThumb },
+          styles["card-media"],
+          styles["card-link"],
+        )}
+        onClick={handleChangeLink}
       >
-          <Image
-            src={imageCover}
-            width={width}
-            height={height}
-            alt="collection image"
-          />
-        </div>
+        <Image
+          src={imageCover}
+          width={width}
+          height={height}
+          alt="collection image"
+        />
+      </div>
       <div
         className={classNames(
           { "slide-top": isHover },
@@ -59,14 +71,25 @@ const ProductList: React.FC<ProductListProps> = ({
           <div className={styles["card-content__rate"]}>
             <Rate disabled defaultValue={rate} style={{ fontSize: "12px" }} />
           </div>
-          <div className={classNames("font-14", styles["card-content__name"])}>
+          <div className={classNames(
+              "font-14", 
+              styles["card-content__name"],
+              styles["card-link"]
+            )} 
+            onClick={handleChangeLink}
+          >
             {productName}
           </div>
           <div className={classNames("font-16", styles["card-content__price"])}>
             ${price}
           </div>
         </div>
-        <div className={styles["card-action"]}>
+        <div 
+          className={classNames(
+            styles["card-action"],
+            {[styles["card-center-content"]]: centerMode}
+          )}
+        >
           <Button
             style={{
               textTransform: "uppercase",

@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from '../ui-kits/Link'
+import { CustomLink } from '../ui-kits/Link'
 import { connect } from 'react-redux'
-import { IconButton } from '../ui-kits/IconButton'
 import Cart from './Cart/Cart'
 import SearchInput from './SearchInput/SearchInput'
 import styles from './Header.module.scss'
-import { Button } from '../ui-kits/Button'
 import ClothingMenu from './ClothingMenu/ClothingMenu'
 import { Row, Col } from 'antd';
+import { Image } from '../ui-kits/CustomImage'
+import Link from 'next/link'
 
 interface HeaderProps {
   cart?: any
   userInfo?: any
 }
 
-const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Element => {
+const Header: React.FC<HeaderProps> = (): JSX.Element => {
   const [isSearching, setIsSearching] = useState(false);
   return (
     <div className={styles["header"]}>
       <Row className={styles["header-container"]} justify="space-between">
         <Col xl={4} lg={2} md={2} sm={2} className={styles["header-container__item"]}>
-          Logo
+          <Link href="/">
+            <div className={styles["header-container__item--logo"]}>
+              <Image
+                src="/images/logo/logo.png"
+                width="120"
+                height="40"
+                alt="logo"
+              />
+            </div>
+          </Link>
         </Col>
         {!isSearching ?
           <Col xl={12} lg={16} md={16} sm={16} className={styles["header-container__item"]}>
@@ -34,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
               <Col
                 xl={3} lg={3} md={3} sm={3}
                 className={styles["header-category__item"]}>
-                <Link
+                <CustomLink
                   href="https://www.google.com/"
                   text="Shoes"
                 />
@@ -42,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
               <Col
                 xl={6} lg={6} md={6} sm={6}
                 className={styles["header-category__item"]}>
-                <Link
+                <CustomLink
                   href="https://www.google.com/"
                   text="Bags & Handbags"
                 />
@@ -50,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
               <Col
                 xl={4} lg={4} md={4} sm={4}
                 className={styles["header-category__item"]}>
-                <Link
+                <CustomLink
                   href="https://www.google.com/"
                   text="Accessories"
                 />
@@ -58,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ cart = [], userInfo = null }): JSX.Elem
               <Col
                 xl={3} lg={3} md={3} sm={3}
                 className={styles["header-category__item"]}>
-                <Link
+                <CustomLink
                   href="https://www.google.com/"
                   text="Sale"
                 />

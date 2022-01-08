@@ -1,5 +1,6 @@
 @use "../../styles/color.scss";
 @use "../../styles/layout.scss";
+@use "../../styles/responsive.scss";
 
 .card-container {
     border: 1px solid #e5e5e5;
@@ -10,7 +11,11 @@
     position: relative;
 
     .card-media {
-        margin-top: 30px;
+        margin-bottom: 17.9028%;
+    }
+
+    .card-link {
+        cursor: pointer;
     }
 
     .card-layout {
@@ -39,8 +44,8 @@
             }
         }
 
-        .card-action {
-           
+        .card-center-content {
+            @include layout.flex-center;
         }
     }
 }
