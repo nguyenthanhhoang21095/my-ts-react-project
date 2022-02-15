@@ -22,9 +22,9 @@ const CustomCarousel: React.FC<CarouselProps> = ({ data, renderProps }): JSX.Ele
     <div className={styles['carousel']}>
       <Carousel effect="fade" {...carouselProps}>
         {data.length && data.map((item, idx) => (
-          <>
+          <React.Fragment key={idx}>
             {renderProps(item, idx)}
-          </>
+          </React.Fragment>
         ))}
       </Carousel>
     </div>

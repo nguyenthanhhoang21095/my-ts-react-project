@@ -74,7 +74,7 @@ const Home = () => {
           <Carousel
             data={carouselData}
             renderProps={(item, idx) => (
-              <div key={item.id}>
+              <div key={`${item.id}_${idx} `}>
                 <div className={styles['carousel-container']}>
                   <div className={styles['carousel-container__image']}>
                     <Image

@@ -1,4 +1,4 @@
-import * as pageReducers from './pageReducers'
+import pageReducers from './pageReducers'
 import storageReducers from './storageReducer'
 
 import { combineReducers } from 'redux'

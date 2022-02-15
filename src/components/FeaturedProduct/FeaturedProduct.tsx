@@ -56,7 +56,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                         >
                             <ProductCard
                                 id={item.id}
-                                imageCover={item.image_cover}
+                                imageCover={item.image_thumb}
                                 rate={item.rateStar}
                                 productName={item.name}
                                 price={item.price}
@@ -71,7 +71,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                     <ProductCard
                                         key={item.id}
                                         id={item.id}
-                                        imageCover={item.image_cover}
+                                        imageCover={item.image_thumb}
                                         rate={item.rateStar}
                                         productName={item.name}
                                         price={item.price}
@@ -95,7 +95,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                     >
                                         <ProductCard
                                             id={item.id}
-                                            imageCover={item.image_cover}
+                                            imageCover={item.image_thumb}
                                             rate={item.rateStar}
                                             productName={item.name}
                                             price={item.price}

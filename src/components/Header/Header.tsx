@@ -8,6 +8,8 @@ import ClothingMenu from './ClothingMenu/ClothingMenu'
 import { Row, Col } from 'antd';
 import { Image } from '../ui-kits/CustomImage'
 import Link from 'next/link'
+import endpoints from 'src/utils/endpoints'
+import api from 'controllers/baseApi'
 
 interface HeaderProps {
   cart?: any
@@ -16,6 +18,25 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = (): JSX.Element => {
   const [isSearching, setIsSearching] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [clothingData, setClothingData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const res:any = await api.get(endpoints["collection"]);
+      setCategoryList(res.map(category => {
+        const { id, name } = category;
+        return {
+          id,
+          name
+        }
+      }));
+      setClothingData(res?.[0] ?? []);
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className={styles["header"]}>
       <Row className={styles["header-container"]} justify="space-between">
@@ -38,40 +59,19 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
                 offset={4}
                 xl={4} lg={4} md={4} sm={4}
                 className={styles["header-category__item"]}>
-                <ClothingMenu />
+                <ClothingMenu data={clothingData} />
               </Col>
-              <Col
-                xl={3} lg={3} md={3} sm={3}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Shoes"
-                />
-              </Col>
-              <Col
-                xl={6} lg={6} md={6} sm={6}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Bags & Handbags"
-                />
-              </Col>
-              <Col
-                xl={4} lg={4} md={4} sm={4}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Accessories"
-                />
-              </Col>
-              <Col
-                xl={3} lg={3} md={3} sm={3}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Sale"
-                />
-              </Col>
+              {categoryList.length && categoryList.slice(1, categoryList.length).map(item => (
+                <Col
+                  xl={4} lg={4} md={4} sm={4}
+                  key={item.id}
+                  className={styles["header-category__item"]}>
+                  <CustomLink
+                    href={`/category/${item.id}`}
+                    text={item.name}
+                  />
+                </Col>
+              ))}
             </Row>
           </Col>
           :

@@ -3,6 +3,7 @@ export default interface IProduct {
   name: string,
   images: string[],
   image_cover: string,
+  image_thumb: string,
   price: number,
   salePrice?:number,
   brand: string,

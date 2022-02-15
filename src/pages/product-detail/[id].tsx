@@ -214,7 +214,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
                   <ProductCard
                     id={item.id}
                     centerMode
-                    imageCover={item.image_cover}
+                    imageCover={item.image_thumb}
                     rate={item.rateStar}
                     productName={item.name}
                     price={item.price}

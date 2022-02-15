@@ -31,7 +31,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 // user redux tools
-var window = require('global/window')
+let window = require('global/window');
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middleWare)))

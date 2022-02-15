@@ -2,6 +2,8 @@
 
 .link-text {
     color: color.$black-000;
+    text-transform: capitalize;
+    
     &:hover  {
         color: color.$primary-color;
     }
