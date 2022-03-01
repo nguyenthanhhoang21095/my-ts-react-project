@@ -56,8 +56,8 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
           <Col xl={12} lg={16} md={16} sm={16} className={styles["header-container__item"]}>
             <Row className={styles["header-category"]} gutter={8} justify="space-between">
               <Col
-                offset={4}
-                xl={4} lg={4} md={4} sm={4}
+                offset={2}
+                xl={4} lg={4} md={6} sm={6}
                 className={styles["header-category__item"]}>
                 <ClothingMenu data={clothingData} />
               </Col>
@@ -88,7 +88,6 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
           />
         </Col>
       </Row>
-      <div className={styles["header__tape"]}></div>
     </div>
   )
 }
@@ -100,4 +99,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, {})(Header)

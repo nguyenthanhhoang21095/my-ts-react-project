@@ -1,31 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyledToastContainer, StyledToastContent } from './Toast.styled'
-import storageActions from '../../../../controllers/redux/actions/storageActions'
+import storageActions from 'controllers/redux/actions/storageActions'
 
 interface ToastProps {
-  showToastMess: string
-  showToast: (mess: string) => void
+  toastInfo?: {
+    message: string;
+    type: string;
+  };
 }
 
-const Toast: React.FC<ToastProps> = ({ showToastMess, showToast }): JSX.Element => {
-  if (showToastMess.length) {
-    setTimeout(() => showToast(''), 2000)
-  }
-
-  if (showToastMess.length) {
-    return (
-      <StyledToastContainer>
-        <StyledToastContent>{showToastMess}</StyledToastContent>
-      </StyledToastContainer>
-    )
-  } else {
-    return <div></div>
-  }
+const Toast: React.FC<ToastProps> = ({ toastInfo = {} }): JSX.Element => {
+  const { message = "", type = "" } = toastInfo;
+  
+  return (
+    message.length ?
+    <StyledToastContainer type={type} isShow={message.length > 0}>
+      <StyledToastContent>{message}</StyledToastContent>
+    </StyledToastContainer>
+    : <></>
+  )
 }
 
 const mapStateToProps = (state) => ({
-  showToastMess: state.storage.showToastMess,
+  toastInfo: state.storage.toastInfo,
 })
 
 const mapDispatchToProps = {

@@ -3,11 +3,9 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import styles from "./Loading.module.scss";
 interface LoadingProps {
-    isLoading: boolean;
-    setLoading: (isLoading: boolean) => void;
 }
 
-const Loading:React.FC<LoadingProps> = ({ isLoading, setLoading }):JSX.Element => {
+const Loading:React.FC<LoadingProps> = ():JSX.Element => {
   return (
     <div className={styles["loading"]}>
       <div className={styles["dots"]}>
@@ -19,13 +17,4 @@ const Loading:React.FC<LoadingProps> = ({ isLoading, setLoading }):JSX.Element =
   )
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//       isLoading: state.page.isLoading,
-//     }
-//   }
-  
-// const mapDispatchToProps = {
-//   setLoading: pageActions.setLoading,
-// }
 export default Loading;

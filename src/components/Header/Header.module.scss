@@ -11,9 +11,9 @@
     right: 0;
     left: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 2;
     height: 60px;
-    background-color: color.$white-fff;
+    background-color: transparent;
 
     .header-container {
         padding: 0 15px;
@@ -63,21 +63,5 @@
                 }
             }
         }
-    }
-
-    &__tape {
-        background-color: color.$primary-color;
-        height: 60rem;
-        @include responsive.multipleMedia(false, extra-large) {
-            height: 45rem;
-        }
-        @include responsive.multipleMedia(false, desktop) {
-            height: 40rem;
-        }
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 22vw;
-        z-index: 1;
     }
 }

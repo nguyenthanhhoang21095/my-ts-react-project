@@ -146,6 +146,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ data }): JSX.Element => {
                     isThumb={false}
                     description={product.description}
                     showMode="horizontal"
+                    data={product}
                   />
                 </Col>
               </Row>
@@ -167,6 +168,8 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ data }): JSX.Element => {
                         productName={product.name}
                         price={product.price}
                         isThumb={false}
+                        {...product}
+
                       />
                     </Col>
                   ))}

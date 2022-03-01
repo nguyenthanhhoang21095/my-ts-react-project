@@ -6,7 +6,7 @@ const formatCurrency = (number: number): (string | number) => {
 }
 
 const sumPrice = (arr):number => {
-    return arr.length && arr.map(item => item.finalPrice * item.quantity).reduce((acc, cur) => {
+    return arr.length && arr.map(item => item.price * item.quantity).reduce((acc, cur) => {
         return acc + cur;
     }, 0)
 }

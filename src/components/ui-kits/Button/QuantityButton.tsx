@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import IProduct from '../../../interfaces/product'
 import api from '../../../../controllers/baseApi'
 import endpoint from '../../../utils/endpoints'
@@ -12,48 +12,56 @@ import Router from "next/router"
 
 interface QuantityButtonProps {
   userInfo: IUser;
-  product: IProduct;
-  getCart: (res: any) => void;
-  quantity: number;
-  cart: IProduct[];
+  cart: any[];
+  productId: number;
+  updateQtyCart: (prodData: any, id: number, actionType:string) => void;
 }
 
 const QuantityButton: React.FC<QuantityButtonProps> = ({
   userInfo,
-  product,
-  getCart,
-  quantity = 0,
-  cart = [],
+  cart,
+  productId,
+  updateQtyCart,
 }): JSX.Element => {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const data:IProduct = cart.length ? cart.find(item => item.id == productId) : null;
+    setProduct(data);
+  }, [cart])
   
   const changeQuantity = (actionType = 'increase'): void => {
-    const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
-    if (userInfo && token) {
-      const prodData = !product.hasOwnProperty("quantity") ? {...product, quantity: 0} : {...product}
-      
-      api
-        .put(`${endpoint['cart']}`, {
-          id: userInfo.id,
-          product: prodData,
-          action: actionType,
-        }, token)
-        .then((res) => {
-          if (res) {
-            getCart(res.cart)
-          }
-        })
-    } else {
-      Router.push("/auth/login")
-    }
+    // const token:string = JSON.parse(localStorage.getItem("access_token")) ?? "";
+    if (userInfo && product) {
+      const prodData = !product.hasOwnProperty("quantity") ? {...product, quantity: 0 } : {...product}
+      updateQtyCart(prodData, userInfo?.id, actionType)
+    } 
+    // else {
+    //   Router.push("/auth/login")
+    // }
   }
 
   return (
     <StyledQuantityButtonGroup>
-      <Button width="30px" height="15px" customStyle={`padding: 0`} handleClick={() => changeQuantity('increase')}>
+      <Button 
+        style={{
+          width: "30px",
+          height: "25px",
+          padding: 0
+        }} 
+        handleClick={() => changeQuantity('increase')}
+      >
         +
       </Button>
-      <StyledQuantityButtonValue>{quantity}</StyledQuantityButtonValue>
-      <Button width="30px" height="15px" customStyle={`padding: 0`} handleClick={() => changeQuantity('decrease')}>
+      <StyledQuantityButtonValue>{product?.quantity ?? 0}</StyledQuantityButtonValue>
+      <Button 
+        style={{
+          width: "30px",
+          height: "25px",
+          padding: 0
+        }}  
+        handleClick={() => changeQuantity('decrease')}
+      >
         -
       </Button>
       <IconButton 
@@ -75,8 +83,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  showToast: storageActions.showToast,
   getUserInfo: storageActions.getUserInfo,
-  getCart: storageActions.getCart,
+  updateQtyCart: storageActions.updateQtyCart,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(QuantityButton)

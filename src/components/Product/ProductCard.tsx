@@ -7,11 +7,11 @@ import { Rate } from 'antd'
 import { Button } from 'src/components/ui-kits/Button'
 import classNames from 'classnames'
 import { getDimensionImageFromUrl } from '../../utils/common'
-import api from 'controllers/baseApi'
-import endpoint from 'src/utils/endpoints'
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import parse from 'html-react-parser';
-import { Row, Col } from "antd";
+import IProduct from 'src/interfaces/product'
+import IUser from 'src/interfaces/user'
+import endpoint from "src/utils/endpoints";
 
 interface ProductListProps {
   id: number;
@@ -24,6 +24,10 @@ interface ProductListProps {
   centerMode?: boolean;
   description?: string;
   showMode?: string;
+  addToCart: (data: any, id: number) => void;
+  showToast: (mess:string, type:string) => void;
+  data: IProduct;
+  userInfo: IUser;
 }
 const ProductList: React.FC<ProductListProps> = ({
   id,
@@ -35,14 +39,28 @@ const ProductList: React.FC<ProductListProps> = ({
   price,
   centerMode = false,
   description = "",
-  showMode = "vertical"
+  showMode = "vertical",
+  addToCart = () => {},
+  showToast = () => {},
+  data = {},
+  userInfo
 }): JSX.Element => {
 
   const [isHover, setIsHover] = useState(false);
   const { width, height } = getDimensionImageFromUrl(imageCover);
+  const router = useRouter();
 
   const handleChangeLink = (): void => {
     Router.push(`/product-detail/${id}`);
+  }
+
+  const handleAddToCart = ():void => {
+    if (!userInfo?.id && !userInfo) {
+      router.push(`/${endpoint["login"]}`);
+    } else {
+      addToCart(data, userInfo?.id);
+      showToast(`You have added ${data.name} to your shopping cart!`, "success");
+    }
   }
 
   if (showMode === "vertical") {
@@ -108,6 +126,7 @@ const ProductList: React.FC<ProductListProps> = ({
             )}
           >
             <Button
+              handleClick={handleAddToCart}
               style={{
                 textTransform: "uppercase",
                 padding: "12px 25px",
@@ -167,6 +186,7 @@ const ProductList: React.FC<ProductListProps> = ({
               )}
             >
               <Button
+                handleClick={handleAddToCart}
                 style={{
                   textTransform: "uppercase",
                   padding: "12px 25px",
@@ -192,7 +212,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getCart: storageActions.getCart,
-  showToast: storageActions.showToast,
+  addToCart: storageActions.addToCart,
+  showToast: storageActions.showToast
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList)

@@ -5,4 +5,5 @@ export default {
     cart: 'cart',
     login: 'auth/login',
     register: 'auth/register',
+    banner: 'banner',
 };

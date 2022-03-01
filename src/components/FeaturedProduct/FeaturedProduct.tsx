@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import styles from './FeaturedProduct.module.scss';
 import { ProductCard } from '../Product'
 import { useMediaQuery } from 'react-responsive'
-import api from '../../../controllers/baseApi'
+import api from 'controllers/baseApi'
 
 interface FeaturedProductProps { }
 
@@ -17,7 +17,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
     const [thumbProducts, setThumbProducts] = useState([]);
 
     useEffect(() => {
-        async function fetchFeatureData() {
+        const fetchFeatureData = async ():Promise<void> => {
             try {
                 const res: any = await api.get('feature');
                 if (res) {
@@ -61,6 +61,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                 productName={item.name}
                                 price={item.price}
                                 isThumb={isMobileDevice}
+                                data={item}
                             />
                         </Col>
                     ))}
@@ -80,6 +81,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                             marginTop: idx == thumbProducts.length - 1 ? "30px" : ""
                                         }}
                                         isThumb={item.is_thumb}
+                                        data={item}
                                     />
                                 ))}
                             </div>
@@ -104,6 +106,7 @@ const FeaturedProduct: React.FC<FeaturedProductProps> = (): JSX.Element => {
                                                 marginTop:  isMobileDevice && idx == thumbProducts.length - 1 ? "30px" : ""
                                             }}
                                             isThumb={isMobileDevice}
+                                            data={item}
                                         />
                                     </Col>
                                 ))

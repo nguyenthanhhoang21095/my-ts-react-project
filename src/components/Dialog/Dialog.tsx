@@ -12,6 +12,7 @@ import {
 import { formatCurrency } from "../../utils/common";
 import IProduct from "../../interfaces/product";
 import QuantityButton from "../ui-kits/Button/QuantityButton";
+import { sumPrice } from "src/utils/common";
 
 interface DialogProps {
   isHoverDialog?: boolean;
@@ -22,12 +23,6 @@ interface DialogProps {
 }
 
 const Dialog:React.FC<DialogProps> = ({ cart = [], handleHoverIn = () => {}, handleHoverOut = () => {} }):JSX.Element => {
-    const sumPrice = (cart) => {
-      return cart.length && cart.map(item => item.finalPrice*item.quantity).reduce((acc, cur) => {
-        return acc + cur;
-      }, 0)
-    }
-  
     const inlineNameStyle = `
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -48,7 +43,7 @@ const Dialog:React.FC<DialogProps> = ({ cart = [], handleHoverIn = () => {}, han
                 <StyledDialogItem>
                   {
                     <>
-                      <img src={item.image} alt="" width="70rem" height="70rem" />
+                      <img src={item.image_cover} alt="" width="70rem" height="70rem" />
                       <StyledDialogItemInfo>
                         <StyledDialogItemText customStyle={inlineNameStyle} fontSize="1rem" >{item.name}</StyledDialogItemText>
                         <StyledDialogItemText customStyle={`color: #ffaf40`} fontSize="1rem">{formatCurrency(item.finalPrice*item.quantity)} VND</StyledDialogItemText>

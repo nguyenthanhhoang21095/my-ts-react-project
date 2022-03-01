@@ -49,10 +49,10 @@ const CartModal:React.FC<CartModalProps> = ({ cart = [], handleHoverIn = () => {
                   <StyledDialogItem>
                     {
                       <>
-                        <img src={item.image} alt="" width="50px" height="50px" />
+                        <img src={item.image_cover} alt="" width="50px" height="50px" />
                         <StyledDialogItemInfo>
                           <StyledDialogItemText customStyle={inlineNameStyle} fontSize="1rem" >{item.name}</StyledDialogItemText>
-                          <StyledDialogItemText fontSize=".8rem">{formatCurrency(item.finalPrice*item.quantity)}</StyledDialogItemText>
+                          <StyledDialogItemText fontSize=".8rem">{formatCurrency(item.price*item.quantity)}</StyledDialogItemText>
                         </StyledDialogItemInfo>
                       </>
                     }

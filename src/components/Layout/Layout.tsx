@@ -17,16 +17,16 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, customStyle = "", isHomeRoute = false, cart = [], userInfo = null }): JSX.Element => {
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' })
-
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 991px)' })
+   
   return (
     <>
-
       {!isTabletOrMobile ?
         <Header />
         :
         <NavHeader />
       }
+      <div className={styles["header-tape"]}></div>
       <div className={styles['layout-container']}>
         {children}
       </div>
@@ -45,6 +45,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getCart: storageActions.getCart,
-  showToast: storageActions.showToast,
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Layout)

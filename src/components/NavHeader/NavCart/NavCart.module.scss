@@ -25,6 +25,8 @@
             height: 25px;
             border-radius: 50%;
             background-color: color.$primary-color;
+            color: color.$white-fff;
+
             p {
                 color: color.$white-fff;
                 font-size: 12px;
@@ -77,4 +79,26 @@
             color: color.$white-fff;
         }
     }
+}
+
+.navcart-popup {
+    position: absolute;
+    z-index: 999999999999;
+    min-width: 260px;
+    width: 320px;
+    padding: 20px;
+    max-height: 434px;
+    line-height: 1.4em;
+    right: 0;
+    top: 40px;
+    list-style-type: none;
+    color: #777;
+    margin: 10px 0 auto;
+    border: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: left;
+    background: #fff;
+    font-size: 12px;
+    box-shadow: 0 3px 21px rgb(0 0 0 / 10%);
 }

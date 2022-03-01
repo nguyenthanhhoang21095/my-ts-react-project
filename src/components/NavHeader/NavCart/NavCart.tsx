@@ -1,40 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
 import styles from './NavCart.module.scss'
 import classNames from 'classnames'
-
-interface CartMenuProps {
-}
-
-interface AccountMenuProps {
-}
+import CartMenu from "../../Header/Cart/CartMenu";
+import storageActions from 'controllers/redux/actions/storageActions'
+import AccountMenu from "../../Header/Account/AccountMenu"
 
 interface NavCartProps {
+    cart: any[];
 }
 
-const AccountMenu: React.FC<AccountMenuProps> = (): JSX.Element => {
-    return (
-        <ul className={styles["account-menu"]}>
-            <li key="1" className={styles["account-menu__item"]}>
-                Register
-            </li>
-            <li key="2" className={styles["account-menu__item"]}>
-                Sign in
-            </li>
-        </ul>
-    )
-}
-
-const CartMenu: React.FC<CartMenuProps> = (): JSX.Element => {
-    return (
-        <ul className={styles["cart-menu"]}>
-            <li key="1" className={styles["cart-menu__item"]}>
-                EMPTY!
-            </li>
-        </ul>
-    )
-}
-
-const NavCart: React.FC<NavCartProps> = (): JSX.Element => {
+const NavCart: React.FC<NavCartProps> = ({ cart }): JSX.Element => {
     const [showAccountMenu, setShowAccountMenu] = useState(false)
     const [showCartMenu, setShowCartMenu] = useState(false)
     const accRef = useRef()
@@ -46,6 +22,7 @@ const NavCart: React.FC<NavCartProps> = (): JSX.Element => {
             // then close the menu
             const accParentElm: any = accRef.current
             const cartParentElm: any = cartRef.current
+
             if (showAccountMenu && accRef.current && !accParentElm.contains(e.target)) {
                 setShowAccountMenu(false);
             }
@@ -63,56 +40,72 @@ const NavCart: React.FC<NavCartProps> = (): JSX.Element => {
         }
     }, [showAccountMenu, showCartMenu])
 
-    const handleShowAccountMenu = (cartMenuStatus: boolean, accountMenuStatus: boolean): void => {
-        if (cartMenuStatus) {
-            setShowCartMenu(false);
-        }
-        setShowAccountMenu(!accountMenuStatus);
-    }
-
-    const handleShowCartMenu = (accountMenuStatus: boolean, cartMenuStatus: boolean): void => {
-        if (accountMenuStatus) {
-            setShowAccountMenu(false);
-        }
-        setShowCartMenu(!cartMenuStatus);
-    }
 
     return (
         <>
             <div
                 className={styles["cart-dropdown"]}
-                ref={cartRef}
             >
                 <button
                     className={styles["cart-dropdown__button"]}
-                    onClick={() => handleShowCartMenu(showAccountMenu, showCartMenu)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setShowAccountMenu(false);
+                        setShowCartMenu(true);
+                    }}
                 >
                     <i aria-hidden className={classNames("fas fa-shopping-cart", styles["cart-dropdown__button--icon"])}></i>
-                    <div className={styles["cart-dropdown__button--total"]}>
-                        <p>0</p>
-                    </div>
+                    <p className={styles["cart-dropdown__button--total"]}>
+                        {cart.length}
+                    </p>
                 </button>
-                {showCartMenu && <CartMenu />}
+                {showCartMenu &&
+                    <div 
+                        className={styles["navcart-popup"]}
+                        ref={cartRef}
+                    >
+                        <CartMenu cartList={cart} />
+                    </div>
+                }
             </div>
 
             <div
                 className={styles["account-dropdown"]}
-                ref={accRef}
             >
                 <button
                     className={styles["account-dropdown__button"]}
                     onClick={(e) => {
                         e.preventDefault();
-                        handleShowAccountMenu(showCartMenu, showAccountMenu)
-                    }
-                    }
+                        setShowCartMenu(false);
+                        setShowAccountMenu(true);
+                    }}
                 >
                     <i aria-hidden className={classNames("fas fa-cog", styles["account-dropdown__button--icon"])}></i>
-                    {showAccountMenu && <AccountMenu />}
+                    {showAccountMenu && 
+                        <div 
+                            className={styles["navcart-popup"]} 
+                            ref={accRef}
+                            style={{ 
+                                padding: 0,
+                            }}
+                        >
+                            <AccountMenu />
+                        </div>
+                    }
                 </button>
             </div>
         </>
     )
 }
 
-export default NavCart
+const mapStateToProps = (state) => {
+    return {
+        cart: state.storage.cart
+    }
+}
+
+const mapDispatchToProps = {
+    getCart: storageActions.getCart,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavCart);

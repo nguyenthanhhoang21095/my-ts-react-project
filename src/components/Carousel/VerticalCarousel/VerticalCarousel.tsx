@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
 import styles from './VerticalCarousel.module.scss'
 import classNames from 'classnames';
-import { Image } from 'src/components/ui-kits/CustomImage'
 import { UpOutlined, DownOutlined } from '@ant-design/icons'
 
 interface VerticalCarouselProps {

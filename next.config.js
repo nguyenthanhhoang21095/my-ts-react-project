@@ -5,6 +5,9 @@ module.exports = {
   // env: {
   //   ...configParams,
   // },
+  experimental: {
+    styledComponents: true
+  },
   webpack(config, options) {
     return config
   },

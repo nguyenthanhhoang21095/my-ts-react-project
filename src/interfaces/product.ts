@@ -27,5 +27,6 @@ export default interface IProduct {
     date: Date,
   }[],
   related_products?: number[],
-  description: string
+  description: string,
+  quantity?: number
 }

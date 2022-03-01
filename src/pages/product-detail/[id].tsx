@@ -10,8 +10,8 @@ import IUser from 'src/interfaces/user'
 import styles from 'src/styles/pages/detail.module.scss'
 import classNames from 'classnames'
 import { connect } from "react-redux"
-import { Breadcrumb, Row, Col } from 'antd'
-import { HomeOutlined } from '@ant-design/icons'
+import {  Row, Col } from 'antd'
+import { Breadcrumb } from "src/components/ui-kits/Breadcrumb"
 import { Image } from 'src/components/ui-kits/CustomImage'
 import { VerticalCarousel, MultiCarousel, SingleCarousel } from 'src/components/Carousel'
 import { GlassMagnifier } from "react-image-magnifiers";
@@ -25,7 +25,6 @@ interface DetailPageProps {
   userInfo: IUser;
   prodData: IProduct;
   getCart: any;
-  showToast: any;
   paramId: number;
 }
 
@@ -85,14 +84,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
     <Layout>
       <div className={styles['detail']}>
         <div className={styles['detail-container']}>
-          <div className={styles['detail-container__breadcrumb']}>
-            <Breadcrumb separator=">">
-              <Breadcrumb.Item href="/">
-                <HomeOutlined />
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>{prodData.name}</Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+          <Breadcrumb itemName={prodData.name} />
           <div className={styles['detail-container__media']}>
             <Row className={styles['detail-content']} gutter={32}>
               {!changeCarousel ?
@@ -162,6 +154,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
                   colors={prodData.colors}
                   reviewsNumber={prodData.reviews.length}
                   rateStar={prodData.rateStar}
+                  data={prodData}
                 />
               </Col>
             </Row>
@@ -219,6 +212,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
                     productName={item.name}
                     price={item.price}
                     isThumb={false}
+                    data={item}
                   />
                 </div>
               )}
@@ -263,7 +257,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getCart: storageActions.getCart,
-  showToast: storageActions.showToast,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)

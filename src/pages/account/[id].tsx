@@ -15,7 +15,7 @@ import { Toast  } from 'src/components/ui-kits/Toast'
 interface AccountProps {
   userInfo: IUser;
   getUserInfo: (info: IUser) => void;
-  showToast: (mess:string) => void;
+  showToast: (mess:string, type: string) => void;
 }
 
 const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToast }): JSX.Element => {
@@ -75,7 +75,7 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
   const confirmNewPassword = () => {
     if (oldPassword !== confirmPassword && (oldPassword === newPassword || confirmPassword === newPassword) 
       || oldPassword !== password || !newPassword) {
-      showToast("Update password FAIL");
+      showToast("Update password FAIL", "error");
       return;
     }
 
@@ -101,7 +101,7 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
           setOldPassword("");
           Router.back();
           setTimeout(() => {
-            showToast("Update password SUCCESS");
+            showToast("Update password SUCCESS", "success");
           }, 300)
         }).catch((err) => console.error(err))
       }
@@ -150,10 +150,10 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
                   handleChange={(e) => setNewPassword(e.target.value)}
                 />
                 <div className={styles['account-container__updatePass--btn']}>
-                  <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => confirmNewPassword()}>
+                  <Button  style="margin-top: 1rem" handleClick={() => confirmNewPassword()}>
                       Confirm
                   </Button>
-                  <Button height="4rem" width="fit-content" customStyle="margin-top: 1rem" handleClick={() => cancelNewPassword()}>
+                  <Button style="margin-top: 1rem" handleClick={() => cancelNewPassword()}>
                       Ignore
                   </Button>
                 </div>
@@ -166,10 +166,10 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
           </div>
 
           <div className={styles['account-container__btn']}>
-            <Button height="4rem" width="8rem" handleClick={() => handleUpdateInfo()}>
+            <Button handleClick={() => handleUpdateInfo()}>
               Update
             </Button>
-            <Button height="4rem" width="8rem" handleClick={() => handleCancelUpdate()}>
+            <Button handleClick={() => handleCancelUpdate()}>
               Cancel
             </Button>
           </div>

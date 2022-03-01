@@ -25,7 +25,7 @@ const Register = ({
 
   const handleRegister = () => {
     if (!account.length || !pass.length || !phone.length || !fullName.length) {
-      showToast('Bạn chưa điền đủ thông tin yêu cầu')
+      showToast("Bạn chưa điền đủ thông tin yêu cầu", "warning")
       return;
     }
     
@@ -49,10 +49,10 @@ const Register = ({
           Router.push("/")
           setTimeout(() => { 
             getCartInfoFromDB(res.id);
-            showToast('Đăng ký thành công')
+            showToast("Đăng ký thành công", "success")
           }, 500)
         } else {
-           showToast('Đăng ký thất bại. Vui lòng kiểm tra lại thông tin')
+           showToast("Đăng ký thất bại. Vui lòng kiểm tra lại thông tin", "error");
          }
       })
       .catch((err) => console.error(err))
@@ -135,11 +135,11 @@ const Register = ({
                 </div>
 
                 <div className={styles['login-container__form--submit']}>
-                    <button  onClick={() => handleRegister()}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <button onClick={() => handleRegister()}>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
                         Complete
                     </button>
 
@@ -159,8 +159,7 @@ const Register = ({
         <div className={styles['back-home']}>
             <Button
                 handleClick={() => Router.push('/')}
-                outLine="none"
-                customStyle="color: #ffaf40"
+                style={{ color: "#ffaf40" }}
             >   
                 <Icon  
                     img="/images/icons/back.png"

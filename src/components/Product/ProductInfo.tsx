@@ -4,13 +4,23 @@ import styles from './ProductInfo.module.scss'
 import classNames from 'classnames'
 import { Select, InputNumber, Rate } from 'antd'
 import { Button } from 'src/components/ui-kits/Button'
+import { connect } from 'react-redux'
+import storageActions from 'controllers/redux/actions/storageActions'
+import IUser from 'src/interfaces/user'
+import { useRouter } from 'next/router'
+import endpoint from "src/utils/endpoints";
 
 type CustomProps = {
     reviewsNumber: number;
     productCode: string;
 }
-type ProductInfoProps = Partial<IProduct> & CustomProps;
-
+type ParamsProps = Partial<IProduct> & CustomProps;
+interface ProductInfoProps extends ParamsProps  {
+    userInfo: IUser;
+    data: IProduct;
+    addToCart: (data: any, id:number) => void;
+    showToast: (mess:string, type:string) => void;
+}
 const { Option } = Select;
 
 const ProductInfo: React.FC<ProductInfoProps> = ({
@@ -23,14 +33,19 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     colors,
     reviewsNumber,
     rateStar,
+    data,
+    userInfo,
+    addToCart = () => {},
+    showToast = () => {},
 }): JSX.Element => {
 
     const [colorPrice, setColorPrice] = useState(0);
     const [sizePrice, setSizePrice] = useState(0);
     const [quantity, setQuantity] = useState(1);
-    
+    const router = useRouter();
+
     const totalPrice = useMemo(() => {
-        return (price + colorPrice + sizePrice) * quantity;    
+        return (price + colorPrice + sizePrice) * quantity;
     }, [colorPrice, sizePrice, quantity]);
 
     const handleSelectSize = (value) => {
@@ -45,7 +60,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         typeof value === "number" && setQuantity(value)
     }
 
-    const handleAddToCart = ():void => {}
+    const handleAddToCart = (): void => {
+        if (!userInfo?.id && !userInfo) {
+            router.push(`/${endpoint["login"]}`);
+        } else {
+            showToast(`You have added ${data.name} to your shopping cart!`, "success");
+            addToCart(data, userInfo?.id);
+        }
+    }
 
     return (
         <div className={styles['content']}>
@@ -73,9 +95,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                 <p className={styles['content__select--title']}>
                     Size
                 </p>
-                <Select 
+                <Select
                     size="large"
-                    defaultValue={0} 
+                    defaultValue={0}
                     dropdownStyle={{
                         backgroundColor: "#f6f6f6",
                     }}
@@ -96,7 +118,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                 <p className={styles['content__select--title']}>
                     Color
                 </p>
-                <Select 
+                <Select
                     className={styles['content__select--selector']}
                     size="large"
                     dropdownStyle={{
@@ -117,16 +139,16 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                 </Select>
             </div>
             <div className={styles['content__qty']}>
-                <InputNumber 
+                <InputNumber
                     size="large"
                     keyboard={false}
-                    min={1} 
-                    max={1000} 
+                    min={1}
+                    max={1000}
                     defaultValue={quantity}
                     onChange={handleChangeQty}
                     className={styles['content__qty--input']}
                 />
-                <Button 
+                <Button
                     handleClick={handleAddToCart}
                     style={{
                         padding: "18px 39px",
@@ -153,4 +175,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     )
 }
 
-export default ProductInfo;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.storage.userInfo,
+    }
+}
+
+const mapDispatchToProps = {
+    addToCart: storageActions.addToCart,
+    showToast: storageActions.showToast
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductInfo);

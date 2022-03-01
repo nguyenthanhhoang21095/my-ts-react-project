@@ -35,10 +35,10 @@
 }
 
 .card-slide-up {
-    bottom: 0;
+    bottom: 0 !important; 
 }
 .card-slide-down {
-    bottom: -75px;
+    bottom: -75px !important;
 }
 
 .card-content {

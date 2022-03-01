@@ -37,7 +37,6 @@ const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = 
                     <>  
                         <Button
                             handleClick={() => Router.push(`/account/${userInfo.id}`)}
-                            outLine="none"
                         >
                             My Info
                         </Button>
@@ -51,7 +50,6 @@ const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = 
                         <StyledDivider />
                         <Button 
                             handleClick={() => handleClearUser()}
-                            outLine="none"
                         >   
                             Sign out
                         </Button>
@@ -60,14 +58,12 @@ const UserModal: React.FC<UserModalProps> = ({ userInfo = null, handleHoverIn = 
                     <>
                         <Button
                             handleClick={() => Router.push('/auth/login')}
-                            outLine="none"
                         >
                             Login
                         </Button>
                         <StyledDivider />
                         <Button 
                             handleClick={() => Router.push('/auth/register')}
-                            outLine="none"
                         >
                             Register
                         </Button>

@@ -1,41 +1,36 @@
-import { ADD_TO_CART, SHOW_TOAST, GET_USER_INFO, GET_CART } from '../contanst/index.ts'
+import { 
+  ADD_TO_CART, 
+  REMOVE_FROM_CART, 
+  SHOW_TOAST, 
+  REMOVE_TOAST, 
+  GET_USER_INFO, 
+  GET_CART, 
+  UPDATE_QTY_CART  
+} from '../contanst/index.ts'
 
 const initState = {
   cart: [],
-  showToastMess: "",
+  toastInfo: {
+    message: "",
+    type: ""
+  },
   userInfo: null,
 }
 
 const storageReducers = (state = initState, action) => {
   switch (action.type) {
-    // case ADD_TO_CART:
-    //   let newCart = [];
-    //   const prodIdx = state.cart.length
-    //     ? state.cart.findIndex((item) => item.id === action.payload?.id)
-    //     : -1
-    //   if (prodIdx != -1) {
-    //     newCart = [
-    //       ...state.cart.slice(0, prodIdx),
-    //       {
-    //         ...action.payload,
-    //         quantity: state.cart[prodIdx].quantity + 1,
-    //       },
-    //       ...state.cart.slice(prodIdx + 1, state.cart.length),
-    //     ]
-    //   } else {
-    //     newCart = [
-    //       ...state.cart,
-    //       {
-    //         ...action.payload,
-    //         quantity: 1,
-    //       },
-    //     ]
-    //   }
-    //   return { ...state, cart: newCart }
+    case ADD_TO_CART:
+      return { ...state, cart: action.payload }
+    case REMOVE_FROM_CART:
+      return { ...state, cart: action.payload }
+    case UPDATE_QTY_CART:
+      return { ...state, cart: action.payload  }
     case GET_CART: 
       return {...state, cart: action.payload }  
     case SHOW_TOAST:
-      return {...state, showToastMess: action.payload }
+      return {...state, toastInfo: {...action.payload} }
+    case REMOVE_TOAST:
+      return {...state, toastInfo: { ...action.payload} }
     case GET_USER_INFO:   
       return {...state, userInfo: action.payload }
     default:
