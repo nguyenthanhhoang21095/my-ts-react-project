@@ -32,7 +32,7 @@ interface DetailPageProps {
 
 const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Element => {
   const [activeImage, setActiveImage] = useState(() => {
-    return prodData.images.length ? prodData.images[0] : ""
+    return prodData?.images?.length ? prodData.images[0] : ""
   })
   const [activeTab, setActiveTab] = useState(0);
   const [relatedData, setRelatedData] = useState([]);
@@ -70,7 +70,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
   }, [])
 
   useEffect(() => {
-    prodData.images.length && setActiveImage(prodData.images[0]);
+    prodData?.images?.length && setActiveImage(prodData.images[0]);
   }, [paramId])
 
   const getDimensionImgAfterResize = (url: string): { width: string; height: string } => {
@@ -81,6 +81,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
   return (
     <>
       <Layout>
+        {prodData &&
         <div className={styles['detail']}>
           <div className={styles['detail-container']}>
 
@@ -159,7 +160,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
                         xl={24} lg={24} md={24} sm={24} xs={24}
                       >
                         <SingleCarousel>
-                          {prodData.images.length && prodData.images.map((item, idx) => (
+                          {prodData.images?.length && prodData.images.map((item, idx) => (
                             <Image
                               key={idx}
                               src={replaceDimensionImageFromUrl(item, 800, 800)}
@@ -191,7 +192,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
                     price={prodData.price}
                     sizes={prodData.sizes}
                     colors={prodData.colors}
-                    reviewsNumber={prodData.reviews.length}
+                    reviewsNumber={prodData.reviews?.length ?? 0}
                     rateStar={prodData.rateStar}
                     data={prodData}
                   />
@@ -263,6 +264,7 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
             </div>
           </div>
         </div>
+        }
       </Layout>
 
       <Toast />
@@ -275,9 +277,9 @@ const DetailPage: React.FC<DetailPageProps> = ({ prodData, paramId }): JSX.Eleme
 export const getStaticPaths: GetStaticPaths = async () => {
   let mapId: any = []
   const res = await api.get(endpoint['product'])
-  mapId = res.length && res.map((item) => ({
+  mapId = res?.length ? res.map((item) => ({
     params: { id: `${item.id}` },
-  }))
+  })) : [];
   return {
     paths: mapId,
     fallback: true,
@@ -289,7 +291,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prodData: any = await api.get(endpoint['product'] + '/' + id)
   return {
     props: {
-      prodData: prodData ? prodData : null,
+      prodData: prodData ?? null,
       paramId: id
     },
   }
