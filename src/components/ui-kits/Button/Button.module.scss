@@ -14,6 +14,7 @@
     }
 
     &__text {
+        @include layout.flex-center;
         font-weight: 700;
     }
 }
@@ -33,4 +34,18 @@
     &:hover {
         width: 100%;
     }
+}
+
+
+.reverse-button {
+    background-color: color.$black-000;
+    &:hover {
+        background-color: color.$primary-color;
+    }
+    
+    &__text {
+        color: color.$white-fff;
+    }
+    
+
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
 import styles from './VerticalCarousel.module.scss'
 import classNames from 'classnames';
-import { Image } from 'src/components/ui-kits/CustomImage'
 import { UpOutlined, DownOutlined } from '@ant-design/icons'
 
 interface VerticalCarouselProps {
@@ -9,9 +8,10 @@ interface VerticalCarouselProps {
     renderProps: any;
     handleClick: any;
     activeItem: string;
+    style?: Record<string, any>
 }
 
-const VerticalCarousel: React.FC<VerticalCarouselProps> = ({ data, renderProps, handleClick, activeItem }): JSX.Element => {
+const VerticalCarousel: React.FC<VerticalCarouselProps> = ({ data, renderProps, handleClick, activeItem, style = {} }): JSX.Element => {
     const [scrollVal, setScrollVal] = useState(0);
     const [containerHeight, setContainerHeight] = useState(0);
     const [scrollHeight, setScrollHeight] = useState(0);
@@ -22,9 +22,10 @@ const VerticalCarousel: React.FC<VerticalCarouselProps> = ({ data, renderProps, 
     const scrollElm = useRef(null);
 
     const handleChooseUpItem = ():void => {
+        const elmHeightVal = scrollElm.current.clientHeight
         if (scrollVal <= 0) {
-            if (Math.abs(scrollVal) > elmHeight) {
-                setScrollVal(scrollVal + elmHeight);
+            if (Math.abs(scrollVal) > elmHeightVal) {
+                setScrollVal(scrollVal + elmHeightVal);
             } else {
                 setScrollVal(0);
             }
@@ -32,39 +33,39 @@ const VerticalCarousel: React.FC<VerticalCarouselProps> = ({ data, renderProps, 
     }
 
     const handleChooseDownItem = ():void => {
-        const downVal = scrollHeight - containerHeight - Math.abs(scrollVal);
+        const scrollHeightVal: number = parentElm.current.clientHeight;
+        const containerHeightVal: number = containerElm.current.clientHeight;
+        const elmHeightVal = scrollElm.current.clientHeight
+        const downVal = scrollHeightVal - containerHeightVal - Math.abs(scrollVal);
         if (downVal >= 0) {
-            if (downVal - elmHeight >= 0) {
-                setScrollVal(scrollVal - elmHeight);
+            if (downVal - elmHeightVal >= 0) {
+                setScrollVal(scrollVal - elmHeightVal);
             } else {
                 setScrollVal(scrollVal - downVal);
             }
         }
     }
 
-    const getHeightInfo = ():void => {
-        parentElm?.current && setScrollHeight(parentElm.current.scrollHeight);
-        containerElm?.current && setContainerHeight(containerElm.current.clientHeight);
-        scrollElm?.current && setElmHeight(scrollElm.current.clientHeight);
-    }
-
+    
     useEffect(() => {
-        const handleResize = ():void => {
-            getHeightInfo();
+        const getHeightInfo = ():void => {
+            parentElm?.current && setScrollHeight(parentElm.current.clientHeight);
+            containerElm?.current && setContainerHeight(containerElm.current.clientHeight);
+            scrollElm?.current && setElmHeight(scrollElm.current.clientHeight);
         }
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, [])
-
-    useEffect(() => {
         getHeightInfo();
+        window.addEventListener('resize', getHeightInfo);
+        return () => {
+            window.removeEventListener('resize', getHeightInfo);
+        }
     }, [])
+
 
     return (
-        <div className={styles["vertical-carousel"]}>
+        <div 
+            className={styles["vertical-carousel"]}
+            style={style}
+        >
             <section className={styles["vertical-carousel__outer"]}>
                 <div className={styles["vertical-carousel__outer--wrapper"]}>
                     <button
@@ -79,7 +80,7 @@ const VerticalCarousel: React.FC<VerticalCarouselProps> = ({ data, renderProps, 
                     >
                         <div
                             className={styles["carousel-slide"]}
-                        >
+                            >
                             <div
                                 className={styles["carousel-slide__inner"]}
                                 ref={parentElm}

@@ -6,7 +6,7 @@ const formatCurrency = (number: number): (string | number) => {
 }
 
 const sumPrice = (arr):number => {
-    return arr.length && arr.map(item => item.finalPrice * item.quantity).reduce((acc, cur) => {
+    return arr.length && arr.map(item => item.price * item.quantity).reduce((acc, cur) => {
         return acc + cur;
     }, 0)
 }
@@ -52,10 +52,16 @@ const replaceDimensionImageFromUrl = (url: string, width: number, height: number
     return res
 }
 
+const parseStringOptionValue = (str: string): string[] => str.split("_");
+
+const copyObject = <T>(obj: T):T => JSON.parse(JSON.stringify(obj));
+
 export {
     formatCurrency,
     sumPrice,
     clearLocalStorage,
     getDimensionImageFromUrl,
-    replaceDimensionImageFromUrl
+    replaceDimensionImageFromUrl,
+    copyObject,
+    parseStringOptionValue
 }

@@ -13,18 +13,6 @@
         width: 100%;
         padding-top: 20px;
 
-        &__breadcrumb {
-            @include layout.flex-align-center;
-            justify-content: flex-start;
-            border: 1px solid color.$grey-d5dbd9;
-            font-size: 14px;
-            position: relative;
-            margin: 15px 0 25px;
-            padding: 13px 15px;
-            border-radius: 3px;
-            line-height: 20px;
-        }
-
         &__media {
             height: 100%;
             overflow: hidden;
@@ -35,6 +23,8 @@
                         cursor: pointer;
                         width: 100%;
                         height: auto;
+                        border: 0.5px solid color.$grey-d5dbd9;
+
                         @include responsive.multipleMedia(false, desktop) {
                             width: 114px;
                             height: 114px;
@@ -47,7 +37,6 @@
                         &:last-child {
                             margin-bottom: 0;
                         }
-                        border: 0.5px solid color.$grey-d5dbd9;
                         &:hover {
                             border: 0.5px solid color.$primary-color;
                         }
@@ -56,8 +45,14 @@
 
                 &__cover {
                     position: relative;
+
                     &--main {
                         border: 0.5px solid #eee;
+                        height: 100%;
+                    }
+
+                    &--glass {
+                        @include layout.flex-center;
                         height: 100%;
                     }
                 }

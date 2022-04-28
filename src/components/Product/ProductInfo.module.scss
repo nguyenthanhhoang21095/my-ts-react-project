@@ -32,10 +32,6 @@
     &__select {
         margin-bottom: 15px;
 
-        &--title {
-            text-transform: uppercase;
-        }
-
         &--selector {
             height: 40px;
            display: flex;
@@ -46,10 +42,6 @@
     &__qty {
         margin-top: 20px;
         @include layout.flex-row;
-
-        &--input {
-            @include layout.flex-align-center;
-        }
     }
     &__rate {
         margin: 20px 0;
@@ -57,5 +49,24 @@
     &__review {
         font-weight: 700;
         font-size: 14px;
+    }
+}
+.product-info-form {
+    &__item {
+        margin-bottom: 15px;
+        &--select {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__submit {
+        margin-top: 20px;
+        @include layout.flex-row;
+
+        &--input-number {
+            @include layout.flex-align-center;
+        }
     }
 }

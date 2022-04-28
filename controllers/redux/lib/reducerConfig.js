@@ -13,7 +13,6 @@ export default function createReducer(initialState, handlers) {
 export const checkLocalStoreToRedux = (storeRedux, keyStoreNew, action, initData) => {
   return new Promise((resolve, reject) => {
     try {
-      console.log('run herreee');
       let data = getDataLocal(keyStoreNew)
       if (data) {
         data !== initData && storeRedux.dispatch(action(data))

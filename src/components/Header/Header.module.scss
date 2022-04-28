@@ -11,9 +11,9 @@
     right: 0;
     left: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 2;
     height: 60px;
-    background-color: color.$white-fff;
+    background-color: transparent;
 
     .header-container {
         padding: 0 15px;
@@ -21,8 +21,7 @@
         z-index: 2;
 
         &__item {
-            display: flex;
-            align-items: center;
+            @include layout.flex-align-center;
 
             &:nth-child(2) {
                 justify-content: end;
@@ -45,39 +44,40 @@
             }
 
             .header-category {
-                width: 100%;
+                width: 80%;
                 text-align: center;
 
                 &__item {
-                    font-size: 13px;
                     padding: 0;
+                    cursor: pointer;
+
                     @include responsive.desktop {
                         font-size: 14px;
                     }
                     @include responsive.super-desktop {
                         font-size: 16px;
                     }
-                    color: #000;
-                    font-weight: 600;
-                    white-space: nowrap;
+                    
+                    &--text {
+                        color: #000;
+                        font-weight: 600;
+                        white-space: nowrap;
+                        font-size: 13px;
+                        margin: 0;
+
+                        @include responsive.desktop {
+                            font-size: 14px;
+                        }
+                        @include responsive.super-desktop {
+                            font-size: 16px;
+                        }
+
+                        &:hover {
+                            color: color.$primary-color;
+                        }
+                    }
                 }
             }
         }
-    }
-
-    &__tape {
-        background-color: color.$primary-color;
-        height: 60rem;
-        @include responsive.multipleMedia(false, extra-large) {
-            height: 45rem;
-        }
-        @include responsive.multipleMedia(false, desktop) {
-            height: 40rem;
-        }
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 22vw;
-        z-index: 1;
     }
 }

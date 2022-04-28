@@ -1,21 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import { CustomLink } from '../ui-kits/Link'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
-import Cart from './Cart/Cart'
-import SearchInput from './SearchInput/SearchInput'
+import { Toolbox } from './ToolBox'
 import styles from './Header.module.scss'
-import ClothingMenu from './ClothingMenu/ClothingMenu'
+import { MegaMenu } from './MegaMenu'
 import { Row, Col } from 'antd';
 import { Image } from '../ui-kits/CustomImage'
 import Link from 'next/link'
+import endpoints from 'src/utils/endpoints'
+import api from 'controllers/baseApi'
+import classNames from 'classnames'
+import { ISubCategory } from 'src/interfaces/collection'
 
 interface HeaderProps {
-  cart?: any
-  userInfo?: any
+  cart?: any;
+  userInfo?: any;
+  subCategory: ISubCategory[];
 }
 
-const Header: React.FC<HeaderProps> = (): JSX.Element => {
-  const [isSearching, setIsSearching] = useState(false);
+const Header: React.FC<HeaderProps> = ({ subCategory = [] }): JSX.Element => {
+  
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryRefWidth, setCategoryRefWidth] = useState(0);
+  const categoryRef = useRef(null);
+  
+  useEffect(() => {
+    setCategoryList(subCategory.filter(category => category.show_type === "header"));
+  }, [subCategory]);
+
+  useEffect(() => {
+    getWidthCategory();
+    window.addEventListener('resize', getWidthCategory);
+
+    return () => {
+      window.removeEventListener('resize', getWidthCategory);
+    }
+  }, [])
+
+  const getWidthCategory = (): void => {
+    categoryRef?.current && setCategoryRefWidth(state => categoryRef.current.clientWidth);
+  }
+
   return (
     <div className={styles["header"]}>
       <Row className={styles["header-container"]} justify="space-between">
@@ -31,73 +55,60 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
             </div>
           </Link>
         </Col>
-        {!isSearching ?
-          <Col xl={12} lg={16} md={16} sm={16} className={styles["header-container__item"]}>
-            <Row className={styles["header-category"]} gutter={8} justify="space-between">
-              <Col
-                offset={4}
-                xl={4} lg={4} md={4} sm={4}
-                className={styles["header-category__item"]}>
-                <ClothingMenu />
-              </Col>
-              <Col
-                xl={3} lg={3} md={3} sm={3}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Shoes"
-                />
-              </Col>
-              <Col
-                xl={6} lg={6} md={6} sm={6}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Bags & Handbags"
-                />
-              </Col>
-              <Col
-                xl={4} lg={4} md={4} sm={4}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Accessories"
-                />
-              </Col>
-              <Col
-                xl={3} lg={3} md={3} sm={3}
-                className={styles["header-category__item"]}>
-                <CustomLink
-                  href="https://www.google.com/"
-                  text="Sale"
-                />
-              </Col>
-            </Row>
-          </Col>
-          :
-          <Col xl={12} lg={16} md={16} sm={16}
-            className={styles["header-container__item"]}
+
+        <Col
+          xl={14}
+          lg={16}
+          md={16}
+          sm={16}
+          style={{
+            justifyContent: "end",
+          }}
+          className={classNames(
+            styles["header-container__item"],
+          )}
+        >
+          <Row
+            className={styles["header-category"]}
+            gutter={8}
+            justify="space-between"
+            ref={categoryRef}
           >
-            <SearchInput isSearching={isSearching} />
-          </Col>
-        }
-        <Col xl={5} lg={5} md={5} sm={6} className={styles["header-container__item"]}>
-          <Cart
-            isSearching={isSearching}
-            setIsSearching={setIsSearching}
+            <Col
+              offset={2}
+              xl={2} lg={2} md={6} sm={6}
+              className={styles["header-category__item"]}
+            >
+              <MegaMenu />
+            </Col>
+            {categoryList.length && categoryList.map((item, idx) => (
+              <Col
+                xl={idx === 1 ? 5 : 3} lg={idx === 1 ? 5 : 3} md={4} sm={4}
+                key={item.id}
+                className={styles["header-category__item"]}
+              >
+                <Link href={`/sub-category/${item.id}`}>
+                  <p className={styles["header-category__item--text"]}>{item.name}</p>
+                </Link>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+
+        <Col xl={6} lg={6} md={5} sm={6} className={styles["header-container__item"]}>
+          <Toolbox
+            categoryWidth={categoryRefWidth}
           />
         </Col>
-      </Row>
-      <div className={styles["header__tape"]}></div>
-    </div>
+      </Row >
+    </div >
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.storage.cart,
-    userInfo: state.storage.userInfo,
-  }
-}
+const mapStateToProps = (state) => ({
+  cart: state.storage.cart,
+  userInfo: state.storage.userInfo,
+  subCategory: state.storage.subCategory,
+})
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, {})(Header)
