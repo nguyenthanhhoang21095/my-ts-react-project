@@ -21,8 +21,7 @@
         z-index: 2;
 
         &__item {
-            display: flex;
-            align-items: center;
+            @include layout.flex-align-center;
 
             &:nth-child(2) {
                 justify-content: end;
@@ -45,21 +44,38 @@
             }
 
             .header-category {
-                width: 100%;
+                width: 80%;
                 text-align: center;
 
                 &__item {
-                    font-size: 13px;
                     padding: 0;
+                    cursor: pointer;
+
                     @include responsive.desktop {
                         font-size: 14px;
                     }
                     @include responsive.super-desktop {
                         font-size: 16px;
                     }
-                    color: #000;
-                    font-weight: 600;
-                    white-space: nowrap;
+                    
+                    &--text {
+                        color: #000;
+                        font-weight: 600;
+                        white-space: nowrap;
+                        font-size: 13px;
+                        margin: 0;
+
+                        @include responsive.desktop {
+                            font-size: 14px;
+                        }
+                        @include responsive.super-desktop {
+                            font-size: 16px;
+                        }
+
+                        &:hover {
+                            color: color.$primary-color;
+                        }
+                    }
                 }
             }
         }

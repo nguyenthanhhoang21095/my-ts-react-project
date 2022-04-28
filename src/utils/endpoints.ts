@@ -1,7 +1,8 @@
 export default {
     product: 'product',
     user: 'user',
-    collection: 'collection',
+    category: 'category',
+    subCategory: 'sub-category',
     cart: 'cart',
     login: 'auth/login',
     register: 'auth/register',

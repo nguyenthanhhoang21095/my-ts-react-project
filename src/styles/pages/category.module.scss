@@ -37,6 +37,10 @@
                 text-transform: capitalize;
                 color: color.$black-000;
             }
+
+            &--desc {
+                @include layout.flex-row;
+            }
         }
 
         &__divider {
@@ -63,9 +67,11 @@
 
             &:last-child {
                 border-right: none;
+                width: 100%;
+                justify-content: space-between;
             }
 
-            &:nth-child(5) {
+            &:nth-child(4) {
                 justify-content: right;
                 padding-right: 10px;
                 cursor: auto;
@@ -84,5 +90,22 @@
             }
         }
 
+        &__define {
+            text-align: left;
+        }
+
+        &__thumb {
+            text-align: center;
+            cursor: pointer;
+
+            &--image {
+                overflow: hidden;
+                border: 1px solid #e0e0e0;
+            }
+
+            &--name {
+                margin-top: 5px;
+            }
+        }
     }
 }

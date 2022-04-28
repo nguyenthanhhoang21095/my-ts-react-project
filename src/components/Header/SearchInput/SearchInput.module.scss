@@ -1,13 +1,16 @@
-@use "../../../styles/color.scss" as color;
+@use "../../../styles/color.scss";
+@use "../../../styles/responsive.scss";
 
 .search-container {
-    width: 100%;
     display: flex;
     align-items: center;
-    
+    position: absolute;
+    right: 120px;
+    min-width: 400px;
+    background-color: color.$white-fff;
 
     &__input {
-        border: 1px solid #d5dbd9;
+        border: 1px solid color.$grey-d5dbd9;
         border-radius: 0;
         padding: 8px;
         box-sizing: border-box;
@@ -18,7 +21,7 @@
         }
 
         &:focus, &:hover {
-            border-color:#d5dbd9 !important;
+            border-color: color.$grey-d5dbd9 !important;
         }
 
         &--icon {

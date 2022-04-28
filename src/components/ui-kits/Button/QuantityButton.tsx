@@ -14,6 +14,7 @@ interface QuantityButtonProps {
   userInfo: IUser;
   cart: any[];
   productId: number;
+  quantity: number;
   updateQtyCart: (prodData: any, id: number, actionType:string) => void;
 }
 
@@ -21,6 +22,7 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({
   userInfo,
   cart,
   productId,
+  quantity = 1,
   updateQtyCart,
 }): JSX.Element => {
   const [product, setProduct] = useState(null);
@@ -53,7 +55,7 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({
       >
         +
       </Button>
-      <StyledQuantityButtonValue>{product?.quantity ?? 0}</StyledQuantityButtonValue>
+      <StyledQuantityButtonValue>{quantity ?? 0}</StyledQuantityButtonValue>
       <Button 
         style={{
           width: "30px",

@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyledToastContainer, StyledToastContent } from './Toast.styled'
-import storageActions from 'controllers/redux/actions/storageActions'
-
 interface ToastProps {
   toastInfo?: {
     message: string;
@@ -26,8 +24,4 @@ const mapStateToProps = (state) => ({
   toastInfo: state.storage.toastInfo,
 })
 
-const mapDispatchToProps = {
-  showToast: storageActions.showToast,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Toast)
+export default connect(mapStateToProps,{})(Toast)

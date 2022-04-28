@@ -12,7 +12,6 @@ import parse from 'html-react-parser';
 import IProduct from 'src/interfaces/product'
 import IUser from 'src/interfaces/user'
 import endpoint from "src/utils/endpoints";
-
 interface ProductListProps {
   id: number;
   productName: string;
@@ -24,8 +23,9 @@ interface ProductListProps {
   centerMode?: boolean;
   description?: string;
   showMode?: string;
-  addToCart: (data: any, id: number) => void;
-  showToast: (mess:string, type:string) => void;
+  addToCart: <T>(data: T, id: number, option: Record<string, any>) => void;
+  showToast: (mess: string, type: string) => void;
+  showModal: (status: boolean, data?: Record<string, any>) => void;
   data: IProduct;
   userInfo: IUser;
 }
@@ -40,8 +40,9 @@ const ProductList: React.FC<ProductListProps> = ({
   centerMode = false,
   description = "",
   showMode = "vertical",
-  addToCart = () => {},
-  showToast = () => {},
+  addToCart = () => undefined,
+  showToast = () => undefined,
+  showModal = () => undefined,
   data = {},
   userInfo
 }): JSX.Element => {
@@ -54,99 +55,34 @@ const ProductList: React.FC<ProductListProps> = ({
     Router.push(`/product-detail/${id}`);
   }
 
-  const handleAddToCart = ():void => {
+  const handleAddToCart = (): void => {
     if (!userInfo?.id && !userInfo) {
       router.push(`/${endpoint["login"]}`);
     } else {
-      addToCart(data, userInfo?.id);
-      showToast(`You have added ${data.name} to your shopping cart!`, "success");
+      showModal(true, data);
     }
   }
 
-  if (showMode === "vertical") {
-    return (
-      <div
-        className={classNames(
-          styles["card-container"], 
-        )}
-        style={{ 
-          flexDirection: !isThumb ? "column" : "row-reverse",
-          justifyContent: !isThumb ? "center" : "end",
-          paddingBottom: !isThumb ? "25%" : "0",
-          ...style
-        }}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-      >
-        <div className={classNames(
-          { "scale-in-center": !isHover && !isThumb },
-          { "scale-out-center": isHover && !isThumb },
-          styles["card-link"],
-        )}
-          onClick={handleChangeLink}
-        >
-          <Image
-            src={imageCover}
-            width={width}
-            height={height}
-            alt="collection image"
-          />
-        </div>
+  return (
+    <>
+      {showMode === "vertical" ?
         <div
           className={classNames(
-            { [styles["card-slide-up"]]: isHover },
-            { [styles["card-slide-down"]]: !isHover },
-            styles["card-layout"])}
+            styles["card-container"],
+            { [styles["card-container-thumb"]]: !isThumb },
+            { [styles["card-center-container"]]: centerMode }
+          )}
+          style={style}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
         >
           <div className={classNames(
-              styles["card-content"], 
-              { [styles["card-center-content"]]: centerMode }
-            )}
-          >
-            <div className={styles["card-content__rate"]}>
-              <Rate disabled defaultValue={rate} style={{ fontSize: "12px" }} />
-            </div>
-            <div className={classNames(
-              "font-14",
-              styles["card-content__name"],
-              styles["card-link"]
-            )}
-              onClick={handleChangeLink}
-            >
-              {productName}
-            </div>
-            <div className={classNames("font-16", styles["card-content__price"])}>
-              ${price}
-            </div>
-          </div>
-          <div
-            className={classNames(
-              styles["card-action"],
-              { [styles["card-center-content"]]: centerMode }
-            )}
-          >
-            <Button
-              handleClick={handleAddToCart}
-              style={{
-                textTransform: "uppercase",
-                padding: "12px 25px",
-                fontWeight: 600,
-              }}
-            >
-              add to cart
-            </Button>
-          </div>
-        </div>
-      </div >
-    )
-  } else {
-    return (
-      <div className={styles["card-horizontal"]}>
-        <div className={styles["card-horizontal-content"]}>
-          <div
-            className={classNames(
-              styles["card-horizontal-content__image"],
-            )}
+            { "scale-in-center": !isHover && !isThumb },
+            { "scale-out-center": isHover && !isThumb },
+            styles["card-image"],
+            { [styles["card-center-container__image"]]: centerMode }
+          )}
+            onClick={handleChangeLink}
           >
             <Image
               src={imageCover}
@@ -157,9 +93,16 @@ const ProductList: React.FC<ProductListProps> = ({
           </div>
           <div
             className={classNames(
-              styles["card-horizontal-content__info"])}
+              { [styles["card-slide-up"]]: isHover },
+              { [styles["card-slide-down"]]: !isHover },
+              { [styles["card-center-container__layout"]]: centerMode },
+              styles["card-layout"])}
           >
-            <div className={styles["card-horizontal-content__info--text"]}>
+            <div className={classNames(
+              styles["card-content"],
+              { [styles["card-center-container__layout--content"]]: centerMode }
+            )}
+            >
               <div className={styles["card-content__rate"]}>
                 <Rate disabled defaultValue={rate} style={{ fontSize: "12px" }} />
               </div>
@@ -172,9 +115,6 @@ const ProductList: React.FC<ProductListProps> = ({
               >
                 {productName}
               </div>
-              <div className={styles["card-desc"]}>
-                {parse(description)}
-              </div>
               <div className={classNames("font-16", styles["card-content__price"])}>
                 ${price}
               </div>
@@ -182,7 +122,7 @@ const ProductList: React.FC<ProductListProps> = ({
             <div
               className={classNames(
                 styles["card-action"],
-                { [styles["card-center-content"]]: centerMode }
+                { [styles["card-center-container__layout--btn"]]: centerMode }
               )}
             >
               <Button
@@ -197,10 +137,69 @@ const ProductList: React.FC<ProductListProps> = ({
               </Button>
             </div>
           </div>
+        </div >
+        :
+        <div className={styles["card-horizontal"]}>
+          <div className={styles["card-horizontal-content"]}>
+            <div
+              className={classNames(
+                styles["card-horizontal-content__image"],
+              )}
+            >
+              <Image
+                src={imageCover}
+                width={width}
+                height={height}
+                alt="collection image"
+              />
+            </div>
+            <div
+              className={classNames(
+                styles["card-horizontal-content__info"])}
+            >
+              <div className={styles["card-horizontal-content__info--text"]}>
+                <div className={styles["card-content__rate"]}>
+                  <Rate disabled defaultValue={rate} style={{ fontSize: "12px" }} />
+                </div>
+                <div className={classNames(
+                  "font-14",
+                  styles["card-content__name"],
+                  styles["card-link"]
+                )}
+                  onClick={handleChangeLink}
+                >
+                  {productName}
+                </div>
+                <div className={styles["card-desc"]}>
+                  {parse(description)}
+                </div>
+                <div className={classNames("font-16", styles["card-content__price"])}>
+                  ${price}
+                </div>
+              </div>
+              <div
+                className={classNames(
+                  styles["card-action"],
+                  { [styles["card-center-content"]]: centerMode }
+                )}
+              >
+                <Button
+                  handleClick={handleAddToCart}
+                  style={{
+                    textTransform: "uppercase",
+                    padding: "12px 25px",
+                    fontWeight: 600,
+                  }}
+                >
+                  add to cart
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    )
-  }
+      }
+    </>
+  )
 }
 
 const mapStateToProps = (state) => {
@@ -213,7 +212,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getCart: storageActions.getCart,
   addToCart: storageActions.addToCart,
-  showToast: storageActions.showToast
+  showToast: storageActions.showToast,
+  showModal: storageActions.showModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList)

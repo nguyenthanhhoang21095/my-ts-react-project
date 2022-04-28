@@ -14,6 +14,7 @@
     }
 
     &__text {
+        @include layout.flex-center;
         font-weight: 700;
     }
 }

@@ -7,13 +7,11 @@ import withApollo from '../utils/withApollo'
 // import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import api from "../../controllers/baseApi";
 import endpoint from "../utils/endpoints";
-import { Toast } from "../components/ui-kits/Toast"
 import { useRouter } from 'next/router'
 import styles from '../styles/pages/home.module.scss'
 import dynamic from 'next/dynamic'
 import { Image } from 'src/components/ui-kits/CustomImage'
 import { Button } from '../components/ui-kits/Button'
-
 
 // dynamic import
 const Carousel = dynamic(() => import("../components/Carousel/CustomCarousel/CustomCarousel"))
@@ -101,8 +99,6 @@ const Home: React.FC<HomeProps> = ({
           </div>
         </div>
       </Layout>
-      
-      <Toast />
     </>
   )
 }

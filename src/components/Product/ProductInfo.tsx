@@ -1,26 +1,28 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import IProduct from 'src/interfaces/product'
 import styles from './ProductInfo.module.scss'
 import classNames from 'classnames'
-import { Select, InputNumber, Rate } from 'antd'
+import { Select, InputNumber, Rate, Form } from 'antd'
 import { Button } from 'src/components/ui-kits/Button'
 import { connect } from 'react-redux'
 import storageActions from 'controllers/redux/actions/storageActions'
 import IUser from 'src/interfaces/user'
 import { useRouter } from 'next/router'
 import endpoint from "src/utils/endpoints";
+import { copyObject, parseStringOptionValue } from 'src/utils/common'
 
 type CustomProps = {
     reviewsNumber: number;
     productCode: string;
 }
 type ParamsProps = Partial<IProduct> & CustomProps;
-interface ProductInfoProps extends ParamsProps  {
+interface ProductInfoProps extends ParamsProps {
     userInfo: IUser;
     data: IProduct;
-    addToCart: (data: any, id:number) => void;
-    showToast: (mess:string, type:string) => void;
+    addToCart: <T>(data: T, id: number, option: Record<string, any>) => void;
+    showToast: (mess: string, type: string) => void;
 }
+
 const { Option } = Select;
 
 const ProductInfo: React.FC<ProductInfoProps> = ({
@@ -35,37 +37,53 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     rateStar,
     data,
     userInfo,
-    addToCart = () => {},
-    showToast = () => {},
+    addToCart = () => undefined,
+    showToast = () => undefined,
 }): JSX.Element => {
-
-    const [colorPrice, setColorPrice] = useState(0);
-    const [sizePrice, setSizePrice] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const router = useRouter();
+    const [form] = Form.useForm();
 
-    const totalPrice = useMemo(() => {
-        return (price + colorPrice + sizePrice) * quantity;
-    }, [colorPrice, sizePrice, quantity]);
-
-    const handleSelectSize = (value) => {
-        setSizePrice(value)
+    const handleChangeQty = (value: number): void => {
+        setQuantity(value);
     }
 
-    const handleSelectColor = (value) => {
-        setColorPrice(value)
-    }
-
-    const handleChangeQty = (value) => {
-        typeof value === "number" && setQuantity(value)
-    }
+    const handleSubmitFormOption = useCallback((sizeParam: string, colorParam: string, quantity: number): void => {
+        const [sizeName, sizePrice] = parseStringOptionValue(sizeParam);
+        const sizeData = {
+            name: sizeName,
+            sub_price: +sizePrice
+        }
+        const [colorName, colorPrice] = parseStringOptionValue(colorParam);
+        const colorData = {
+            name: colorName,
+            sub_price: +colorPrice
+        }
+        const newData = copyObject(data);
+        delete newData.colors;
+        delete newData.sizes;
+        userInfo?.id && addToCart(newData, userInfo.id, {
+            specificQty: quantity,
+            size: sizeData,
+            color: colorData,
+        });
+        showToast(`You have added ${newData.name} to your shopping cart!`, "success");
+        const resetTimer = setTimeout(() => {
+            setQuantity(1);
+            form.resetFields();
+            clearTimeout(resetTimer);
+        }, 0)
+    }, [form.getFieldValue("color"), form.getFieldValue("size"), quantity])
 
     const handleAddToCart = (): void => {
         if (!userInfo?.id && !userInfo) {
             router.push(`/${endpoint["login"]}`);
         } else {
-            showToast(`You have added ${data.name} to your shopping cart!`, "success");
-            addToCart(data, userInfo?.id);
+            const colorVal = form.getFieldValue("color");
+            const sizeVal = form.getFieldValue("size");
+            if (colorVal && sizeVal) {
+                handleSubmitFormOption(sizeVal, colorVal, quantity);
+            }
         }
     }
 
@@ -91,79 +109,133 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
             <h3 className={classNames("font-h3", styles['content__options'])}>
                 available options
             </h3>
-            <div className={styles['content__select']}>
-                <p className={styles['content__select--title']}>
-                    Size
-                </p>
-                <Select
-                    size="large"
-                    defaultValue={0}
-                    dropdownStyle={{
-                        backgroundColor: "#f6f6f6",
-                    }}
-                    style={{
-                        width: "100%",
-                        color: "#000"
-                    }}
-                    onChange={handleSelectSize}>
-                    <Option value={0}>-- Please Select --</Option>
-                    {sizes.length && sizes.map((size, idx) => (
-                        <Option key={`${size.name}_${idx}`} value={size.sub_price}>
-                            {`${size.name} +($${size.sub_price})`}
-                        </Option>
-                    ))}
-                </Select>
-            </div>
-            <div className={styles['content__select']}>
-                <p className={styles['content__select--title']}>
-                    Color
-                </p>
-                <Select
-                    className={styles['content__select--selector']}
-                    size="large"
-                    dropdownStyle={{
-                        backgroundColor: "#f6f6f6",
-                    }}
-                    defaultValue={0}
-                    style={{
-                        width: "100%",
-                        color: "#000",
-                    }}
-                    onChange={handleSelectColor}>
-                    <Option value={0}>-- Please Select --</Option>
-                    {colors.length && colors.map((color, idx) => (
-                        <Option key={`${color.name}_${idx}`} value={color.sub_price}>
-                            {`${color.name} +($${color.sub_price})`}
-                        </Option>
-                    ))}
-                </Select>
-            </div>
-            <div className={styles['content__qty']}>
-                <InputNumber
-                    size="large"
-                    keyboard={false}
-                    min={1}
-                    max={1000}
-                    defaultValue={quantity}
-                    onChange={handleChangeQty}
-                    className={styles['content__qty--input']}
-                />
-                <Button
-                    handleClick={handleAddToCart}
-                    style={{
-                        padding: "18px 39px",
-                        fontSize: "12px",
-                        width: "fit-content",
-                        height: "50px",
-                        fontWeight: 700,
-                        boxSizing: "border-box",
-                        textTransform: "uppercase",
-                        marginLeft: "10px",
-                    }}
+            <Form
+                name="ProductInfoForm"
+                form={form}
+                layout="vertical"
+                autoComplete="off"
+                onFinish={() => { }}
+                onFinishFailed={(errorInfo: any) => console.log('Failed:', errorInfo)}
+                className={styles["product-info-form"]}
+            >
+                <Form.Item
+                    name="size"
+                    label="SIZE "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Select your size',
+                        },
+                    ]}
+                    initialValue=""
+                    className={styles["product-info-form__item"]}
                 >
-                    Add To Cart
-                </Button>
-            </div>
+                    <Select
+                        className={styles['product-info-form__item--select']}
+                        size="large"
+                        dropdownStyle={{
+                            backgroundColor: "#f6f6f6",
+                        }}
+                        style={{
+                            width: "100%",
+                            color: "#000"
+                        }}
+                        onChange={(value) => {
+                            form.setFieldsValue((option) => ({
+                                ...option,
+                                size: value
+                            }))
+                        }}
+                        value={form.getFieldValue("size")}
+                    >
+                        <Option value="">--- Please Select ---</Option>
+                        {sizes.length && sizes.map((size, idx) => (
+                            <Option
+                                key={`${size.name}_${idx}`}
+                                value={`${size.name}_${size.sub_price}`}
+                            >
+                                {`${size.name} +($${size.sub_price})`}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name="color"
+                    label="COLOR "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Select your color',
+                        },
+                    ]}
+                    initialValue=""
+                    className={styles["product-info-form__item"]}
+                >
+                    <Select
+                        className={styles['product-info-form__item--select']}
+                        size="large"
+                        dropdownStyle={{
+                            backgroundColor: "#f6f6f6",
+                        }}
+                        style={{
+                            width: "100%",
+                            color: "#000",
+                        }}
+                        onChange={(value) => {
+                            form.setFieldsValue((option) => ({
+                                ...option,
+                                color: value
+                            }))
+                        }}
+                        value={form.getFieldValue("color")}
+                    >
+                        <Option value="">--- Please Select ---</Option>
+                        {colors.length && colors.map((color, idx) => (
+                            <Option
+                                key={`${color.name}_${idx}`}
+                                value={`${color.name}_${color.sub_price}`}
+                            >
+                                {`${color.name} +($${color.sub_price})`}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+
+                {/* <Space> */}
+                <div className={styles["product-info-form__submit"]}>
+                    <InputNumber
+                        size="middle"
+                        keyboard={false}
+                        min={1}
+                        max={500}
+                        style={{ width: 60 }}
+                        defaultValue={1}
+                        value={quantity}
+                        onChange={handleChangeQty}
+                        className={styles["product-info-form__submit--input-number"]}
+                    />
+                    {/* </Space> */}
+
+                    <Form.Item style={{ marginBottom: 0}}>
+                        <Button
+                            handleClick={handleAddToCart}
+                            style={{
+                                padding: "18px 39px",
+                                fontSize: "12px",
+                                width: "fit-content",
+                                height: "50px",
+                                fontWeight: 700,
+                                boxSizing: "border-box",
+                                textTransform: "uppercase",
+                                marginLeft: "10px",
+                            }}
+                        >
+                            Add To Cart
+                        </Button>
+                    </Form.Item>
+                </div>
+            </Form>
+
             <div className={styles['content__rate']}>
                 <Rate disabled defaultValue={rateStar} />
             </div>
@@ -183,6 +255,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     addToCart: storageActions.addToCart,
-    showToast: storageActions.showToast
+    showToast: storageActions.showToast,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProductInfo);

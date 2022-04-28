@@ -5,10 +5,14 @@ import styles from "./Breadcrumb.module.scss"
 import Link from 'next/link'
 
 interface CustomBreadcrumbProps {
-    itemName: string;
+  list: {
+    name: string;
+    link: string;
+  }[];
 }
 
-const CustomBreadcrumb:React.FC<CustomBreadcrumbProps> = ({ itemName }):JSX.Element => {
+const CustomBreadcrumb:React.FC<CustomBreadcrumbProps> = ({ list = [] }):JSX.Element => {
+  
   return (
     <div className={styles['custom-breadcrumb']}>
     <Breadcrumb separator=">">
@@ -17,7 +21,20 @@ const CustomBreadcrumb:React.FC<CustomBreadcrumbProps> = ({ itemName }):JSX.Elem
             <HomeOutlined />
           </Link>
         </Breadcrumb.Item>
-      <Breadcrumb.Item>{itemName}</Breadcrumb.Item>
+
+        {list.length && list.map((item, idx) => 
+          <Breadcrumb.Item key={idx}>
+            {idx !== list.length ? 
+              <Link href={`/${item.link}`}>
+                {item.name}
+              </Link>
+              : 
+              <>
+                {item.name}
+              </>
+            }
+          </Breadcrumb.Item>
+        )}
     </Breadcrumb>
   </div>
   )

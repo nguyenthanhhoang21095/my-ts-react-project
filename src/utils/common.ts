@@ -52,10 +52,16 @@ const replaceDimensionImageFromUrl = (url: string, width: number, height: number
     return res
 }
 
+const parseStringOptionValue = (str: string): string[] => str.split("_");
+
+const copyObject = <T>(obj: T):T => JSON.parse(JSON.stringify(obj));
+
 export {
     formatCurrency,
     sumPrice,
     clearLocalStorage,
     getDimensionImageFromUrl,
-    replaceDimensionImageFromUrl
+    replaceDimensionImageFromUrl,
+    copyObject,
+    parseStringOptionValue
 }

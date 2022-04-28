@@ -3,17 +3,15 @@ import { connect } from 'react-redux'
 import IUser from 'src/interfaces/user'
 import Layout from 'src/components/Layout/Layout'
 import styles from 'src/styles/pages/cart.module.scss'
-import { formatCurrency } from "src/utils/common";
+import { sumPrice } from "src/utils/common";
 import QuantityButton from "src/components/ui-kits/Button/QuantityButton";
 import storageActions from 'controllers/redux/actions/storageActions'
 import { GetStaticProps } from 'next'
 import { Breadcrumb } from 'src/components/ui-kits/Breadcrumb'
-import { Table, Space, Row, Col } from 'antd';
+import { Table, Space, Row, Col, Input } from 'antd';
 import { Image } from 'src/components/ui-kits/CustomImage'
-import { Input } from 'antd';
 import { Button } from 'src/components/ui-kits/Button'
 import { useRouter } from 'next/router'
-import { Toast } from "src/components/ui-kits/Toast"
 
 interface CartProps {
   cart: any[];
@@ -29,8 +27,8 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
     setCartData(cart);
   }, [cart]);
 
-  const getRowDataTable = (id: number, cart: any[]) => {
-    return cart.find(prod => prod.id == id);
+  const getRowDataTable = (keyNum: number, cart: any[]) => {    
+    return cart.find((prod, index) => index == keyNum);
   }
 
   const handleChangeCoupon = (e): void => {
@@ -66,13 +64,13 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
     {
       title: <strong>PRODUCT NAME</strong>,
       key: 'name',
-      render: info => {
-        const dataName: any = getRowDataTable(info.id, cart);
-        if (dataName) {
+      render: (info) => {
+        const data: any = getRowDataTable(info.key, cart);
+        if (data) {
           return (
             <div>
-              <p>{dataName.name}</p>
-              <p>Model: {dataName.product_code}</p>
+              <p>{data.name}</p>
+              <p>Model: {data.product_code}, Size: {data.size.name}, Color: {data.color.name}</p>
             </div>
           )
         }
@@ -86,7 +84,7 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
         if (item) {
           return (
             <Space size="middle">
-              <QuantityButton productId={item.id} />
+              <QuantityButton productId={item.id} quantity={item.quantity}/>
             </Space>
           )
         }
@@ -103,8 +101,8 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
       title: <strong>TOTAL</strong>,
       align: "right",
       key: 'price',
-      render: item => {
-        const dataTotal: any = getRowDataTable(item.id, cart);
+      render: (item) => {        
+        const dataTotal: any = getRowDataTable(item.key, cart);
         if (dataTotal) {
           return (
             <p>${dataTotal.price * dataTotal.quantity}</p>
@@ -120,7 +118,10 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
       id: item.id,
       image: item.image_cover,
       name: item.name,
+      quantity: item.quantity,
       price: item.price,
+      color: item.color,
+      size: item.size,
     }
   }) : [];
 
@@ -144,7 +145,7 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
     {
       key: "sub-total",
       "sub-total": <strong>Sub-Total:</strong>,
-      "sub-value": "$150",
+      "sub-value": '$' + sumPrice(cartRowData),
     },
     {
       key: "sub-discount",
@@ -154,12 +155,12 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
     {
       key: "sub-vat",
       "sub-total":  <strong>VAT (10%):</strong>,
-      "sub-value": "15",
+      "sub-value": '$' + sumPrice(cartRowData) * 10 / 100,
     },
     {
       key: "total",
       "sub-total":  <strong>Total:</strong>,
-      "sub-value": "$135",
+      "sub-value": '$' + (sumPrice(cartRowData) + sumPrice(cartRowData) * 10 / 100),
     },
   ]
   return (
@@ -169,7 +170,7 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
           <div className={styles['cart-container']}>
 
             {/* Cart Info section */}
-            <Breadcrumb itemName='Shopping Cart' />
+            <Breadcrumb list={[{ name: 'Shopping Cart', link: 'cart' }]} />
             <h1 className={styles['cart-title']}>Shopping Cart</h1>
             <div className={styles['cart-content']}>
               {cartData.length ? (
@@ -273,8 +274,6 @@ const Cart: React.FC<CartProps> = ({ cart, showToast = () => {} }): JSX.Element 
           </div>
         </div>
       </Layout>
-
-      <Toast />
     </>
   )
 }

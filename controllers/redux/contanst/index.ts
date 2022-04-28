@@ -1,11 +1,14 @@
-const ADD_TO_CART:string = "ADD_TO_CART";
-const REMOVE_FROM_CART:string = "REMOVE_FROM_CART";
-const UPDATE_QTY_CART:string = "UPDATE_QTY_CART";
-const SHOW_TOAST:string = "SHOW_TOAST";
-const REMOVE_TOAST:string = "REMOVE_TOAST";
-const GET_USER_INFO: string = "GET_USER_INFO";
-const GET_CART: string = "GET_CART";
-const SET_LOADING: string = "GET_CART";
+const ADD_TO_CART = "ADD_TO_CART";
+const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const UPDATE_QTY_CART = "UPDATE_QTY_CART";
+const SHOW_TOAST = "SHOW_TOAST";
+const REMOVE_TOAST = "REMOVE_TOAST";
+const GET_USER_INFO = "GET_USER_INFO";
+const GET_CART = "GET_CART";
+const SET_LOADING = "SET_LOADING";
+const GET_CATEGORY = "GET_CATEGORY";
+const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
+const SHOW_MODAL = "SHOW_MODAL";
 
 export {
     ADD_TO_CART,
@@ -16,4 +19,7 @@ export {
     GET_USER_INFO,
     GET_CART,
     SET_LOADING,
+    GET_CATEGORY,
+    GET_SUB_CATEGORY,
+    SHOW_MODAL
 }

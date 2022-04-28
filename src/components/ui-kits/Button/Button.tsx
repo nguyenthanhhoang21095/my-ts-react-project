@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './Button.module.scss'
 import classNames from 'classnames'
 interface ButtonProps {
@@ -18,8 +18,12 @@ const Button: React.FC<ButtonProps> = ({
 }: ButtonProps): JSX.Element => {
   const [isHoverBtn, setIsHoverBtn] = useState(false);
   const isTransition = isHoverBtn && transitionWidth;
-
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   return (
+    mounted &&
     <button
       onClick={handleClick}
       onMouseEnter={() => {

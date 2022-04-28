@@ -11,7 +11,6 @@ import api from 'controllers/baseApi'
 import endpoint from 'src/utils/endpoints'
 import storageActions from 'controllers/redux/actions/storageActions'
 import { IconButton } from 'src/components/ui-kits/IconButton'
-import { Toast  } from 'src/components/ui-kits/Toast'
 interface AccountProps {
   userInfo: IUser;
   getUserInfo: (info: IUser) => void;
@@ -175,8 +174,6 @@ const Account: React.FC<AccountProps> = ({ userInfo = null, getUserInfo, showToa
           </div>
         </div>
       </Layout>
-
-      <Toast />
     </>
   )
 }
